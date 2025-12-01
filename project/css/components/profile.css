@@ -1,0 +1,158 @@
+/* Profile Section */
+.profile-section {
+    padding: var(--spacing-xxl) 0;
+    background: var(--secondary-dark);
+    margin: var(--spacing-xxl) 0;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xl);
+    gap: var(--spacing-lg);
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--accent-dark);
+    flex-shrink: 0;
+    position: relative;
+    border: 3px solid var(--primary-color);
+    box-shadow: var(--glow);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-upload {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: var(--primary-dark);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.875rem;
+    border: 2px solid var(--secondary-dark);
+    transition: all 0.3s ease;
+}
+
+.avatar-upload:hover {
+    transform: scale(1.1);
+    box-shadow: var(--glow);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-bio {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
+.profile-stats {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-md);
+}
+
+.stat {
+    text-align: center;
+    padding: var(--spacing-md);
+    background: var(--accent-dark);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--gray-light);
+    transition: all 0.3s ease;
+}
+
+.stat:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+.profile-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.follow-btn, .message-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.follow-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--primary-dark);
+}
+
+.follow-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--glow);
+}
+
+.message-btn {
+    background: transparent;
+    border: 1px solid var(--gray-light);
+    color: var(--text-primary);
+}
+
+.message-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: var(--glow);
+}

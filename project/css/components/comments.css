@@ -1,0 +1,197 @@
+/* Comments Section */
+.comments-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.comments-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    position: relative;
+    display: inline-block;
+}
+
+.comments-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.comment {
+    display: flex;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--gray-light);
+    gap: var(--spacing-md);
+}
+
+.comment:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-dark);
+    flex-shrink: 0;
+    border: 2px solid var(--primary-color);
+}
+
+.comment-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+    background: var(--accent-dark);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--gray-light);
+    transition: all 0.3s ease;
+}
+
+.comment-content:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--glow);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.comment-author {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comment-date {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.comment-rating {
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1rem;
+}
+
+.comment-text {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.comment-actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.comment-action {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: var(--spacing-xs) 0;
+}
+
+.comment-action:hover {
+    color: var(--primary-color);
+}
+
+/* Add Comment Form */
+.add-comment {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--accent-dark);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--gray-light);
+}
+
+.add-comment h4 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.125rem;
+    color: var(--text-primary);
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: var(--primary-dark);
+    color: var(--text-primary);
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.1);
+}
+
+.comment-form textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.rating-input {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+}
+
+.stars {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.star {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.star:hover,
+.star.active {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+.submit-comment {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--primary-dark);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: var(--border-radius);
+}
+
+.submit-comment:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--glow);
+}

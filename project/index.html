@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndieHub - Plataforma para creadores</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/utils/variables.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/projects.css">
+    <link rel="stylesheet" href="css/components/profile.css">
+    <link rel="stylesheet" href="css/components/comments.css">
+    <link rel="stylesheet" href="css/utils/responsive.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <span>IndieHub</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar juegos, recursos, creadores...">
+                    <button class="search-btn" id="searchBtn">🔍</button>
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="#projects">Explorar</a>
+                    <a href="#community">Comunidad</a>
+                    <a href="#blog">Blog</a>
+                </nav>
+                
+                <div class="auth-buttons" id="authButtons">
+                    <button class="login-btn" id="loginBtn">Iniciar Sesión</button>
+                    <button class="signup-btn" id="signupBtn">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Descubre y comparte juegos indie y recursos creativos</h1>
+            <p>Una plataforma para creadores independientes donde puedes publicar, compartir y descubrir proyectos únicos.</p>
+            <a href="#" class="cta-button" id="uploadBtn">Sube tu proyecto</a>
+        </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filters">
+        <div class="container">
+            <div class="filter-options" id="filterOptions">
+                <!-- Los filtros se cargarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de proyectos -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Proyectos Destacados</h2>
+            
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Los proyectos se cargarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Perfil de usuario -->
+    <section class="profile-section" id="profile">
+        <div class="container">
+            <div class="profile-header" id="profileHeader">
+                <!-- El perfil se cargará dinámicamente -->
+            </div>
+            
+            <!-- Comentarios -->
+            <div class="comments-section" id="commentsSection">
+                <h3>Reseñas y Comentarios</h3>
+                <div id="commentsList">
+                    <!-- Los comentarios se cargarán dinámicamente -->
+                </div>
+                
+                <div class="add-comment">
+                    <h4>Deja tu reseña</h4>
+                    <form class="comment-form" id="commentForm">
+                        <textarea id="commentText" placeholder="Comparte tu opinión sobre este proyecto..." required></textarea>
+                        <div class="rating-input">
+                            <span>Calificación:</span>
+                            <div class="stars" id="ratingStars">
+                                <!-- Estrellas de rating -->
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-comment">Enviar reseña</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>IndieHub</h3>
+                    <p>La plataforma para creadores independientes. Comparte tus proyectos y descubre obras increíbles.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#projects">Explorar</a></li>
+                        <li><a href="#community">Comunidad</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Recursos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Centro de ayuda</a></li>
+                        <li><a href="#">Términos de servicio</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 IndieHub. Proyecto educativo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modales -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <button class="close-modal">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <h2>Registrarse</h2>
+            <form id="signupForm">
+                <input type="text" placeholder="Nombre de usuario" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <button class="close-modal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/modules.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
