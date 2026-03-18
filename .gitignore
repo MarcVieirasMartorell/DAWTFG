@@ -1,0 +1,17 @@
+# .NET build artifacts
+dawrpg-api/bin/
+dawrpg-api/obj/
+dawrpg-api/.vs/
+dawrpg-api/build_errors.txt
+dawrpg-api/dawrpg-api.http
+
+# Node.js
+node_modules/
+
+# Claude AI internal files
+.claude/
+dawrpg-frontend/.claude/
+
+# Backup/copy files
+Copia de TFG.docx
+Copia de TFG.pdf
