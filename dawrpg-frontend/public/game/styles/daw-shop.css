@@ -1,0 +1,300 @@
+﻿/* daw-shop.css — Registry Market */
+
+.sh-shell{position:absolute;inset:0;display:flex;flex-direction:column;
+  background:var(--bg-0);overflow:hidden;z-index:5}
+
+.sh-topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:8px 16px;border-bottom:2px solid var(--bg-2);
+  font-family:'VT323',monospace;font-size:18px;color:var(--fg);
+  background:linear-gradient(to bottom,var(--bg-1),var(--bg-0));
+  flex:0 0 auto;letter-spacing:.04em;white-space:nowrap;overflow:hidden}
+.sh-bc{color:var(--fg-bright);text-shadow:0 0 8px color-mix(in srgb, var(--fg-bright) 40%, transparent);
+  overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto}
+.sh-hud{display:flex;gap:14px;align-items:center;font-family:'VT323',monospace;
+  color:var(--fg);flex:0 0 auto}
+.sh-hud b{color:var(--fg-dim);margin-right:4px}
+.sh-hud .sh-wallet{color:var(--hl);
+  font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:.08em;
+  border:1px solid var(--hl);padding:4px 8px;
+  background:rgba(212,163,115,.1);text-shadow:0 0 6px rgba(212,163,115,.4)}
+
+.sh-mode{display:flex;gap:0;padding:8px 16px 0;background:var(--bg-0);
+  border-bottom:2px solid var(--bg-2);flex:0 0 auto}
+.sh-mode button{appearance:none;background:transparent;border:0;cursor:default;
+  font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:.12em;
+  color:var(--fg-dim);padding:10px 18px 12px;transition:color .12s;
+  margin-right:2px}
+.sh-mode button:hover{color:var(--fg)}
+.sh-mode button.active{color:var(--cream);
+  background:var(--jrpg-blue);
+  border:2px solid var(--cream);border-bottom-color:var(--jrpg-blue);
+  margin-bottom:-2px;
+  box-shadow:0 -2px 0 var(--bg-0)}
+
+.sh-stage{flex:1 1 auto;min-height:0;overflow:hidden;
+  padding:24px 18px 18px;display:grid;grid-template-columns:1.3fr 1fr 280px;gap:18px;
+  background:var(--bg-0)}
+.sh-stage *::-webkit-scrollbar{width:0;height:0;display:none}
+.sh-stage *{scrollbar-width:none;-ms-overflow-style:none}
+
+.sh-list-wrap, .sh-detail-wrap, .sh-inv-wrap{
+  background:var(--jrpg-blue);border:4px solid var(--cream);
+  box-shadow:0 0 0 2px var(--bg-0),0 0 0 6px var(--cream),0 0 0 8px var(--bg-0),
+    0 6px 0 0 rgba(0,0,0,.5);
+  padding:16px;color:var(--cream);position:relative;
+  font-family:'Press Start 2P',monospace;
+  display:flex;flex-direction:column;min-height:0;overflow:visible}
+.sh-legend{display:inline-block;align-self:flex-start;margin:-4px 0 12px;background:rgba(0,0,0,.3);
+  border:2px solid var(--cream);padding:4px 12px;font-size:10px;letter-spacing:.18em;color:var(--cream)}
+
+/* ── ITEM LIST (table) ── */
+.sh-list-header{display:grid;
+  grid-template-columns:46px minmax(0,1fr) 70px 90px 60px 90px;
+  gap:6px;align-items:center;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  color:color-mix(in srgb, var(--cream) 55%, transparent);letter-spacing:.1em;
+  border-bottom:2px solid color-mix(in srgb, var(--cream) 25%, transparent);
+  padding:0 4px 8px 4px;margin-top:6px;margin-bottom:6px}
+.sh-list{flex:1 1 auto;overflow-y:auto;min-height:0;
+  display:flex;flex-direction:column;gap:3px;padding-right:4px}
+.sh-row{display:grid;
+  grid-template-columns:46px minmax(0,1fr) 70px 90px 60px 90px;
+  gap:6px;align-items:center;
+  padding:8px 4px;cursor:default;position:relative;
+  border:1px solid transparent;
+  font-family:'VT323',monospace;font-size:16px;color:var(--cream);
+  letter-spacing:.02em;transition:background .1s, border-color .1s}
+.sh-row:hover{background:color-mix(in srgb, var(--fg-bright) 4%, transparent)}
+.sh-row.sel{background:rgba(212,163,115,.14);border-color:var(--hl);
+  box-shadow:0 0 0 1px var(--hl) inset, 0 0 14px rgba(212,163,115,.2)}
+.sh-row.unaff{opacity:.5}
+.sh-row.unaff .sh-cell-price{color:var(--bad)}
+.sh-cell-icon{display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;background:rgba(0,0,0,.35);
+  border:1px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  font-family:'Press Start 2P',monospace;font-size:14px;color:var(--hl)}
+.sh-cell-name{font-family:'Press Start 2P',monospace;font-size:10px;
+  color:var(--cream);letter-spacing:.04em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sh-cell-name .sub{font-family:'VT323',monospace;font-size:13px;
+  color:color-mix(in srgb, var(--cream) 55%, transparent);display:block;margin-top:2px;letter-spacing:.02em}
+.sh-cell-kind{font-family:'Press Start 2P',monospace;font-size:8px;
+  color:color-mix(in srgb, var(--cream) 60%, transparent);letter-spacing:.06em;text-align:center;
+  padding:3px 4px;background:rgba(0,0,0,.3);border:1px solid color-mix(in srgb, var(--cream) 20%, transparent)}
+.sh-cell-kind.heal{color:var(--heal)}
+.sh-cell-kind.dmg{color:var(--dmg)}
+.sh-cell-kind.buff{color:var(--block)}
+.sh-cell-kind.rev{color:var(--crit)}
+.sh-cell-kind.key{color:var(--hl)}
+.sh-cell-stock{font-family:'VT323',monospace;font-size:14px;
+  color:color-mix(in srgb, var(--cream) 70%, transparent);text-align:center}
+.sh-cell-stock.low{color:var(--bad)}
+.sh-cell-stock.out{color:var(--bg-2);text-decoration:line-through}
+.sh-cell-owned{font-family:'VT323',monospace;font-size:14px;
+  color:color-mix(in srgb, var(--cream) 70%, transparent);text-align:center}
+.sh-cell-owned b{color:var(--fg-bright);font-weight:normal;margin-right:2px;
+  font-family:'Press Start 2P',monospace;font-size:8px}
+.sh-cell-price{font-family:'Press Start 2P',monospace;font-size:11px;
+  color:var(--hl);letter-spacing:.06em;text-align:right}
+.sh-cell-price .unit{font-family:'VT323',monospace;font-size:13px;
+  color:color-mix(in srgb, var(--cream) 60%, transparent);margin-left:2px}
+
+/* ── DETAIL PANEL ── */
+.sh-detail{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:hidden}
+.sh-detail-head{display:flex;gap:14px;align-items:flex-start;padding-bottom:10px;
+  border-bottom:2px solid color-mix(in srgb, var(--cream) 20%, transparent);flex:0 0 auto}
+.sh-detail-icon{width:64px;height:64px;background:rgba(0,0,0,.5);
+  border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;font-size:24px;color:var(--hl);
+  flex:0 0 auto;text-shadow:0 0 12px rgba(212,163,115,.4)}
+.sh-detail-meta{flex:1 1 auto;display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh-detail-name{font-size:13px;color:var(--cream);letter-spacing:.06em;
+  text-shadow:0 0 8px color-mix(in srgb, var(--fg-bright) 30%, transparent)}
+.sh-detail-kind{font-family:'VT323',monospace;font-size:15px;
+  color:var(--hl);letter-spacing:.06em}
+.sh-detail-price{font-family:'Press Start 2P',monospace;font-size:14px;
+  color:var(--fg-bright);letter-spacing:.08em;margin-top:2px;
+  text-shadow:0 0 10px color-mix(in srgb, var(--fg-bright) 40%, transparent)}
+.sh-detail-price .unit{font-family:'VT323',monospace;font-size:14px;
+  color:color-mix(in srgb, var(--cream) 60%, transparent);margin-left:4px}
+.sh-detail-desc{font-family:'VT323',monospace;font-size:16px;color:var(--cream);
+  letter-spacing:.02em;line-height:1.45;
+  background:rgba(0,0,0,.25);padding:10px 12px;border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);
+  flex:0 0 auto}
+.sh-detail-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;flex:0 0 auto}
+.sh-detail-stat{display:flex;justify-content:space-between;
+  font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:.06em;
+  color:color-mix(in srgb, var(--cream) 70%, transparent);
+  border-bottom:1px dashed color-mix(in srgb, var(--cream) 20%, transparent);padding:4px 0}
+.sh-detail-stat b{color:var(--cream);font-family:'VT323',monospace;font-size:15px;
+  font-weight:normal;letter-spacing:.04em}
+
+.sh-qty{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:10px;
+  border-top:2px solid color-mix(in srgb, var(--cream) 20%, transparent);flex:0 0 auto}
+.sh-qty-lbl{font-family:'Press Start 2P',monospace;font-size:9px;
+  color:color-mix(in srgb, var(--cream) 70%, transparent);letter-spacing:.1em;margin-right:6px;flex:0 0 auto}
+.sh-qty-btn{appearance:none;background:transparent;
+  border:2px solid var(--cream);color:var(--cream);
+  width:30px;height:30px;font-family:'Press Start 2P',monospace;font-size:11px;
+  cursor:default;transition:background .12s, color .12s;
+  display:flex;align-items:center;justify-content:center}
+.sh-qty-btn:hover{background:var(--cream);color:var(--jrpg-blue)}
+.sh-qty-btn:disabled{opacity:.35;background:transparent;color:var(--cream)}
+.sh-qty-val{font-family:'Press Start 2P',monospace;font-size:13px;
+  color:var(--fg-bright);letter-spacing:.08em;
+  background:rgba(0,0,0,.3);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  padding:7px 12px;min-width:54px;text-align:center;
+  text-shadow:0 0 8px color-mix(in srgb, var(--fg-bright) 30%, transparent)}
+.sh-qty-total{margin-left:auto;font-family:'Press Start 2P',monospace;
+  font-size:11px;color:var(--hl);letter-spacing:.08em;text-align:right}
+.sh-qty-total .lbl{font-size:8px;color:color-mix(in srgb, var(--cream) 50%, transparent);display:block;
+  margin-bottom:3px;letter-spacing:.12em}
+
+.sh-actions{display:flex;gap:8px;margin-top:10px;flex:0 0 auto}
+.sh-act{appearance:none;background:transparent;border:2px solid var(--cream);
+  color:var(--cream);padding:10px 14px;font-family:'Press Start 2P',monospace;
+  font-size:10px;letter-spacing:.1em;cursor:default;flex:1 1 auto;
+  transition:background .12s, color .12s;
+  text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-act:hover, .sh-act.sel{background:var(--cream);color:var(--jrpg-blue)}
+.sh-act.primary{background:var(--hl);color:var(--bg-0);border-color:var(--cream)}
+.sh-act.primary:hover, .sh-act.primary.sel{background:var(--cream);color:var(--jrpg-blue);
+  box-shadow:0 0 14px rgba(212,163,115,.4)}
+.sh-act:disabled{opacity:.35;cursor:default;background:transparent;color:var(--cream)}
+.sh-act:disabled:hover{background:transparent;color:var(--cream)}
+
+/* ── INVENTORY (right rail) ── */
+.sh-inv{display:flex;flex-direction:column;gap:4px;flex:1 1 auto;overflow-y:auto;
+  margin-top:6px;padding-right:4px;min-height:0}
+.sh-inv-row{display:grid;grid-template-columns:28px minmax(0,1fr) 30px;
+  gap:6px;align-items:center;
+  padding:6px 8px;background:rgba(0,0,0,.2);
+  border:1px solid color-mix(in srgb, var(--cream) 15%, transparent);
+  font-family:'VT323',monospace;font-size:14px;color:var(--cream);
+  letter-spacing:.02em}
+.sh-inv-row.empty{opacity:.4;background:transparent;
+  border-style:dashed;color:color-mix(in srgb, var(--cream) 50%, transparent)}
+.sh-inv-icon{width:22px;height:22px;background:rgba(0,0,0,.4);
+  border:1px solid color-mix(in srgb, var(--cream) 25%, transparent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;font-size:9px;color:var(--hl)}
+.sh-inv-name{font-family:'VT323',monospace;font-size:15px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;
+  letter-spacing:.02em}
+.sh-inv-qty{font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--fg-bright);text-align:right;letter-spacing:.06em}
+.sh-inv-total{margin-top:8px;padding-top:8px;border-top:2px solid color-mix(in srgb, var(--cream) 20%, transparent);
+  font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:.08em;
+  color:color-mix(in srgb, var(--cream) 60%, transparent);display:flex;justify-content:space-between;flex:0 0 auto}
+.sh-inv-total b{color:var(--fg-bright);font-weight:normal}
+
+/* shopkeeper line */
+.sh-keeper{margin-top:14px;padding:10px 12px;
+  background:rgba(0,0,0,.35);border:1px dashed color-mix(in srgb, var(--cream) 30%, transparent);
+  font-family:'VT323',monospace;font-size:15px;color:var(--fg);
+  letter-spacing:.02em;line-height:1.4;flex:0 0 auto}
+.sh-keeper .who{color:var(--hl);font-family:'Press Start 2P',monospace;
+  font-size:9px;letter-spacing:.16em;margin-right:6px}
+
+/* footer */
+.sh-foot{flex:0 0 auto;padding:6px 16px;border-top:2px solid var(--bg-2);
+  background:var(--bg-0);font-family:'VT323',monospace;font-size:14px;
+  color:var(--fg-dim);letter-spacing:.04em;display:flex;justify-content:space-between}
+.sh-foot b{color:var(--fg)}
+
+/* toast */
+.sh-toast{position:absolute;top:60px;right:30px;z-index:80;
+  background:var(--jrpg-blue);border:4px solid var(--cream);
+  box-shadow:0 0 0 2px var(--bg-0),0 0 0 6px var(--cream),0 0 0 8px var(--bg-0),
+    0 8px 0 0 rgba(0,0,0,.5);
+  padding:12px 18px;color:var(--cream);
+  font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:.08em;
+  animation:sh-toast-in .25s ease-out, sh-toast-out .25s ease-out 1.4s forwards}
+.sh-toast.ok{border-color:var(--fg-bright)}
+.sh-toast.bad{border-color:var(--bad);color:#ff8aa0}
+.sh-toast .arr{color:var(--hl);margin-right:6px}
+@keyframes sh-toast-in{from{opacity:0;transform:translateX(20px)}}
+@keyframes sh-toast-out{to{opacity:0;transform:translateX(20px)}}
+
+
+/* ─────────── HEROES TAB ─────────── */
+.sh-hero-grid{flex:1 1 auto;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:12px;padding:14px 10px;overflow-y:auto;align-content:start}
+.sh-hero-card{background:rgba(0,0,0,.35);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  padding:10px;color:var(--cream);cursor:default;position:relative;
+  display:flex;flex-direction:column;gap:6px;
+  transition:border-color .14s, transform .14s, box-shadow .14s;
+  font-family:'Press Start 2P',monospace}
+.sh-hero-card:hover{border-color:var(--hl)}
+.sh-hero-card.sel{border-color:var(--hl);transform:translateY(-3px);
+  box-shadow:0 0 0 1px var(--hl), 0 0 16px rgba(212,163,115,.35)}
+.sh-hero-card.owned{border-color:var(--fg-bright);
+  box-shadow:0 0 0 1px var(--fg-bright), inset 0 0 14px color-mix(in srgb, var(--fg-bright) 10%, transparent)}
+.sh-hero-card.unaff{opacity:.55}
+.sh-hero-card.locked{opacity:.6;filter:grayscale(.6);cursor:not-allowed;
+  border-style:dashed}
+.sh-hero-spr{height:100px;background:rgba(0,0,0,.4);
+  border:1px solid color-mix(in srgb, var(--cream) 20%, transparent);
+  display:flex;align-items:flex-end;justify-content:center;padding:4px}
+.sh-hero-name{font-size:11px;letter-spacing:.06em;color:var(--cream);
+  text-shadow:0 0 8px color-mix(in srgb, var(--fg-bright) 15%, transparent)}
+.sh-hero-role{font-family:'VT323',monospace;font-size:14px;
+  color:color-mix(in srgb, var(--cream) 65%, transparent);letter-spacing:.04em;
+  min-height:18px}
+.sh-hero-price{margin-top:auto;display:flex;align-items:baseline;gap:4px;
+  font-size:13px;letter-spacing:.06em;color:var(--hl)}
+.sh-hero-price .unit{font-size:8px;color:var(--cream);letter-spacing:.1em;
+  opacity:.7}
+.sh-hero-price .have{color:var(--fg-bright);font-size:10px;letter-spacing:.1em}
+.sh-hero-price .locked-tag{color:color-mix(in srgb, var(--cream) 50%, transparent);font-size:9px;
+  letter-spacing:.16em;border:1px dashed color-mix(in srgb, var(--cream) 35%, transparent);
+  padding:3px 8px}
+
+.sh-hero-detail-spr{width:120px;height:144px;background:rgba(0,0,0,.5);
+  border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  display:flex;align-items:flex-end;justify-content:center;padding:4px;
+  flex:0 0 auto}
+
+/* ── Registry Market: tablet (≤760px) ── */
+@media (max-width: 760px){
+  /* Hide the USR/NODE/wallet HUD in the topbar */
+  .sh-hud{display:none}
+  /* Tab bar: evenly spread, smaller font */
+  .sh-mode{padding:4px 6px 0;gap:1px}
+  .sh-mode button{flex:1 1 auto;text-align:center;font-size:9px;
+    padding:8px 4px 10px;letter-spacing:.08em}
+  /* Stage: single column, scrollable, no visible bar */
+  .sh-stage{padding:12px 10px 10px;grid-template-columns:1fr;
+    overflow-y:auto;scrollbar-width:none}
+  .sh-stage::-webkit-scrollbar{display:none}
+  /* Panel borders: remove left/right outer shadow so they don't clip at screen edge */
+  .sh-list-wrap,.sh-detail-wrap,.sh-inv-wrap{
+    box-shadow:none;border-width:3px}
+  /* Hide keyboard-hint footer */
+  .sh-foot{display:none}
+  /* Simplified item list: icon + name + price only */
+  .sh-list-header{grid-template-columns:36px minmax(0,1fr) 76px;margin-top:4px}
+  .sh-list-header-m{display:grid}
+  .sh-row-m{grid-template-columns:36px minmax(0,1fr) 76px}
+  /* Quantity picker: wrap total onto its own row on narrow screens */
+  .sh-qty{flex-wrap:wrap}
+  .sh-qty-total{flex:1 0 100%;text-align:left;border-top:1px dashed rgba(254,250,224,.18);
+    padding-top:8px;margin-top:4px}
+  /* Hero grid: 2 columns on mobile */
+  .sh-hero-grid{grid-template-columns:repeat(2,1fr);padding:10px 6px}
+  .sh-hero-spr{height:80px}
+  .sh-hero-name{font-size:9px}
+  /* Detail sprite: scale down for narrow screens */
+  .sh-hero-detail-spr{width:90px;height:108px}
+  .sh-hero-detail-spr svg{max-width:100%;height:auto}
+}
+
+/* ── Registry Market: phone (≤560px) ── */
+@media (max-width: 560px){
+  .sh-topbar{font-size:15px;padding:6px 10px;gap:8px}
+  .sh-mode button{font-size:8px;padding:6px 2px 8px}
+  .sh-stage{padding:8px 8px 8px}
+  .sh-hero-grid{grid-template-columns:1fr}
+}
