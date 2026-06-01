@@ -354,8 +354,17 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           // Heroes stay frozen at 100 until the player issues a command.
           if(u.side === 'hero' && u.atb >= 100) continue;
           // Enemies stay frozen at 100 until the AI acts (handled in the enemy
-          // turn driver effect below).
-          if(u.side === 'enemy' && u.atb >= 100) continue;
+          // turn driver effect below). Silenced enemies burn down the counter
+          // on each tick and have their ATB reset when silence expires so they
+          // don't immediately get a free turn.
+          if(u.side === 'enemy' && u.atb >= 100){
+            if(u.silenced && u.silenced > 0){
+              const ns = u.silenced - 1;
+              next[id] = {...u, silenced: ns, atb: ns > 0 ? u.atb : 0};
+              changed = true;
+            }
+            continue;
+          }
           // Frozen units burn down their freeze counter instead of advancing ATB.
           if(u.frozen && u.frozen > 0){
             next[id] = {...u, frozen: u.frozen - 1};
