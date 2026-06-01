@@ -234,7 +234,7 @@ function LoginScreen({ blip, onAuthed }){
           <span className="lg-online"/>MIPMIP COMPANY &nbsp;
           <span className="lg-host">/{isRegister ? 'register' : 'login'}</span>
         </div>
-        <div>v1.04 &middot; auth.kernel</div>
+        <div>v1.05 &middot; auth.kernel</div>
       </div>
 
       <div className="lg-stage">
@@ -258,8 +258,8 @@ function LoginScreen({ blip, onAuthed }){
             <b>&gt; daily ops note:</b>{' '}
             sector 1 reporting heightened PHISH.WYRM activity.{' '}
             Recommend bringing GUARD.SYS or ROOT.SH for backup heals.
-            <br/><b>&gt; new in v1.04:</b>{' '}
-            heroes unlocked via Registry Market and post-boss drops.
+            <br/><b>&gt; new in v1.05:</b>{' '}
+            theme flash on login fixed, silence status now expires correctly.
           </div>
         </div>
 
