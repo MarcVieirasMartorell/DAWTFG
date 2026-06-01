@@ -5,8 +5,13 @@
 // responses. This file must be loaded before any other game script that
 // needs to reach the server.
 
-// Base URL for every API request. Change this to point at staging/production.
-const DAW_API_BASE = 'http://localhost:5094';
+// Base URL for every API request.
+// In production the frontend and API are served from the same origin,
+// so an empty string makes all requests relative (no CORS, no port juggling).
+// Override with a full URL for local development against a separate API server.
+const DAW_API_BASE = (typeof window !== 'undefined' && window.DAW_API_BASE_OVERRIDE)
+  ? window.DAW_API_BASE_OVERRIDE
+  : '';
 
 // Internal helper that performs every fetch request.
 // method  — HTTP verb string ('GET', 'POST', 'PUT', 'PATCH', 'DELETE').
