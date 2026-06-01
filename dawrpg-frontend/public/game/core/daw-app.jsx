@@ -872,18 +872,21 @@ function App(){
   }, [sel, menuIn, overlay, overlaySel, blip, openItem, route, account]);
 
   // ── AUTH GATE ─────────────────────────────────────────────────────────
-  // If no account, show the login screen and nothing else.
-  if(!account){
-    // Show a minimal loading indicator while checking the cached session.
-    if(sessionLoading) return (
-      <div className="crt" data-crt={settings.crt}>
-        <div className="stage" style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-          <div style={{fontFamily:"'Press Start 2P',monospace",fontSize:10,color:'var(--hl)',letterSpacing:'.2em'}}>
-            RESTORING SESSION...
-          </div>
+  // Block all rendering while the session is being validated against the API.
+  // account may already be pre-populated from localStorage, but we must not
+  // render the title screen (heroes, theme) until the server confirms the session.
+  if(sessionLoading) return (
+    <div className="crt" data-crt={settings.crt}>
+      <div className="stage" style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+        <div style={{fontFamily:"'Press Start 2P',monospace",fontSize:10,color:'var(--hl)',letterSpacing:'.2em'}}>
+          RESTORING SESSION...
         </div>
       </div>
-    );
+    </div>
+  );
+
+  // If no account, show the login screen and nothing else.
+  if(!account){
     // Show LoginScreen. On success, hydrate state from the API (or defaults for
     // a new account) and set the account to trigger the main render path.
     return (
