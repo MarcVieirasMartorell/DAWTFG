@@ -5,8 +5,6 @@
 
 ## Índice
 
-- [Cronograma de desarrollo](#cronograma-de-desarrollo)
-
 1. [Instalación y arranque local](#1-instalación-y-arranque-local)
 2. [Arquitectura general](#2-arquitectura-general)
 3. [Escena del menú principal](#3-escena-del-menú-principal)
@@ -23,48 +21,6 @@
 14. [Sistema de temas visuales (CRT)](#14-sistema-de-temas-visuales-crt)
 15. [Variables CSS y paleta de colores](#15-variables-css-y-paleta-de-colores)
 16. [Referencia de archivos](#16-referencia-de-archivos)
-
----
-
-## Cronograma de desarrollo
-
-Fechas reales extraídas del historial de commits del repositorio. El proyecto comenzó el **18 de marzo de 2026** y se cerró el **31 de mayo de 2026**. Las sesiones de trabajo se concentraron en los intervalos **13:00–14:00** y **18:00–22:00**.
-
-| Fase | Tarea | Inicio | Fin | Días |
-|------|-------|--------|-----|-----:|
-| 1. Planning | Análisis de requisitos y estudio de tecnologías | 01/03/2026 | 10/03/2026 | 10 |
-| 1. Planning | Decisiones de arquitectura (3 capas, REST, SPA) | 10/03/2026 | 17/03/2026 | 8 |
-| 2. Diseño | Diseño del esquema de base de datos (ERD) | 10/03/2026 | 17/03/2026 | 8 |
-| 2. Diseño | Diseño de la API REST (endpoints y contratos) | 13/03/2026 | 18/03/2026 | 6 |
-| 2. Diseño | Wireframes de pantallas principales (Figma) | 15/03/2026 | 18/03/2026 | 4 |
-| 3. Backend | Scaffold del proyecto y esquema inicial de BD | 18/03/2026 | 18/03/2026 | 1 |
-| 3. Backend | Sistema de autenticación (BCrypt + email) | 19/03/2026 | 24/03/2026 | 6 |
-| 3. Backend | API de datos de referencia (héroes, enemigos, mundos) | 25/03/2026 | 29/03/2026 | 5 |
-| 3. Backend | Sistema de progreso (transacciones atómicas, 6 tablas) | 30/03/2026 | 04/04/2026 | 6 |
-| 3. Backend | Tienda y panel de administración | 05/04/2026 | 09/04/2026 | 5 |
-| 3. Backend | API de mods comunitarios (crear, publicar, valorar) | 10/04/2026 | 14/04/2026 | 5 |
-| 3. Backend | Sistema social (follow/unfollow, estadísticas) | 15/04/2026 | 18/04/2026 | 4 |
-| 3. Frontend | Base SPA, pantalla de login/registro y cliente API | 19/04/2026 | 23/04/2026 | 5 |
-| 3. Frontend | Motor de batalla ATB (cola de turnos, IA, efectos) | 24/04/2026 | 28/04/2026 | 5 |
-| 3. Frontend | Mapa de mundos, checkpoints e intro typewriter | 29/04/2026 | 04/05/2026 | 6 |
-| 3. Frontend | UI de tienda, perfil de jugador y editor de avatar | 05/05/2026 | 09/05/2026 | 5 |
-| 3. Frontend | Editor de mapas comunitarios con drag-and-drop | 10/05/2026 | 15/05/2026 | 6 |
-| 3. Frontend | Explorador de mapas comunitarios y sistema de seguimiento | 16/05/2026 | 21/05/2026 | 6 |
-| 4. Pruebas | Pruebas funcionales del motor de batalla y la API | 21/05/2026 | 27/05/2026 | 7 |
-| 4. Pruebas | Pruebas de integridad de BD y corrección de bugs | 22/05/2026 | 27/05/2026 | 6 |
-| 5. Docs | Redacción de referencia técnica y documento TFG | 28/05/2026 | 31/05/2026 | 4 |
-
-**Recuento de horas**
-
-| Fase | Estimado | Real |
-|------|----------|------|
-| Planning y análisis | 18 h | 20 h |
-| Diseño (BD, API, wireframes) | 18 h | 20 h |
-| Desarrollo backend | 55 h | 62 h |
-| Desarrollo frontend | 75 h | 88 h |
-| Pruebas y depuración | 14 h | 18 h |
-| Documentación | 12 h | 15 h |
-| **TOTAL** | **192 h** | **223 h** |
 
 ---
 
