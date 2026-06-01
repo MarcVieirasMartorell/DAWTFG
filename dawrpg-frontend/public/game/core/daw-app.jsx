@@ -18,7 +18,7 @@
 //   - Dev/custom playtest: snapshots real state before injecting a custom
 //     project world, then restores it on exit.
 
-const { useState, useEffect, useRef, useMemo, useCallback } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } = React;
 
 // Snapshot original base sprites NOW, before applySprites can mutate ENEMY_KINDS / HEROES_DEF.
 // All previous scripts have already run so window.ENEMY_KINDS and window.HEROES_DEF are set.
@@ -567,8 +567,10 @@ function App(){
   const [route, setRoute] = useState('title');
 
   // Apply theme: world-coloured on map/battle, base B&W everywhere else.
+  // useLayoutEffect fires before the browser paints, preventing a flash of the
+  // default W1 CSS variables (set in index.html) when transitioning from login.
   // NOTE: must be after `route` is declared so the dep array captures the real value.
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     applyTheme(currentWorldId, settings.mode, route);
   }, [currentWorldId, settings.mode, route]);
 
