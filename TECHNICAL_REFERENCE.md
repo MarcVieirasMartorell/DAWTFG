@@ -130,7 +130,7 @@ Esto crea el esquema `dawrpgdb` con las 23 tablas del juego. El usuario de conex
 
               NAVEGADOR (SPA)                    
                                             
-  index.html  ←  Vite dev server / build         
+  index.html  ←  Vite dev server (sin build step)  
        │
   daw-app.jsx  ←  root component, router,
        │          estado global, audio
