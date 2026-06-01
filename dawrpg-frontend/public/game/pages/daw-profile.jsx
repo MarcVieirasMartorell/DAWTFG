@@ -107,7 +107,7 @@ function computeAchievements(clears, unlockedHeroes) {
   const hasClear = (suffix) => clears.some(c => c.endsWith(`:${suffix}`));
   return [
     { id:'a1', icon:'$',  name:'FIRST LOGIN',     desc:'Connected to sectorware.net.',               unlocked: true },
-    { id:'a2', icon:'⚑',  name:'FIRST SECTOR',    desc:'Cleared your first encounter.',              unlocked: clears.length > 0 },
+    { id:'a2', icon:'⚑',  name:'FIRST SECTOR',    desc:'Cleared your first encounter.',              unlocked: clears.some(c => !c.endsWith(':start')) },
     { id:'a3', icon:'⚔',  name:'MINI-BOSS DOWN',  desc:'Survived a mini-boss process.',              unlocked: hasClear('mid') },
     { id:'a4', icon:'★',  name:'FIRST BOSS',       desc:'Eliminated a world-level root process.',    unlocked: hasClear('boss') },
     { id:'a5', icon:'⚑',  name:'WORLD 2 REACHED', desc:'Breached the second subnet.',                unlocked: cs.has('w1:boss') },
