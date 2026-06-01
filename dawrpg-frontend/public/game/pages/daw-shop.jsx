@@ -156,7 +156,7 @@ function ShopScreen({ blip, playerName='USER', wallet=412, inventory,
   const maxQty = useMemoS(()=>{
     if(!cur) return 1;
     if(tab === 'buy'){
-      const byCoin = unitPrice > 0 ? Math.floor(walletL / unitPrice) : 99;
+      const byCoin = unitPrice > 0 ? Math.floor(walletL / unitPrice) : 1;
       return Math.max(1, Math.min(stockNow || 0, byCoin || 0, 99));
     } else {
       return Math.max(1, Math.min(owned || 0, 99));
