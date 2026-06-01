@@ -367,7 +367,7 @@ Retorna el vecino con mayor score
 
 ### Animación de movimiento
 
-`moveTo()` usa `requestAnimationFrame` para mover el token del jugador en 600ms con interpolación lineal. El mapa no se desmonta entre visitas (`display:none`) para conservar el estado.
+`moveTo()` usa `requestAnimationFrame` para mover el token del jugador en 600ms con interpolación lineal. El mapa no se desmonta entre visitas (`display:none`) para conservar el estado. La función guarda también un bloqueo anticipado si hay un diálogo de checkpoint activo (`checkpointNode !== null`), evitando movimientos fantasma mientras el jugador lee un checkpoint.
 
 ### Renderizado de aristas
 
@@ -467,7 +467,7 @@ DMG multiplicador = 1 + (tier - 1) × 0.22
 SPD multiplicador = 1 + (tier - 1) × 0.06
 ```
 
-Los jefes (flag `boss: true`) reciben un bonus adicional del 30% sobre HP y daño.
+Los jefes (flag `boss: true`) reciben bonus adicionales definidos por las constantes `BOSS_HP_MULT = 1.3` (+30% HP y curación) y `BOSS_DMG_MULT = 1.4` (+40% daño).
 
 ### Héroes base
 
@@ -498,7 +498,7 @@ Los jefes (flag `boss: true`) reciben un bonus adicional del 30% sobre HP y dañ
 | `shield` | Reduce el daño N veces (se decrementa por golpe) |
 | `taunt` | Los enemigos priorizan atacar a esta unidad |
 | `expose` | El próximo ataque contra este objetivo es crítico garantizado |
-| `silence` | La unidad pierde N turnos |
+| `silence` | El enemigo no puede actuar. El contador se decrementa cada tick cuando la barra ATB está a 100; al expirar, la barra se resetea a 0 para evitar un turno gratuito inmediato. |
 | `freeze` | La barra ATB de la unidad no avanza durante N ticks |
 
 ### Renderizado de sprites en batalla
@@ -855,6 +855,8 @@ overrides: {
 4. La cuenta queda con `is_verified = false` hasta que el usuario hace clic en el enlace
 5. Si no llega el email, se puede reenviar desde la pantalla de login
 
+El formulario de registro valida el email con la expresión regular `/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/` para rechazar formatos claramente inválidos como `a@b.` antes de enviarlos al servidor. Los inputs tienen los atributos `autoComplete="username"`, `autoComplete="new-password"` y `autoComplete="current-password"` para integración correcta con gestores de contraseñas.
+
 ### Login
 
 1. El usuario envía email + contraseña
@@ -905,7 +907,21 @@ player_unlocked_heroes → héroes desbloqueados
 
 ---
 
-## 14. Sistema de temas visuales (CRT)
+## 14. Sistema de temas visuales (CRT y paletas de mundo)
+
+### Aplicación sin flash de primer frame
+
+El tema se aplica con `useLayoutEffect` (no `useEffect`) para garantizar que las variables CSS estén correctas antes de que el navegador pinte el primer frame tras el login o la restauración de sesión. Usar `useEffect` causaba un flash de un frame con los colores por defecto del Mundo 1 (definidos en el `:root` de `index.html`) antes de que la paleta correcta del mundo del jugador se aplicase.
+
+```javascript
+useLayoutEffect(() => {
+  applyTheme(currentWorldId, settings.mode, route);
+}, [currentWorldId, settings.mode, route]);
+```
+
+`applyTheme` escribe en el `:root` del documento mediante `style.setProperty`, por lo que el cambio es síncrono y el navegador lo recoge en el mismo frame de layout.
+
+
 
 El juego tiene tres modos de visualización configurables desde Options:
 
@@ -972,7 +988,7 @@ Todos los componentes del juego usan estas variables, de modo que cambiar el tem
 | `public/game/battle/daw-battle-sprites.jsx` | Renderizado de sprites en batalla | ~200 |
 | `public/game/battle/daw-battle-bg.jsx` | Fondos animados de batalla | — |
 | `public/game/core/daw-audio.jsx` | Síntesis de audio (BGM + blips) | ~169 |
-| `public/game/api/daw-api.jsx` | Capa HTTP de la API | ~80 |
+| `public/game/api/daw-api.jsx` | Capa HTTP de la API. La URL base es relativa en producción (`''`) y `http://localhost:5094` en desarrollo local (detección automática por `location.hostname`). | ~90 |
 | `public/game/pages/daw-admin.jsx` | Panel de administración | ~960 |
 | `public/game/pages/daw-devmode.jsx` | Editor de mods (sprites + mapa) | ~1700 |
 | `public/game/pages/daw-mapshare.jsx` | Comunidad de mapas | ~612 |
@@ -985,5 +1001,25 @@ Todos los componentes del juego usan estas variables, de modo que cambiar el tem
 | `dawrpg-api/` | Proyecto ASP.NET Core 9 (API REST) | — |
 
 ---
+
+---
+
+## Changelog v1.05
+
+Cambios aplicados tras las pruebas funcionales:
+
+| Área | Cambio |
+|---|---|
+| **Login** | Regex de email más estricta: rechaza `a@b.` y formatos sin TLD |
+| **Login** | Atributos `autoComplete` en todos los inputs del formulario |
+| **Batalla** | Bug: el estado `silence` en enemigos nunca expiraba — corregido con decremento por tick y reset de ATB al expirar |
+| **Batalla** | Constantes `BOSS_HP_MULT = 1.3` y `BOSS_DMG_MULT = 1.4` extraídas para facilitar el balanceo |
+| **Mapa** | `moveTo()` guarda bloqueo adicional cuando hay un checkpoint activo |
+| **Perfil** | Achievement "FIRST SECTOR" ya no se desbloquea con entradas de tipo `:start` |
+| **Tienda** | Ítems de precio 0 solo pueden comprarse de uno en uno |
+| **UI** | Flash de tema W1 en login eliminado (`useEffect` → `useLayoutEffect`) |
+| **API** | URL base ahora relativa en producción; `localhost:5094` solo en desarrollo local |
+| **SEO** | `<meta name="description">`, Open Graph tags y `<meta name="theme-color">` añadidos |
+| **General** | Constante `DAW_VERSION = '1.05'` extraída en `daw-app.jsx` |
 
 *Este documento describe el estado del código tal como está en la rama `main`. Para añadir nuevas funcionalidades, consultar los comentarios en cabecera de cada archivo `.jsx` que detallan su arquitectura interna.*
