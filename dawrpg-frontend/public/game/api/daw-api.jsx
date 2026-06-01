@@ -6,12 +6,15 @@
 // needs to reach the server.
 
 // Base URL for every API request.
-// In production the frontend and API are served from the same origin,
-// so an empty string makes all requests relative (no CORS, no port juggling).
-// Override with a full URL for local development against a separate API server.
+// In production the frontend and API share the same origin, so an empty string
+// keeps all requests relative (no CORS, no hardcoded port).
+// In local development the Vite dev server runs on a different port from the
+// .NET API, so we fall back to localhost:5094 when the page is served locally.
 const DAW_API_BASE = (typeof window !== 'undefined' && window.DAW_API_BASE_OVERRIDE)
   ? window.DAW_API_BASE_OVERRIDE
-  : '';
+  : (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:5094'
+    : '';
 
 // Internal helper that performs every fetch request.
 // method  — HTTP verb string ('GET', 'POST', 'PUT', 'PATCH', 'DELETE').
