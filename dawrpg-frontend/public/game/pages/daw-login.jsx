@@ -294,6 +294,7 @@ function LoginScreen({ blip, onAuthed }){
                       onFocus={()=>setFocus('user')}
                       placeholder="enter handle"
                       spellCheck={false} autoCapitalize="characters"
+                      autoComplete="username"
                       maxLength={16}/>
                   ) : (
                     // Login: accept anything (email addresses use many characters).
@@ -302,6 +303,7 @@ function LoginScreen({ blip, onAuthed }){
                       onFocus={()=>setFocus('user')}
                       placeholder="handle or email"
                       spellCheck={false} autoCapitalize="none"
+                      autoComplete="username"
                       maxLength={255}/>
                   )}
                   <span className="lg-caret"/>
@@ -335,6 +337,7 @@ function LoginScreen({ blip, onAuthed }){
                     onChange={(e)=>setPass(e.target.value.slice(0,32))}
                     onFocus={()=>setFocus('pass')}
                     placeholder="********"
+                    autoComplete={isRegister ? 'new-password' : 'current-password'}
                     maxLength={32}/>
                   <span className="lg-caret"/>
                 </div>
@@ -351,6 +354,7 @@ function LoginScreen({ blip, onAuthed }){
                       onChange={(e)=>setPass2(e.target.value.slice(0,32))}
                       onFocus={()=>setFocus('pass2')}
                       placeholder="********"
+                      autoComplete="new-password"
                       maxLength={32}/>
                     <span className="lg-caret"/>
                   </div>
