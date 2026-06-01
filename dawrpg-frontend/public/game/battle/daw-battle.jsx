@@ -19,6 +19,11 @@
 const { useState: useStateB, useEffect: useEffectB, useRef: useRefB,
         useCallback: useCallbackB, useMemo: useMemoB } = React;
 
+// ── Balance constants ─────────────────────────────────────────────────
+
+const BOSS_HP_MULT  = 1.3;  // boss HP / heal scaling
+const BOSS_DMG_MULT = 1.4;  // boss damage scaling
+
 // ── Static data ───────────────────────────────────────────────────────
 
 // Full stat and skill definitions for every playable hero.
@@ -227,19 +232,20 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
     const enemies = enc.enemies.map((kind, i) => {
       const k = ENEMY_KINDS[kind];
       const isBoss = enc.boss && i === 0;  // only the first enemy is the boss unit
-      const bossBoost = isBoss ? 1.3 : 1.0;
+      const bHp  = isBoss ? BOSS_HP_MULT  : 1.0;
+      const bDmg = isBoss ? BOSS_DMG_MULT : 1.0;
       return [`e${i}`, {
         side:'enemy', kind, alive:true, boss:isBoss,
-        hp: Math.round(k.hp * hpMult * bossBoost),
-        hpMax: Math.round(k.hp * hpMult * bossBoost),
+        hp: Math.round(k.hp * hpMult * bHp),
+        hpMax: Math.round(k.hp * hpMult * bHp),
         atb: rnd(0,40),  // randomise starting ATB so enemies don't act in lock-step
         spd: k.spd * spdMult,
-        atk: [Math.round(k.dmg[0]*dmgMult*(isBoss?1.4:1)), Math.round(k.dmg[1]*dmgMult*(isBoss?1.4:1))],
+        atk: [Math.round(k.dmg[0]*dmgMult*bDmg), Math.round(k.dmg[1]*dmgMult*bDmg)],
         // Scale each named attack's damage/heal ranges by tier and boss multipliers.
         attacks: Array.isArray(k.attacks) ? k.attacks.map(a => {
           const o = { name: a.name, kind: a.kind || 'single' };
-          if(a.dmg)  o.dmg  = [Math.round(a.dmg[0]*dmgMult*(isBoss?1.4:1)), Math.round(a.dmg[1]*dmgMult*(isBoss?1.4:1))];
-          if(a.heal) o.heal = [Math.round(a.heal[0]*(isBoss?1.3:1)), Math.round(a.heal[1]*(isBoss?1.3:1))];
+          if(a.dmg)  o.dmg  = [Math.round(a.dmg[0]*dmgMult*bDmg), Math.round(a.dmg[1]*dmgMult*bDmg)];
+          if(a.heal) o.heal = [Math.round(a.heal[0]*bHp), Math.round(a.heal[1]*bHp)];
           return o;
         }) : null,
         xp: Math.round(k.xp * (1 + (tier-1)*0.4)),
