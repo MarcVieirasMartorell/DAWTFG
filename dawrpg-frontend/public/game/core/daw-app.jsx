@@ -25,6 +25,8 @@ const { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } = R
 window.ENEMY_GRIDS_BASE  = Object.fromEntries(Object.entries(window.ENEMY_KINDS  || {}).map(([k,v]) => [k, v.grid]));
 window.HERO_SPRITES_BASE = Object.fromEntries(Object.entries(window.HEROES_DEF   || {}).map(([k,v]) => [k, v.sprite]));
 
+const DAW_VERSION = '1.05';
+
 // All possible menu items. Items with needsCompletion are only shown after
 // all 3 world bosses are cleared (w1:boss, w2:boss, w3:boss).
 // Items with needsAdmin are only shown when account.isAdmin === true.
@@ -922,7 +924,7 @@ function App(){
             <span className="blink"></span>
           </div>
           <div className="right">
-            <span>v1.05</span>
+            <span>v{DAW_VERSION}</span>
             <button className="sndtoggle"
               onClick={()=>openItem('options')}
               title="open options">
