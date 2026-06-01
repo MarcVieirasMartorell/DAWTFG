@@ -115,7 +115,7 @@ function LoginScreen({ blip, onAuthed }){
       if(pass !== pass2){ setError('PASSWORDS DO NOT MATCH'); blip && blip(220); return; }
       const emailTrim = email.trim();
       // Only validate email format if the player actually typed something in that field.
-      if(emailTrim && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrim)){
+      if(emailTrim && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailTrim)){
         setError('INVALID EMAIL FORMAT'); blip && blip(220); return;
       }
       setPhase('connecting');
