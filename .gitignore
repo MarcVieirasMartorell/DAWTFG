@@ -12,6 +12,11 @@ node_modules/
 .claude/
 dawrpg-frontend/.claude/
 
-# Backup/copy files
+# Backup/copy files and external docs
 Copia de TFG.docx
 Copia de TFG.pdf
+DAW_Defending_a_Workstation_TFG.docx
+generate_doc.py
+
+# Dead scaffolding
+dawrpg-frontend/src/
