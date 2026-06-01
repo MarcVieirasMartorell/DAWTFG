@@ -664,6 +664,7 @@ function WorldMap({ blip, playerName, onExit, onEngage, onShop, onClearNode,
   // Shops are auto-cleared on landing because they have no combat gate.
   const moveTo = useCallbackM((targetId)=>{
     if(moving) return;                                          // ignore while already moving
+    if(checkpointNode) return;                                  // checkpoint dialogue owns input
     if(targetId === cur) return;                               // already there
     if(!(adj[cur] || []).includes(targetId)) return;           // not a neighbour
     if(!cleared.has(targetId) && !reachable.has(targetId)) return; // path locked
