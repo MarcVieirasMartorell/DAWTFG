@@ -286,6 +286,15 @@ function CustomMapsPage({ blip, onExit, onPlay, account }){
     setLoading(false);
     // Reset selection to the first item if the currently selected mod no longer appears.
     if(arr.length && !arr.find(m => m.id === selId)) setSelId(arr[0].id);
+    // Prefetch covers for all mods not yet cached so thumbnails appear without needing selection.
+    arr.forEach(m => {
+      if (cache[m.id] !== undefined) return;
+      dawMapStore.get(m.id).then(full => {
+        if (!full) return;
+        cache[full.id] = full.cover ?? null;
+        setMods(prev => prev.map(x => x.id === full.id ? { ...x, cover: full.cover } : x));
+      }).catch(() => {});
+    });
   }
 
   // Re-fetch whenever sort or following set changes (immediate).
