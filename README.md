@@ -97,6 +97,20 @@ Abre el juego en `http://localhost:5173`.
 
 ---
 
+## Primer usuario admin
+
+Después de registrarte, ejecuta esto en MySQL para darte privilegios de administrador (la primera vez no hay nadie que te los pueda conceder desde la interfaz):
+
+```sql
+UPDATE dawrpgdb.accounts SET is_admin = 1 WHERE username = 'tu_usuario';
+```
+
+Puedes lanzarlo desde la pestaña **SQL** de phpMyAdmin (XAMPP → Admin) o desde la CLI de MySQL. Una vez dentro del Admin Panel, puedes promover a otros usuarios desde **USERS → GRANT ADMIN**.
+
+Con tu cuenta admin, entra al juego y ve a **ADMIN PANEL → USERS → selecciónate → UNLOCK EVERYTHING**. Esto concede todos los héroes, mundos y monedas, lo que desbloquea de inmediato las opciones **DEV MODE** y **CUSTOM MAPS** del menú principal (normalmente requieren terminar los tres mundos).
+
+---
+
 ## Estructura del proyecto
 
 ```

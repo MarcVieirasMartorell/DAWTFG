@@ -24,6 +24,53 @@
 
 ---
 
+## Inicio rápido: acceso a todas las funcionalidades
+
+Tras instalar y arrancar el proyecto (ver sección 1), sigue estos pasos para desbloquear todas las funcionalidades del juego sin tener que completar los tres mundos.
+
+### 1. Registra una cuenta
+
+Entra en `http://localhost:5173` y crea una cuenta desde la pantalla de login.
+
+### 2. Conviértete en admin (bootstrap vía SQL)
+
+El primer admin no puede crearse desde la interfaz —no hay nadie que lo conceda— así que hay que hacerlo directamente en la base de datos. Ejecuta este comando en phpMyAdmin (**XAMPP → Admin → pestaña SQL**) o en la CLI de MySQL:
+
+```sql
+UPDATE dawrpgdb.accounts SET is_admin = 1 WHERE username = 'tu_usuario';
+```
+
+Para verificar que ha funcionado:
+
+```sql
+SELECT id, username, is_admin FROM dawrpgdb.accounts;
+```
+
+A partir de este momento, la opción **ADMIN PANEL** aparece en el menú principal del juego. Los admins adicionales pueden concederse desde **ADMIN PANEL → USERS → GRANT ADMIN**, sin tocar la base de datos.
+
+### 3. Desbloquea todo desde el Admin Panel
+
+**DEV MODE** y **CUSTOM MAPS** solo son visibles para cuentas que han terminado los tres mundos. Para saltarse esto:
+
+1. Ve a **ADMIN PANEL → USERS**
+2. Selecciona tu usuario
+3. Pulsa **UNLOCK EVERYTHING**
+
+Esto concede todos los héroes, mundos y 99.999 bits al instante. Al volver al menú principal, DEV MODE y CUSTOM MAPS estarán disponibles.
+
+### Resumen de acceso por funcionalidad
+
+| Funcionalidad | Requisito |
+|---|---|
+| Mapa del mundo, batalla, tienda | Cuenta registrada |
+| Dev Mode (editor de mods) | 3 mundos completados **o** UNLOCK EVERYTHING |
+| Custom Maps (mods de la comunidad) | 3 mundos completados **o** UNLOCK EVERYTHING |
+| Admin Panel | `is_admin = 1` en la tabla `accounts` |
+| Editor de sprites global (Admin → Sprites) | Admin Panel |
+| Gestión de usuarios (wallets, flags) | Admin Panel |
+
+---
+
 ## 1. Instalación y arranque local
 
 ### Requisitos previos
