@@ -28,13 +28,14 @@
 
 ### Requisitos previos
 
-| Herramienta | Versión mínima |
-|---|---|
-| Node.js | 18.x o superior |
-| npm | 9.x o superior |
-| .NET SDK | 9.0 |
-| MySQL | 8.0 |
-| Python | 3.10+ (solo para generar documentación) |
+| Herramienta | Versión mínima | Notas |
+|---|---|---|
+| Node.js | 18.x o superior | |
+| npm | 9.x o superior | |
+| .NET SDK | 9.0 | |
+| MySQL | 8.0 | Incluido en XAMPP; recomendado para desarrollo local |
+| XAMPP | 8.x | Panel de control que arranca MySQL (y Apache) sin configuración |
+| Python | 3.10+ | Solo para regenerar la documentación `.docx` |
 
 ### Frontend
 
@@ -58,6 +59,10 @@ La API expone Swagger/OpenAPI en `http://localhost:5094/swagger` cuando está en
 
 ### Base de datos
 
+El entorno recomendado para desarrollo local es **XAMPP**. Basta con abrir el panel de control de XAMPP y arrancar el módulo **MySQL** (puerto 3306 por defecto). No requiere configuración adicional.
+
+Con el servicio activo, importa el esquema:
+
 ```bash
 mysql -u root -p < dawrpg-frontend/dawrpgdb.sql
 ```
@@ -71,6 +76,8 @@ Esto crea el esquema `dawrpgdb` con las 23 tablas del juego. El usuario de conex
   }
 }
 ```
+
+Con la instalación por defecto de XAMPP el usuario `root` no tiene contraseña, por lo que la cadena queda `Password=;`.
 
 ### Variables de entorno importantes
 

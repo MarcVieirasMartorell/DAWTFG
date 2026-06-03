@@ -34,7 +34,8 @@ Funciona íntegramente en el navegador, sin instalación ni paso de compilación
 |---|---|
 | Node.js | 18.x |
 | .NET SDK | 9.0 |
-| MySQL | 8.0 |
+| MySQL | 8.0 (incluido en XAMPP) |
+| XAMPP | 8.x (recomendado para MySQL local) |
 
 ---
 
@@ -42,11 +43,19 @@ Funciona íntegramente en el navegador, sin instalación ni paso de compilación
 
 ### 1. Base de datos
 
+El proyecto usa MySQL. La forma más sencilla de tenerlo en local es con **XAMPP**: arranca el módulo **MySQL** desde el panel de control de XAMPP y deja el puerto por defecto (3306).
+
+Con XAMPP activo, importa el esquema:
+
 ```bash
 mysql -u root -p < dawrpg-frontend/dawrpgdb.sql
 ```
 
-Crea el esquema `dawrpgdb` con todas las tablas necesarias.
+Crea el esquema `dawrpgdb` con todas las tablas necesarias. Si usas XAMPP, el usuario por defecto es `root` sin contraseña; en ese caso la cadena de conexión queda:
+
+```json
+"Default": "Server=localhost;Database=dawrpgdb;User=root;Password=;"
+```
 
 ### 2. Backend
 
