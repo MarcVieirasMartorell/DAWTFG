@@ -13,7 +13,7 @@
 .b-mobile .b-root{grid-template-rows:40px 1fr 92px}
 .b-mobile .b-bottom{display:none !important}
 .b-mobile .b-bottom-native{
-  display:flex;flex:0 0 200px;gap:10px;
+  display:flex;flex:0 0 240px;gap:10px;
   padding:8px 10px;background:var(--bg-0);
   border-top:2px solid var(--bg-2);
   overflow:hidden
@@ -25,7 +25,7 @@
 .b-bottom-native .b-party{height:100%}
 /* Narrow phones: stack cmd above party */
 @media (max-width:480px){
-  .b-mobile .b-bottom-native{flex:0 0 270px;flex-direction:column}
+  .b-mobile .b-bottom-native{flex:0 0 320px;flex-direction:column}
   .b-bottom-native .b-statcol{flex:0 0 auto}
   .b-bottom-native .b-cmd-grid{grid-template-columns:1fr 1fr}
 }
@@ -40,7 +40,7 @@
 
 /* Root layout */
 .b-root{position:absolute;inset:0;display:grid;
-  grid-template-rows:40px 1fr 92px 240px;
+  grid-template-rows:40px 1fr 92px 290px;
   overflow:hidden}
 
 /* ── TOPBAR ── */
@@ -198,7 +198,7 @@
     0 0 0 6px var(--cream),
     0 0 0 8px var(--bg-0),
     0 6px 0 0 rgba(0,0,0,.5);
-  padding:14px 16px 10px;
+  padding:8px 16px 10px;
   color:var(--cream);
   position:relative;
   font-family:'Press Start 2P',monospace;
@@ -206,8 +206,8 @@
   min-height:0;
   overflow:visible;
 }
-.b-legend{display:inline-block;align-self:flex-start;margin:0 0 8px;background:rgba(0,0,0,.3);
-  border:2px solid var(--cream);padding:4px 12px;font-size:10px;letter-spacing:.16em;color:var(--cream)}
+.b-legend{display:inline-block;align-self:flex-start;margin:0 0 5px;background:rgba(0,0,0,.3);
+  border:2px solid var(--cream);padding:2px 12px;font-size:10px;letter-spacing:.16em;color:var(--cream)}
 
 .b-cmd{display:flex;flex-direction:column}
 .b-cmd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 18px;
