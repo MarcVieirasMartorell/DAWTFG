@@ -112,6 +112,31 @@ Smtp__Password=tu-app-password
 Smtp__FromAddress=tu-email@gmail.com
 ```
 
+### Servicio de email (`EmailService.cs`)
+
+El envío de correos está centralizado en `dawrpg-api/Services/EmailService.cs`. Implementa la interfaz `IEmailService` con un único método público:
+
+```csharp
+Task SendVerificationEmailAsync(string toEmail, string username, string verifyUrl);
+```
+
+Se llama desde `AuthController.cs` en dos puntos: al registrar una cuenta nueva y al reenviar la verificación.
+
+**Claves de configuración relevantes en `appsettings.json` / secrets:**
+
+| Clave | Descripción |
+|---|---|
+| `Smtp:Host` | Servidor SMTP (`smtp.gmail.com`) |
+| `Smtp:Port` | Puerto (`587` para STARTTLS) |
+| `Smtp:Username` | Cuenta Gmail usada para autenticarse |
+| `Smtp:Password` | App Password de Google |
+| `Smtp:FromAddress` | Dirección que aparece en el campo "De:" |
+| `Smtp:FromName` | Nombre del remitente que muestra el cliente de correo (actualmente `MIPMIP Company`) |
+
+Para cambiar el nombre del remitente basta con actualizar `Smtp:FromName` en `appsettings.json`. Las credenciales nunca deben commitearse: van en User Secrets (desarrollo) o variables de entorno (producción).
+
+**Plantilla HTML:** el método privado `BuildHtml` en `EmailService.cs` genera el HTML del correo de verificación con estilo retro de terminal (fondo oscuro, tipografía monospace). Para modificar el diseño o el texto del email, editar ese método directamente — no hay sistema de plantillas externo.
+
 ---
 
 ## 2. Arquitectura general

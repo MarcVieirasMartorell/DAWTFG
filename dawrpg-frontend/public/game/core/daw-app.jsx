@@ -1105,9 +1105,9 @@ function App(){
               {/* Description bar — shows the highlighted item's description */}
               <div style={{
                 marginTop:14, paddingTop:10,
-                borderTop:'2px solid rgba(254,250,224,.25)',
+                borderTop:'2px solid var(--fg-dim)',
                 fontFamily:"'VT323', monospace", fontSize:18,
-                color:'rgba(254,250,224,.78)', minHeight:24,
+                color:'var(--fg)', minHeight:24,
                 letterSpacing:'.03em'
               }}>
                 {menuIn && menuItems[sel] ? '> '+menuItems[sel].desc : '> AWAITING INPUT...'}
