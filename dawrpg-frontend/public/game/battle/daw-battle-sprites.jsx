@@ -380,13 +380,13 @@ function bspriteSize(grid, scale=4){
 // hp = max hit points, dmg = [min, max] damage per attack, spd = attack speed multiplier,
 // xp = experience awarded on defeat, and body/rim/dark/acc/eye = BSprite color tokens.
 const ENEMY_KINDS = {
-  'POPUP.IMP':     { grid: E_POPUP,  hp:  60, dmg: [ 8, 14], spd: 1.4, xp: 12, body:'#c9a06a', rim:'#fefae0', dark:'#5a3a18', acc:'#9a3a3a', eye:'#1a0a00' },
-  'TRACKER.SLIME': { grid: E_SLIME,  hp:  80, dmg: [10, 16], spd: 1.0, xp: 18, body:'#b07840', rim:'#fff1cf', dark:'#3a200a', acc:'#9a3a3a', eye:'#1a0a00' },
-  'CACHE.GHOUL':   { grid: E_GHOUL,  hp:  90, dmg: [12, 22], spd: 0.9, xp: 22, body:'#9bc4ff', rim:'#e6f1ff', dark:'#13294a', acc:'#ff6ec7', eye:'#3a1a4a' },
-  'KEYLOG.RAT':    { grid: E_KEYLOG, hp: 180, dmg: [18, 28], spd: 1.3, xp: 60, body:'#7a6a55', rim:'#cfb38a', dark:'#1a120a', acc:'#fefae0', eye:'#ff3a3a' },
-  'PHISH.WYRM':    { grid: E_PHISH,  hp: 220, dmg: [22, 36], spd: 0.7, xp: 80, body:'#3a8a5b', rim:'#a5e58a', dark:'#0a2a18', acc:'#d4a373', eye:'#ffdc4a' },
-  'RANSOM.LARVA':  { grid: E_RANSOM, hp: 140, dmg: [16, 26], spd: 1.0, xp: 44, body:'#7a4a8a', rim:'#d4a3e5', dark:'#1a0a2a', acc:'#ffdc4a', eye:'#1a0a00' },
-  'TROJAN.WORM':   { grid: E_TROJAN, hp: 380, dmg: [18, 30], spd: 0.55, xp: 400, body:'#5a3a18', rim:'#d4a373', dark:'#1a0a00', acc:'#9a1a1a', eye:'#ffdc4a' },
+  'POPUP.IMP':     { grid: E_POPUP,  hp:  72, dmg: [12, 20], spd: 1.4,  xp: 12,  body:'#c9a06a', rim:'#fefae0', dark:'#5a3a18', acc:'#9a3a3a', eye:'#1a0a00' },
+  'TRACKER.SLIME': { grid: E_SLIME,  hp:  95, dmg: [14, 20], spd: 1.0,  xp: 18,  body:'#b07840', rim:'#fff1cf', dark:'#3a200a', acc:'#9a3a3a', eye:'#1a0a00' },
+  'CACHE.GHOUL':   { grid: E_GHOUL,  hp: 115, dmg: [16, 24], spd: 0.9,  xp: 22,  body:'#9bc4ff', rim:'#e6f1ff', dark:'#13294a', acc:'#ff6ec7', eye:'#3a1a4a' },
+  'KEYLOG.RAT':    { grid: E_KEYLOG, hp: 210, dmg: [20, 32], spd: 1.3,  xp: 60,  body:'#7a6a55', rim:'#cfb38a', dark:'#1a120a', acc:'#fefae0', eye:'#ff3a3a' },
+  'PHISH.WYRM':    { grid: E_PHISH,  hp: 175, dmg: [22, 34], spd: 0.85, xp: 80,  body:'#3a8a5b', rim:'#a5e58a', dark:'#0a2a18', acc:'#d4a373', eye:'#ffdc4a' },
+  'RANSOM.LARVA':  { grid: E_RANSOM, hp: 130, dmg: [16, 26], spd: 1.0,  xp: 44,  body:'#7a4a8a', rim:'#d4a3e5', dark:'#1a0a2a', acc:'#ffdc4a', eye:'#1a0a00' },
+  'TROJAN.WORM':   { grid: E_TROJAN, hp: 380, dmg: [18, 30], spd: 0.60, xp: 400, body:'#5a3a18', rim:'#d4a373', dark:'#1a0a00', acc:'#9a1a1a', eye:'#ffdc4a' },
 };
 
 // Expose everything needed by the battle scene and bestiary to the global window object.

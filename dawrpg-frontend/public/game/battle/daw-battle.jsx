@@ -41,7 +41,7 @@ const HEROES_DEF = {
     role: 'POINTER',
     bio: 'Legacy input device. Precise single-target striker; cheap on CPU.',
     scripts: [
-      { id:'click',      label:'click()',          cost: 0, dmg:[28,44],  kind:'single', desc:'Sharp double-click on one target.' },
+      { id:'click',      label:'click()',          cost: 4, dmg:[26,40],  kind:'single', desc:'Sharp double-click on one target.' },
       { id:'drag',       label:'drag(target)',     cost: 8, dmg:[18,30],  kind:'single', extra:'knockback', desc:'Knock target back; -1 ATB.' },
       { id:'selectall',  label:'select_all()',     cost:18, dmg:[14,24],  kind:'aoe',    desc:'Hits every active threat.' },
       { id:'inspect',    label:'inspect(elem)',    cost: 6, dmg:[0,0],    kind:'debuff', extra:'expose',  desc:'Expose weakness — next hits crit.' },
@@ -58,7 +58,7 @@ const HEROES_DEF = {
     role: 'TANK',
     bio: 'System sentinel. High HP. Heals, shields and pulls aggro.',
     scripts: [
-      { id:'patch',      label:'patch.dll(ally)',  cost: 8, heal:[60,90],  kind:'heal',   desc:'Restore an ally\'s INTEGRITY.' },
+      { id:'patch',      label:'patch.dll(ally)',  cost:10, heal:[55,82],  kind:'heal',   desc:'Restore an ally\'s INTEGRITY.' },
       { id:'shield',     label:'shield_up(ally)',  cost:10, kind:'buff',   extra:'shield', desc:'Halve incoming damage on ally.' },
       { id:'reroute',    label:'reroute(ally)',    cost: 6, kind:'buff',   extra:'taunt',  desc:'Pull all aggro to GUARD.SYS.' },
       { id:'backup',     label:'backup.zip()',     cost:24, heal:[40,55],  kind:'aoehel', desc:'Heal the whole party.' },
@@ -75,7 +75,7 @@ const HEROES_DEF = {
     role: 'PURIFIER',
     bio: 'Antimalware shell. Heavy damage and brutal debuffs at high CPU cost.',
     scripts: [
-      { id:'kill9',      label:'kill -9 (target)', cost:10, dmg:[44,72],  kind:'single', desc:'Force-terminate a process.' },
+      { id:'kill9',      label:'kill -9 (target)', cost:14, dmg:[42,66],  kind:'single', desc:'Force-terminate a process.' },
       { id:'chmod000',   label:'chmod 000(t)',     cost:12, kind:'debuff', extra:'silence', desc:'Strip target\'s privileges (skip turn).' },
       { id:'qrtn',       label:'quarantine(t)',    cost:14, kind:'debuff', extra:'freeze',  desc:'Encase target — no actions for 2 ticks.' },
       { id:'sudormrf',   label:'sudo rm -rf .',    cost:28, dmg:[34,52],  kind:'aoe',     desc:'Wipe-attempt AoE on all enemies.' },
@@ -109,9 +109,9 @@ const HEROES_DEF = {
     role: 'ADMIN',
     bio: 'Privileged user. Versatile mix of damage, revive, and buffs.',
     scripts: [
-      { id:'whoami',     label:'sudo whoami',      cost: 0, dmg:[26,40],  kind:'single', desc:'Identify-and-strike combo.' },
+      { id:'whoami',     label:'sudo whoami',      cost: 3, dmg:[24,38],  kind:'single', desc:'Identify-and-strike combo.' },
       { id:'grep',       label:'sudo grep(t)',     cost: 6, kind:'debuff', extra:'expose', desc:'Find target\'s exploit — next hit crits.' },
-      { id:'restart',    label:'sudo restart(a)',  cost:14, heal:[100,140], kind:'heal',  desc:'Revive a faulted ally with high HP.' },
+      { id:'restart',    label:'sudo restart(a)',  cost:19, heal:[95,130],  kind:'heal',  desc:'Revive a faulted ally with high HP.' },
       { id:'nice',       label:'sudo nice -20',    cost:10, kind:'buff',   extra:'haste', desc:'Boost an ally\'s ATB rate.' },
     ],
   },
@@ -203,10 +203,10 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
   // speed. Boss units receive an additional 30% HP/damage boost.
   const initUnits = useCallbackB((enc) => {
     const tier = enc.tier || 1;
-    // Tier scaling curve — each tier adds +35% HP, +22% damage, +6% speed.
-    const hpMult  = 1 + (tier-1) * 0.35;
-    const dmgMult = 1 + (tier-1) * 0.22;
-    const spdMult = 1 + (tier-1) * 0.06;
+    // Tier scaling curve — each tier adds +25% HP, +15% damage, +4% speed.
+    const hpMult  = 1 + (tier-1) * 0.25;
+    const dmgMult = 1 + (tier-1) * 0.15;
+    const spdMult = 1 + (tier-1) * 0.04;
     const partyNames = (party && party.length === 3) ? party
       : ['CURSOR.EXE','GUARD.SYS','PURGE.BAT'];
     // Build hero unit objects, staggering their starting ATB so they don't all
