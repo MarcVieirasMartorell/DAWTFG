@@ -30,8 +30,8 @@ function StatPill({ label, value, highlight }){
   return (
     <div style={{
       display:'flex', flexDirection:'column', alignItems:'center', gap:2,
-      padding:'8px 14px', background:'rgba(0,0,0,.35)',
-      border:'1px solid rgba(254,250,224,.2)',
+      padding:'8px 14px', background:'var(--bg-1)',
+      border:'1px solid var(--bg-2)',
       minWidth:80,
     }}>
       <div style={{fontFamily:"'VT323',monospace", fontSize:22,
@@ -39,7 +39,7 @@ function StatPill({ label, value, highlight }){
         textShadow: highlight ? '0 0 10px rgba(212,244,163,.4)' : 'none' }}>
         {value ?? '—'}
       </div>
-      <div style={{fontSize:8, color:'rgba(254,250,224,.5)', letterSpacing:'.1em'}}>{label}</div>
+      <div style={{fontSize:8, color:'var(--fg-dim)', letterSpacing:'.1em'}}>{label}</div>
     </div>
   );
 }
@@ -101,7 +101,7 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
   // Empty-selection placeholder shown when no user is selected in the list.
   if(!userId) return (
     <div style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center',
-      color:'rgba(254,250,224,.35)', fontFamily:"'VT323',monospace", fontSize:20,
+      color:'var(--fg-dim)', fontFamily:"'VT323',monospace", fontSize:20,
       letterSpacing:'.06em'}}>
       SELECT A USER
     </div>
@@ -146,7 +146,7 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
             ADMIN
           </span>
         )}
-        <div style={{fontSize:9, color:'rgba(254,250,224,.5)', letterSpacing:'.08em', marginLeft:'auto'}}>
+        <div style={{fontSize:9, color:'var(--fg-dim)', letterSpacing:'.08em', marginLeft:'auto'}}>
           ID #{account.id}
         </div>
       </div>
@@ -174,11 +174,11 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
         {/* Render each inventory entry as a "key: count" chip, or show an empty notice. */}
         {Object.keys(inv).length === 0
           ? <div style={{fontFamily:"'VT323',monospace", fontSize:16,
-              color:'rgba(254,250,224,.4)'}}>empty</div>
+              color:'var(--fg-dim)'}}>empty</div>
           : <div style={{display:'flex', gap:6, flexWrap:'wrap'}}>
               {Object.entries(inv).map(([k,v])=>(
                 <span key={k} style={{fontFamily:"'VT323',monospace", fontSize:16,
-                  background:'rgba(0,0,0,.4)', border:'1px solid rgba(254,250,224,.2)',
+                  background:'var(--bg-1)', border:'1px solid var(--bg-2)',
                   padding:'2px 8px', color:'var(--cream)'}}>
                   {k}: {v}
                 </span>
@@ -201,12 +201,12 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
 
         {/* Wallet editor — strips non-digits and caps at 8 characters client-side */}
         <div style={{display:'flex', gap:8, alignItems:'center', marginBottom:12, flexWrap:'wrap'}}>
-          <div style={{fontSize:9, color:'rgba(254,250,224,.6)', letterSpacing:'.1em', width:70}}>WALLET</div>
+          <div style={{fontSize:9, color:'var(--fg-dim)', letterSpacing:'.1em', width:70}}>WALLET</div>
           <input
             value={walletInput}
             onChange={e=>setWalletInput(e.target.value.replace(/\D/g,'').slice(0,8))}
             style={{
-              background:'rgba(0,0,0,.5)', border:'2px solid rgba(254,250,224,.4)',
+              background:'var(--bg-1)', border:'2px solid var(--fg-dim)',
               color:'var(--cream)', fontFamily:"'VT323',monospace", fontSize:18,
               padding:'4px 10px', width:120, letterSpacing:'.04em', outline:'none',
             }}
@@ -218,9 +218,9 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
 
         {/* Admin flag toggle — button label and patch payload flip based on current status */}
         <div style={{display:'flex', gap:8, alignItems:'center', marginBottom:12, flexWrap:'wrap'}}>
-          <div style={{fontSize:9, color:'rgba(254,250,224,.6)', letterSpacing:'.1em', width:70}}>ADMIN</div>
+          <div style={{fontSize:9, color:'var(--fg-dim)', letterSpacing:'.1em', width:70}}>ADMIN</div>
           <div style={{fontFamily:"'VT323',monospace", fontSize:16, color:'var(--cream)',
-            background:'rgba(0,0,0,.35)', border:'1px solid rgba(254,250,224,.2)',
+            background:'var(--bg-1)', border:'1px solid var(--bg-2)',
             padding:'4px 10px', minWidth:60, textAlign:'center'}}>
             {account.isAdmin ? 'YES' : 'NO'}
           </div>
@@ -232,13 +232,13 @@ function UserDetail({ userId, requesterId, blip, onRefreshList }){
 
         {/* Seed action — unlocks all heroes, worlds, items, and sets wallet to max */}
         <div style={{display:'flex', gap:8, alignItems:'center', flexWrap:'wrap'}}>
-          <div style={{fontSize:9, color:'rgba(254,250,224,.6)', letterSpacing:'.1em', width:70}}>SEED</div>
+          <div style={{fontSize:9, color:'var(--fg-dim)', letterSpacing:'.1em', width:70}}>SEED</div>
           <AdminBtn disabled={saving} danger
             onClick={()=>patch({ seed: true }, 'Account seeded (all unlocked)')}>
             UNLOCK EVERYTHING
           </AdminBtn>
           <div style={{fontFamily:"'VT323',monospace", fontSize:14,
-            color:'rgba(254,250,224,.4)'}}>
+            color:'var(--fg-dim)'}}>
             gives all heroes, worlds, items, 99999¥
           </div>
         </div>
@@ -252,8 +252,8 @@ function Section({ label, children }){
   return (
     <div style={{marginBottom:20}}>
       <div style={{
-        fontSize:8, letterSpacing:'.2em', color:'rgba(254,250,224,.5)',
-        borderBottom:'1px dashed rgba(254,250,224,.2)',
+        fontSize:8, letterSpacing:'.2em', color:'var(--fg-dim)',
+        borderBottom:'1px dashed var(--bg-2)',
         paddingBottom:6, marginBottom:10,
       }}>▸ {label}</div>
       {children}
@@ -265,8 +265,8 @@ function Section({ label, children }){
 function Row({ label, value }){
   return (
     <div style={{display:'flex', gap:10, padding:'4px 0',
-      borderBottom:'1px solid rgba(254,250,224,.08)', alignItems:'baseline'}}>
-      <div style={{fontSize:8, color:'rgba(254,250,224,.45)', letterSpacing:'.1em', width:80, flexShrink:0}}>
+      borderBottom:'1px solid var(--bg-2)', alignItems:'baseline'}}>
+      <div style={{fontSize:8, color:'var(--fg-dim)', letterSpacing:'.1em', width:80, flexShrink:0}}>
         {label}
       </div>
       <div style={{fontFamily:"'VT323',monospace", fontSize:16, color:'var(--cream)',
@@ -507,7 +507,7 @@ function SpriteEditorPanel({ account, blip, isMobile }){
           padding:'6px 10px', cursor:'default',
           background: isSelected ? 'var(--jrpg-blue)' : 'transparent',
           borderLeft: isSelected ? '3px solid var(--fg-bright)' : '3px solid transparent',
-          borderBottom:'1px solid rgba(254,250,224,.06)',
+          borderBottom:'1px solid var(--bg-2)',
           display:'flex', alignItems:'center', gap:8,
         }}>
         <div style={{flexShrink:0, lineHeight:0, width:32}}>
@@ -535,14 +535,14 @@ function SpriteEditorPanel({ account, blip, isMobile }){
         {copies && (<>
           <div style={{
             padding:'7px 14px', fontSize:8, letterSpacing:'.18em',
-            color:'rgba(254,250,224,.4)', borderBottom:'1px solid rgba(254,250,224,.1)',
-            background:'rgba(0,0,0,.2)', fontFamily:"'Press Start 2P',monospace",
+            color:'var(--fg-dim)', borderBottom:'1px solid var(--bg-2)',
+            background:'var(--bg-1)', fontFamily:"'Press Start 2P',monospace",
           }}>HEROES</div>
           {ALL_HEROES.map(n => <SideRow key={n} kind="hero" name={n} />)}
           <div style={{
             padding:'7px 14px', fontSize:8, letterSpacing:'.18em',
-            color:'rgba(254,250,224,.4)', borderBottom:'1px solid rgba(254,250,224,.1)',
-            borderTop:'2px solid var(--bg-2)', background:'rgba(0,0,0,.2)',
+            color:'var(--fg-dim)', borderBottom:'1px solid var(--bg-2)',
+            borderTop:'2px solid var(--bg-2)', background:'var(--bg-1)',
             fontFamily:"'Press Start 2P',monospace",
           }}>ENEMIES</div>
           {ALL_ENEMIES.map(n => <SideRow key={n} kind="enemy" name={n} />)}
@@ -559,7 +559,7 @@ function SpriteEditorPanel({ account, blip, isMobile }){
         <div style={{
           display:'flex', alignItems:'center', gap:10, padding:'8px 14px',
           borderBottom:'2px solid var(--bg-2)', flexShrink:0, flexWrap:'wrap',
-          background:'rgba(0,0,0,.2)',
+          background:'var(--bg-1)',
         }}>
           <AdminBtn onClick={()=>{ setMobileStage('list'); blip && blip(360); }}>← LIST</AdminBtn>
           {wc && (
@@ -581,7 +581,7 @@ function SpriteEditorPanel({ account, blip, isMobile }){
             padding:'6px 14px', flexShrink:0,
             fontFamily:"'VT323',monospace", fontSize:15, letterSpacing:'.04em',
             color: msg.ok ? 'var(--fg-bright)' : '#ff8aa0',
-            borderBottom:'1px solid rgba(254,250,224,.1)',
+            borderBottom:'1px solid var(--bg-2)',
           }}>
             {msg.ok ? '> ' : '! '}{msg.text}
           </div>
@@ -636,15 +636,15 @@ function SpriteEditorPanel({ account, blip, isMobile }){
       }}>
         <div style={{
           padding:'7px 14px', fontSize:8, letterSpacing:'.18em',
-          color:'rgba(254,250,224,.4)', borderBottom:'1px solid rgba(254,250,224,.1)',
-          background:'rgba(0,0,0,.2)', flexShrink:0, fontFamily:"'Press Start 2P',monospace",
+          color:'var(--fg-dim)', borderBottom:'1px solid var(--bg-2)',
+          background:'var(--bg-1)', flexShrink:0, fontFamily:"'Press Start 2P',monospace",
         }}>HEROES</div>
         {ALL_HEROES.map(n => <SideRow key={n} kind="hero" name={n} />)}
 
         <div style={{
           padding:'7px 14px', fontSize:8, letterSpacing:'.18em',
-          color:'rgba(254,250,224,.4)', borderBottom:'1px solid rgba(254,250,224,.1)',
-          borderTop:'2px solid var(--bg-2)', background:'rgba(0,0,0,.2)', flexShrink:0,
+          color:'var(--fg-dim)', borderBottom:'1px solid var(--bg-2)',
+          borderTop:'2px solid var(--bg-2)', background:'var(--bg-1)', flexShrink:0,
           fontFamily:"'Press Start 2P',monospace",
         }}>ENEMIES</div>
         {ALL_ENEMIES.map(n => <SideRow key={n} kind="enemy" name={n} />)}
@@ -679,7 +679,7 @@ function SpriteEditorPanel({ account, blip, isMobile }){
             padding:'6px 16px', flexShrink:0,
             fontFamily:"'VT323',monospace", fontSize:16, letterSpacing:'.04em',
             color: msg.ok ? 'var(--fg-bright)' : '#ff8aa0',
-            borderBottom:'1px solid rgba(254,250,224,.1)',
+            borderBottom:'1px solid var(--bg-2)',
           }}>
             {msg.ok ? '> ' : '! '}{msg.text}
           </div>
@@ -840,7 +840,7 @@ function AdminPage({ blip, account, onExit }){
               <div style={{
                 display:'flex', alignItems:'center', gap:10, padding:'8px 14px',
                 borderBottom:'2px solid var(--bg-2)', flexShrink:0,
-                background:'rgba(0,0,0,.2)',
+                background:'var(--bg-1)',
               }}>
                 <AdminBtn onClick={()=>{ setMobilePane('list'); blip && blip(360); }}>← LIST</AdminBtn>
               </div>
@@ -865,8 +865,8 @@ function AdminPage({ blip, account, onExit }){
                   onChange={e=>setSearch(e.target.value)}
                   placeholder="search users..."
                   style={{
-                    width:'100%', background:'rgba(0,0,0,.5)',
-                    border:'2px solid rgba(254,250,224,.3)', color:'var(--cream)',
+                    width:'100%', background:'var(--bg-1)',
+                    border:'2px solid var(--fg-dim)', color:'var(--cream)',
                     fontFamily:"'VT323',monospace", fontSize:16,
                     padding:'4px 8px', letterSpacing:'.04em', outline:'none',
                   }}
@@ -882,7 +882,7 @@ function AdminPage({ blip, account, onExit }){
                         onClick={()=>{ setSelUser(u.id); blip && blip(540); if(isMobile) setMobilePane('detail'); }}
                         style={{
                           padding:'10px 14px', cursor:'default',
-                          borderBottom:'1px solid rgba(254,250,224,.08)',
+                          borderBottom:'1px solid var(--bg-2)',
                           background: selUser===u.id ? 'var(--jrpg-blue)' : 'transparent',
                           borderLeft: selUser===u.id ? '3px solid var(--fg-bright)' : '3px solid transparent',
                           transition:'background .1s',
@@ -899,12 +899,12 @@ function AdminPage({ blip, account, onExit }){
                         </div>
                         {u.email && (
                           <div style={{fontFamily:"'VT323',monospace", fontSize:13,
-                            color:'rgba(254,250,224,.45)', marginTop:2}}>
+                            color:'var(--fg-dim)', marginTop:2}}>
                             {u.email}
                           </div>
                         )}
                         <div style={{fontFamily:"'VT323',monospace", fontSize:12,
-                          color:'rgba(254,250,224,.3)', marginTop:2}}>
+                          color:'var(--fg-dim)', marginTop:2}}>
                           #{u.id} · {fmt(u.lastLogin)}
                         </div>
                       </div>

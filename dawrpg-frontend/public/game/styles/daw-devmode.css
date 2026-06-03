@@ -62,7 +62,7 @@
   font-family:'Press Start 2P',monospace;
   display:flex;flex-direction:column;min-height:0}
 .dv-leg{display:inline-block;align-self:flex-start;margin:-4px 0 12px;
-  background:rgba(0,0,0,.3);
+  background:var(--bg-1);
   border:2px solid var(--cream);padding:4px 12px;font-size:10px;letter-spacing:.18em;color:var(--cream)}
 .dv-title{font-family:'Press Start 2P',monospace;font-size:11px;
   color:var(--fg-bright);letter-spacing:.16em;
@@ -72,7 +72,7 @@
   color:color-mix(in srgb, var(--cream) 70%, transparent);letter-spacing:.02em;line-height:1.4}
 
 /* Inputs */
-.dv-input, .dv-textarea, .dv-select{appearance:none;background:rgba(0,0,0,.4);
+.dv-input, .dv-textarea, .dv-select{appearance:none;background:var(--bg-1);
   border:2px solid color-mix(in srgb, var(--cream) 40%, transparent);color:var(--cream);
   font-family:'VT323',monospace;font-size:18px;letter-spacing:.04em;
   padding:8px 10px;outline:none;width:100%;box-sizing:border-box}
@@ -110,7 +110,7 @@
 .dv-info-grid .dv-card > .dv-col:last-child > textarea{flex:1 1 auto;min-height:0}
 .dv-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 14px;
   margin-top:12px}
-.dv-stat{background:rgba(0,0,0,.3);border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);
+.dv-stat{background:var(--bg-1);border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);
   padding:10px 12px;font-family:'Press Start 2P',monospace;font-size:9px;
   letter-spacing:.12em;color:color-mix(in srgb, var(--cream) 70%, transparent);
   display:flex;justify-content:space-between;align-items:center}
@@ -120,7 +120,7 @@
 .dv-stat .v.ok{color:var(--fg-bright)}
 
 .dv-pre{font-family:'VT323',monospace;font-size:16px;color:var(--cream);
-  background:rgba(0,0,0,.45);border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);
+  background:var(--bg-0);border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);
   padding:12px 14px;letter-spacing:.02em;line-height:1.45;white-space:pre-wrap;
   flex:1 1 auto;overflow:auto;min-height:0}
 
@@ -131,13 +131,13 @@
   padding:14px}
 .dv-list{display:flex;flex-direction:column;gap:6px;flex:1 1 auto;
   overflow:auto;margin:8px 0;min-height:0}
-.dv-list-row{background:rgba(0,0,0,.3);border:2px solid color-mix(in srgb, var(--cream) 25%, transparent);
+.dv-list-row{background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 25%, transparent);
   padding:8px 10px;color:var(--cream);cursor:default;display:flex;align-items:center;
   gap:10px;transition:border-color .1s, transform .1s}
 .dv-list-row:hover{border-color:var(--hl)}
 .dv-list-row.sel{border-color:var(--hl);transform:translateX(2px);
   box-shadow:0 0 0 1px var(--hl), 0 0 14px rgba(212,163,115,.3)}
-.dv-list-row .sw{width:38px;height:42px;background:rgba(0,0,0,.5);
+.dv-list-row .sw{width:38px;height:42px;background:var(--bg-0);
   border:1px solid color-mix(in srgb, var(--cream) 25%, transparent);
   display:flex;align-items:flex-end;justify-content:center;padding:2px;flex:0 0 auto}
 .dv-list-row .nm{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;
@@ -157,8 +157,8 @@
 /* ─────────── Sprite editor ─────────── */
 .dv-spr{display:flex;flex-direction:column;gap:10px;min-width:0}
 .dv-spr-tools{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
-  background:rgba(0,0,0,.4);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);padding:8px}
-.dv-spr-tool{background:rgba(0,0,0,.3);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);padding:8px}
+.dv-spr-tool{background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
   padding:6px 4px;color:var(--cream);cursor:default;
   display:flex;flex-direction:column;align-items:center;gap:4px;
   font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.06em}
@@ -178,13 +178,13 @@
                    linear-gradient(45deg, color-mix(in srgb, var(--cream) 6%, transparent) 25%, transparent 25%, transparent 75%, color-mix(in srgb, var(--cream) 6%, transparent) 75%);
   background-size:12px 12px;background-position:0 0,6px 6px}
 .dv-spr-canvas-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;
-  background:rgba(0,0,0,.3);border:1px dashed color-mix(in srgb, var(--cream) 20%, transparent);padding:8px}
+  background:var(--bg-1);border:1px dashed color-mix(in srgb, var(--cream) 20%, transparent);padding:8px}
 .dv-spr-cell{width:18px;height:18px;display:inline-block;cursor:crosshair;
   box-sizing:border-box;border:1px solid rgba(0,0,0,.15)}
 .dv-spr-cell:hover{outline:1px solid var(--hl);outline-offset:-1px;z-index:1}
 
 .dv-spr-palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
-  background:rgba(0,0,0,.3);border:2px solid color-mix(in srgb, var(--cream) 25%, transparent);padding:10px}
+  background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 25%, transparent);padding:10px}
 .dv-spr-color{display:flex;flex-direction:column;gap:4px}
 .dv-spr-color label{font-family:'Press Start 2P',monospace;font-size:8px;
   letter-spacing:.08em;color:color-mix(in srgb, var(--cream) 75%, transparent)}
@@ -193,7 +193,7 @@
 
 .dv-spr-presets{display:flex;gap:6px;flex-wrap:wrap}
 .dv-spr-preset{appearance:none;cursor:default;
-  background:rgba(0,0,0,.35);border:1px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  background:var(--bg-1);border:1px solid color-mix(in srgb, var(--cream) 30%, transparent);
   padding:4px 8px;font-family:'Press Start 2P',monospace;font-size:8px;
   color:var(--cream);letter-spacing:.1em;display:flex;align-items:center;gap:6px}
 .dv-spr-preset:hover{border-color:var(--hl)}
@@ -203,14 +203,14 @@
 /* Hero/enemy stats column */
 .dv-stats{display:flex;flex-direction:column;gap:14px;min-width:0;
   min-height:0;overflow:auto;padding:4px}
-.dv-stat-block{background:rgba(0,0,0,.3);border:2px solid color-mix(in srgb, var(--cream) 20%, transparent);
+.dv-stat-block{background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 20%, transparent);
   padding:12px;display:flex;flex-direction:column;gap:8px}
 .dv-stat-block .head{font-family:'Press Start 2P',monospace;font-size:9px;
   letter-spacing:.16em;color:var(--hl);padding-bottom:6px;
   border-bottom:1px dashed color-mix(in srgb, var(--cream) 20%, transparent);margin-bottom:2px}
 
 /* Ability / attack rows */
-.dv-abi{background:rgba(0,0,0,.3);border:1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+.dv-abi{background:var(--bg-1);border:1px solid color-mix(in srgb, var(--cream) 18%, transparent);
   padding:10px;display:flex;flex-direction:column;gap:8px}
 .dv-abi-head{display:flex;align-items:center;gap:8px}
 .dv-abi-num{font-family:'Press Start 2P',monospace;font-size:9px;
@@ -224,7 +224,7 @@
 .dv-map-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
   margin-bottom:10px}
 .dv-map-mode{appearance:none;cursor:default;
-  background:rgba(0,0,0,.35);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
+  background:var(--bg-1);border:2px solid color-mix(in srgb, var(--cream) 30%, transparent);
   padding:7px 12px;font-family:'Press Start 2P',monospace;font-size:9px;
   color:var(--cream);letter-spacing:.12em;display:inline-flex;align-items:center;gap:8px}
 .dv-map-mode:hover{border-color:var(--hl)}
@@ -254,7 +254,7 @@
 .dv-map-side .empty{margin:auto;text-align:center;font-family:'VT323',monospace;
   font-size:16px;color:color-mix(in srgb, var(--cream) 55%, transparent);padding:20px}
 .dv-enc-chips{display:flex;flex-wrap:wrap;gap:4px;
-  padding:6px;background:rgba(0,0,0,.3);
+  padding:6px;background:var(--bg-1);
   border:1px dashed color-mix(in srgb, var(--cream) 25%, transparent);min-height:42px;align-content:flex-start}
 .dv-enc-chip{appearance:none;cursor:default;
   background:#3a1a2a;border:1px solid #8a3a55;
@@ -321,7 +321,7 @@
 .mm-card-stats{display:flex;flex-wrap:wrap;gap:14px;
   font-family:'VT323',monospace;font-size:14px;
   color:color-mix(in srgb, var(--cream) 70%, transparent);letter-spacing:.02em;
-  padding:8px 10px;background:rgba(0,0,0,.3);
+  padding:8px 10px;background:var(--bg-1);
   border:1px dashed color-mix(in srgb, var(--cream) 20%, transparent)}
 .mm-card-stats b{color:var(--cream);font-weight:normal;
   font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:.06em;
@@ -343,20 +343,20 @@
 .dv-chkpt-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
 .dv-chkpt-section-head .head{margin-bottom:0;border:none;padding:0}
 .dv-chkpt-empty{font-family:'VT323',monospace;font-size:14px;
-  color:rgba(254,250,224,.45);padding:6px 0;letter-spacing:.04em}
-.dv-chkpt-entry{background:rgba(0,0,0,.25);border:1px solid rgba(254,250,224,.18);
+  color:var(--fg-dim);padding:6px 0;letter-spacing:.04em}
+.dv-chkpt-entry{background:var(--bg-1);border:1px solid var(--bg-2);
   padding:10px;display:flex;flex-direction:column;gap:8px}
 .dv-chkpt-entry-head{display:flex;justify-content:space-between;align-items:center}
 .dv-chkpt-idx{font-family:'Press Start 2P',monospace;font-size:8px;
   color:var(--hl);letter-spacing:.12em}
 .dv-chkpt-entry-body{display:flex;gap:10px;align-items:flex-start}
 .dv-chkpt-portrait-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto}
-.dv-chkpt-portrait-wrap{width:56px;height:56px;border:2px solid rgba(254,250,224,.28);
-  background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+.dv-chkpt-portrait-wrap{width:56px;height:56px;border:2px solid var(--fg-dim);
+  background:var(--bg-1);display:flex;align-items:center;justify-content:center;
   cursor:pointer;overflow:hidden;flex-shrink:0;transition:border-color .12s}
 .dv-chkpt-portrait-wrap:hover{border-color:var(--hl)}
 .dv-chkpt-portrait-ph{font-family:'Press Start 2P',monospace;font-size:18px;
-  color:rgba(254,250,224,.4)}
+  color:var(--fg-dim)}
 .dv-chkpt-img-btn{font-size:8px;padding:3px 6px;letter-spacing:.06em}
 .dv-chkpt-rm{padding:3px 7px;font-size:9px}
 .dv-chkpt-fields{flex:1 1 auto;display:flex;flex-direction:column;gap:8px;min-width:0}
