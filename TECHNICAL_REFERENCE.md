@@ -82,8 +82,35 @@ Con la instalación por defecto de XAMPP el usuario `root` no tiene contraseña,
 ### Variables de entorno importantes
 
 - **CORS**: La API solo acepta peticiones de `localhost:5173` y `localhost:4173`. Si se cambia el puerto del frontend hay que actualizar `Program.cs`.
-- **SMTP**: Las credenciales de correo (verificación de cuenta) van en `appsettings.json` bajo la clave `Mail`.
+- **SMTP**: Las credenciales de correo se gestionan mediante User Secrets (ver sección siguiente). `appsettings.json` contiene los valores vacíos como plantilla.
 - **BCrypt work factor**: configurado a 12 en `AuthController.cs`.
+
+### Gestión de secretos (SMTP)
+
+`appsettings.json` **no contiene credenciales reales** y está commiteado sin información sensible. Las credenciales se inyectan en tiempo de ejecución mediante el sistema de secretos de ASP.NET Core.
+
+**Desarrollo local — User Secrets**
+
+```bash
+cd dawrpg-api
+dotnet user-secrets set "Smtp:Username"    "tu-email@gmail.com"
+dotnet user-secrets set "Smtp:Password"    "tu-app-password-de-google"
+dotnet user-secrets set "Smtp:FromAddress" "tu-email@gmail.com"
+```
+
+Los valores se almacenan fuera del repositorio, en `%APPDATA%\Microsoft\UserSecrets\dawtfg-smtp-secrets\secrets.json`. ASP.NET Core los carga automáticamente cuando `ASPNETCORE_ENVIRONMENT=Development` y sobreescriben las claves vacías de `appsettings.json`.
+
+La contraseña de SMTP debe ser una **App Password de Google** (no la contraseña de cuenta), generada en [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) con 2FA activado.
+
+**Producción — variables de entorno**
+
+En el servidor de despliegue, configurar las siguientes variables de entorno (el doble guión bajo `__` es el separador de sección de ASP.NET Core):
+
+```
+Smtp__Username=tu-email@gmail.com
+Smtp__Password=tu-app-password
+Smtp__FromAddress=tu-email@gmail.com
+```
 
 ---
 

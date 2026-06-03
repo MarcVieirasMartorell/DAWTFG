@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>dawrpg_api</RootNamespace>
+    <UserSecretsId>dawtfg-smtp-secrets</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
