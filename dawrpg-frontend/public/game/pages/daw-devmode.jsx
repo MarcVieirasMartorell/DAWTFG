@@ -162,14 +162,14 @@ function makeBlankHero(suffix, name, palIdx){
     name: name,
     sprite: DEFAULT_HERO_SPRITE.slice(),
     palette: { body:p.body, rim:p.rim, dark:p.dark, acc:p.acc, eye:p.eye },
-    role:    'CUSTOM',
+    role:    'POINTER',
     bio:     'A custom user-built hero.',
     hpMax:   200,
     cpuMax:  70,
     spd:     1.0,
     atk:     [20, 32],
-    limitName: 'CUSTOM.LIMIT',
-    limitDesc: 'Custom limit break.',
+    limitName: 'CLICKSTORM',
+    limitDesc: 'rage-click() — 6 random hits',
     abilities: defaultHeroAbilities(),
   };
 }
@@ -795,12 +795,30 @@ function EnemyAttacksForm({ attacks, onChange }){
   );
 }
 
+// Hard Reboot presets keyed by role — auto-fills limitName/limitDesc on role change.
+const ROLE_HARD_REBOOTS = {
+  POINTER:   { limitName: 'CLICKSTORM',           limitDesc: 'rage-click() — 6 random hits' },
+  TANK:      { limitName: 'PORT 22 LOCKDOWN',      limitDesc: 'firewall_all() — block next round' },
+  PURIFIER:  { limitName: 'rm -rf /malware/*',     limitDesc: '100 dmg AoE — purge all' },
+  SCOUT:     { limitName: 'TRACEROUTE',             limitDesc: 'reveal-all + multi-hit chain' },
+  ADMIN:     { limitName: 'sudo shutdown -h NOW',   limitDesc: 'massive single-target nuke' },
+  ARCHIVIST: { limitName: 'STACK TRACE',            limitDesc: 'expose all — party hits crit' },
+};
+const ROLE_OPTIONS = Object.keys(ROLE_HARD_REBOOTS);
+
 // ── Hero stats form ───────────────────────────────────────────────────
-// Renders the Identity, Stats, and Limit Break stat-block sections for a hero,
+// Renders the Identity, Stats, and Hard Reboot stat-block sections for a hero,
 // propagating changes via onChange with the full updated hero object.
 function HeroStatsBlocks({ hero, onChange }){
   // Convenience helper that merges a single key/value change into the hero object.
   const set = (k, v) => onChange({ ...hero, [k]: v });
+
+  function handleRoleChange(e){
+    const role = e.target.value;
+    const preset = ROLE_HARD_REBOOTS[role];
+    onChange({ ...hero, role, ...(preset || {}) });
+  }
+
   return (
     <>
       <div className="dv-stat-block">
@@ -812,8 +830,9 @@ function HeroStatsBlocks({ hero, onChange }){
         </div>
         <div className="dv-col">
           <label className="dv-label">ROLE</label>
-          <input className="dv-input" value={hero.role}
-            onChange={(e)=>set('role', e.target.value.toUpperCase().slice(0,16))} />
+          <select className="dv-input" value={hero.role} onChange={handleRoleChange}>
+            {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
         </div>
         <div className="dv-col">
           <label className="dv-label">BIO</label>
@@ -854,7 +873,7 @@ function HeroStatsBlocks({ hero, onChange }){
         </div>
       </div>
       <div className="dv-stat-block">
-        <div className="head">LIMIT BREAK</div>
+        <div className="head">HARD REBOOT</div>
         <div className="dv-col">
           <label className="dv-label">NAME</label>
           <input className="dv-input" value={hero.limitName}

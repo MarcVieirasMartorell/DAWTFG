@@ -71,7 +71,7 @@ const HEROES_DEF = {
     hpMax: 175, cpuMax: 100, spd: 1.1,
     atk: [26, 40],
     limitName: 'rm -rf /malware/*',
-    limitDesc: '999 dmg AoE — purge all',
+    limitDesc: '100 dmg AoE — purge all',
     role: 'PURIFIER',
     bio: 'Antimalware shell. Heavy damage and brutal debuffs at high CPU cost.',
     scripts: [
@@ -717,7 +717,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
               applyDamage(next, tid, amt, true, false, source);
               parts.push(`${(tu.displayName ?? tu.kind).split('.')[0]}_-${amt}`);
             }
-            logLine = `>>> LIMIT :: CURSOR.EXE :: CLICKSTORM  ${parts.join(' ')}`;
+            logLine = `>>> HARD REBOOT :: CURSOR.EXE :: CLICKSTORM  ${parts.join(' ')}`;
           }
           else if(heroKind === 'GUARD.SYS'){
             // PORT 22 LOCKDOWN: give every living hero a 3-hit shield and the defending flag.
@@ -726,17 +726,17 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
                 next[id] = {...next[id], shield: 3, defending: true};
               }
             });
-            logLine = `>>> LIMIT :: GUARD.SYS :: PORT 22 LOCKDOWN  → party FIREWALLED`;
+            logLine = `>>> HARD REBOOT :: GUARD.SYS :: PORT 22 LOCKDOWN  → party FIREWALLED`;
             logKind = 'heal';
           }
           else if(heroKind === 'PURGE.BAT'){
-            // rm -rf /malware/*: instant 999 damage (one-shot) to every living enemy.
+            // rm -rf /malware/*: 100 damage to every living enemy.
             Object.entries(prev).forEach(([id, u])=>{
               if(u.side==='enemy' && u.alive){
-                applyDamage(next, id, 999, true, false, source);
+                applyDamage(next, id, 100, true, false, source);
               }
             });
-            logLine = `>>> LIMIT :: PURGE.BAT :: rm -rf /malware/*  → WIPED`;
+            logLine = `>>> HARD REBOOT :: PURGE.BAT :: rm -rf /malware/*  → WIPED`;
           }
           act.limit = 0;  // drain the limit gauge to zero after use
         }
@@ -830,7 +830,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
       setMenu('item'); setMenuSel(0);
     } else if(label === 'GUARD'){
       resolveAction({ kind:'guard', source: activeHero, label });
-    } else if(label === 'LIMIT'){
+    } else if(label === 'HARD REBOOT'){
       const u = units[activeHero];
       if(u.limit < 100) return;  // silently reject if gauge not full
       resolveAction({ kind:'limit', source: activeHero, label });
@@ -962,7 +962,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
       { label:'SCRIPT',  desc:'Run a process from your library.' },
       { label:'ITEM',    desc:'Use a file from your inventory.' },
       { label:'GUARD',   desc:'Raise firewall — halve next hit.' },
-      { label:'LIMIT',   desc: hero.limit >= 100 ? `${HEROES_DEF[hero.kind].limitName} — READY` : `Charging... ${hero.limit|0}%`, disabled: hero.limit < 100 },
+      { label:'HARD REBOOT', desc: hero.limit >= 100 ? `${HEROES_DEF[hero.kind].limitName} — READY` : `Charging... ${hero.limit|0}%`, disabled: hero.limit < 100 },
       { label:'FLEE',    desc:'process.exit(0) — escape attempt.' },
     ];
   }

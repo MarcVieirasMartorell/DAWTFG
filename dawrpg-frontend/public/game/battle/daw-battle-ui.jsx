@@ -66,7 +66,7 @@ function unitPos(units){
   // Heroes — vertical column on right
   const hslots = [
     { x: 880, y: 130 },
-    { x: 920, y: 200 },
+    { x: 970, y: 200 },
     { x: 880, y: 270 },
   ];
   heroes.forEach(([id], i) => { pos[id] = hslots[i] || { x: 900, y: 130 + i*70 }; });
@@ -414,8 +414,8 @@ function PartyHUD({ units, activeHero }){
                   <span className="b-pr-val">{u.atb>=100?'!!':Math.floor(u.atb)+'%'}</span>
                 </div>
                 <div className="b-pr-bar">
-                  <span className="b-pr-lbl">LMT</span>
-                  {/* Show "RDY" text instead of percentage once the limit break gauge is full. */}
+                  <span className="b-pr-lbl">HRB</span>
+                  {/* Show "RDY" text instead of percentage once the hard reboot gauge is full. */}
                   <div className="b-pr-track"><div className={'b-pr-fill lmt '+(u.limit>=100?'rdy':'')} style={{width:limitPct+'%'}}/></div>
                   <span className="b-pr-val">{u.limit>=100?'RDY':Math.floor(u.limit)+'%'}</span>
                 </div>
