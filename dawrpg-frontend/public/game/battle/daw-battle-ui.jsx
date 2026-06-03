@@ -199,6 +199,7 @@ function BattleMessage({ units, activeHero, menu, pendingAction, log, phase, sta
   if(phase === 'intro')      line = `> attaching tty… ${stage}  encounter spawned.`;
   else if(phase === 'victory') line = '> all hostile processes terminated.';
   else if(phase === 'defeat')  line = '> all party processes faulted.  KERNEL_PANIC.';
+  else if(phase === 'fled')    line = '> process.exit(0) — clean escape.';
   else if(activeHero){
     const h = units[activeHero].displayName ?? units[activeHero].kind;
     if(menu === 'main')   line = `> ${h} :: awaiting command...`;
@@ -537,6 +538,24 @@ function DefeatOverlay({ onContinue }){
   );
 }
 
+// Overlay shown when the player successfully flees the encounter.
+function FleeOverlay({ onContinue }){
+  return (
+    <div className="b-overlay b-flee" onClick={onContinue}>
+      <div className="b-flee-card">
+        <div className="b-flee-banner">PROCESS EXIT</div>
+        <div className="b-flee-sub">emergency evacuation protocol engaged.</div>
+        <div className="b-flee-log">
+          <div>$ kill -9 <b>encounter.pid</b></div>
+          <div>received SIGTERM — terminating process</div>
+          <div>exit code: <b>0</b> — clean exit</div>
+        </div>
+        <div className="b-flee-foot">[ENTER] return to map</div>
+      </div>
+    </div>
+  );
+}
+
 // ── Tweaks panel hook into existing TweaksPanel ───────────────────────
 
 // Dev/debug tweaks panel that plugs into the shared TweaksPanel UI system.
@@ -674,6 +693,8 @@ function MobileBattleLayout({
         onContinue={()=>{ if(onComplete) onComplete({result:'victory',encounter:encState}); else setStage(stage); }}/>}
       {phase==='defeat' && <DefeatOverlay
         onContinue={()=>{ if(onComplete) onComplete({result:'defeat',encounter:encState}); else setStage(stage); }}/>}
+      {phase==='fled' && <FleeOverlay
+        onContinue={()=>{ if(onComplete) onComplete({result:'fled',encounter:encState}); else setStage(stage); }}/>}
       {phase==='intro' && <IntroOverlay stage={encState.bg}/>}
       {phase==='boss-intro' && <BossIntroOverlay stage={encState.bg} bossKind={Object.values(units).find(u=>u.boss)?.displayName ?? encState.enemies[0]}/>}
     </div>
@@ -684,6 +705,6 @@ function MobileBattleLayout({
 // script (loaded separately) can reference them without a module bundler.
 Object.assign(window, {
   BattleTopbar, ArenaUnits, BattleMessage, CommandPanel, PartyHUD,
-  IntroOverlay, BossIntroOverlay, VictoryOverlay, DefeatOverlay, BattleTweaks,
+  IntroOverlay, BossIntroOverlay, VictoryOverlay, DefeatOverlay, FleeOverlay, BattleTweaks,
   MobileArena, MobileBattleLayout,
 });

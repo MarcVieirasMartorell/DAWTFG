@@ -774,14 +774,13 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
         setMenu('main');
         setPendingAction(null);
         if(fleeSuccess){
-          pushPop(source, 'ESCAPED!', 'heal');
-          setTimeout(()=>{ if(onComplete) onComplete({ result:'fled', encounter: encState }); }, 700);
+          setPhase('fled');
         } else {
           checkBattleEnd();
         }
       }, 280);
     }, 320);  // 320 ms hop animation before resolving effects
-  }, [units, pushLog, pushPop, checkBattleEnd, onComplete, encState]);
+  }, [units, pushLog, pushPop, checkBattleEnd]);
 
   // damage / crit helpers ------------------------------------------------
 
@@ -895,7 +894,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
   // captures input even when no focusable element is selected.
   useEffectB(()=>{
     function onKey(e){
-      if(phase === 'victory' || phase === 'defeat'){
+      if(phase === 'victory' || phase === 'defeat' || phase === 'fled'){
         // Any confirm key dismisses the end-screen and fires onComplete.
         if(e.key === 'Enter' || e.key === ' ' || e.key === 'Escape'){
           if(onComplete){ onComplete({ result: phase, encounter: encState }); }
@@ -1064,6 +1063,11 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
               {phase === 'defeat'  && <DefeatOverlay
                  onContinue={()=>{
                    if(onComplete) onComplete({ result:'defeat', encounter: encState });
+                   else setStage(stage);
+                 }}/>}
+              {phase === 'fled' && <FleeOverlay
+                 onContinue={()=>{
+                   if(onComplete) onComplete({ result:'fled', encounter: encState });
                    else setStage(stage);
                  }}/>}
               {phase === 'intro'      && <IntroOverlay stage={encState.bg}/>}
