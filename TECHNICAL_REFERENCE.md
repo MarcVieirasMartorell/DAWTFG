@@ -524,9 +524,9 @@ El combate usa un sistema de **Active Time Battle (ATB)**: las barras de tiempo 
 Los enemigos escalan según el tier del nodo:
 
 ```
-HP multiplicador  = 1 + (tier - 1) × 0.35
-DMG multiplicador = 1 + (tier - 1) × 0.22
-SPD multiplicador = 1 + (tier - 1) × 0.06
+HP multiplicador  = 1 + (tier - 1) × 0.25
+DMG multiplicador = 1 + (tier - 1) × 0.15
+SPD multiplicador = 1 + (tier - 1) × 0.04
 ```
 
 Los jefes (flag `boss: true`) reciben bonus adicionales definidos por las constantes `BOSS_HP_MULT = 1.3` (+30% HP y curación) y `BOSS_DMG_MULT = 1.4` (+40% daño).
@@ -987,6 +987,8 @@ Editor de sobreescritura global de sprites y estadísticas de héroes y enemigos
 4. Ajustar estadísticas (HP, CPU, SPD, ATK, scripts)
 5. **HOT-APPLY**: aplica los cambios en la sesión actual llamando `window.applySprites()` para preview inmediato
 6. **PUSH ALL CHANGES**: envía el objeto `overrides` completo a la API
+
+**Sincronización con el código fuente**: los overrides guardados aquí se almacenan en `game_settings.sprite_overrides` y se aplican sobre los valores hardcodeados en `daw-battle.jsx` (`HEROES_DEF`) y `daw-battle-sprites.jsx` (`ENEMY_KINDS`) al arrancar la app. Cuando el diseño de una unidad quede definitivo, copiar los valores del override al código fuente para que sean los defaults reales. Esto garantiza que una instalación desde cero con base de datos vacía también muestre los valores correctos.
 
 **Estructura del objeto de overrides**:
 ```javascript
