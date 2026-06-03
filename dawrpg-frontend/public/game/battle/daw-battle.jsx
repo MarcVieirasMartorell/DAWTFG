@@ -226,6 +226,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
         defending: false, exposed: false, shield: 0, taunt: 0,
         flash: 0, hopAt: 0, hurtAt: 0,
         portraitName: name,
+        displayName: d.name || name,
       }];
     });
     // Build enemy unit objects, applying tier and optional boss multipliers.
@@ -254,6 +255,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
         flash: 0, deathAt: 0, hurtAt: 0,
         silenced: 0, frozen: 0,
         phase: 1,
+        displayName: k.name || kind,
       }];
     });
     return Object.fromEntries([...heroes, ...enemies]);
@@ -433,8 +435,8 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
       kind === 'aoe'    ? '(*all)' :
       kind === 'heal'   ? '(ally)' :
       kind === 'shield' ? '(self)' :
-      kind === 'buff'   ? '(self)' : `(${t.kind})`;
-    pushLog(`> ${e.kind}_${eid.slice(1)} :: ${atkLabel}${targetTag}`, 'enemy');
+      kind === 'buff'   ? '(self)' : `(${t.displayName ?? t.kind})`;
+    pushLog(`> ${e.displayName ?? e.kind}_${eid.slice(1)} :: ${atkLabel}${targetTag}`, 'enemy');
     setActiveAnim({ actorId: eid, targetId: tid, kind: 'enemy-attack' });
     setUnits(p => ({...p, [eid]: {...p[eid], hopAt: Date.now()}}));
 
@@ -487,7 +489,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           return next;
         });
         pushPop(aid, `+${amt}`, 'heal');
-        pushLog(`  └─ ${au.kind}: +${amt} INTEGRITY (healed)`, 'heal');
+        pushLog(`  └─ ${au.displayName ?? au.kind}: +${amt} INTEGRITY (healed)`, 'heal');
       }
       else if(kind === 'shield'){
         // Grant self a 2-hit damage-absorbing firewall.
@@ -497,7 +499,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           return next;
         });
         pushPop(eid, `+FIREWALL`, 'block');
-        pushLog(`  └─ ${e.kind}: firewall raised (2 hits)`, 'block');
+        pushLog(`  └─ ${e.displayName ?? e.kind}: firewall raised (2 hits)`, 'block');
       }
       else if(kind === 'buff'){
         // Self-haste: jump the enemy's ATB forward so their next turn comes sooner.
@@ -506,7 +508,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           next[eid] = {...next[eid], atb: 60};  // jump to 60% — still needs more time before acting again
           return next;
         });
-        pushLog(`  └─ ${e.kind}: process priority boosted`, '');
+        pushLog(`  └─ ${e.displayName ?? e.kind}: process priority boosted`, '');
       }
       else {
         // Single-target damage (default case).
@@ -530,7 +532,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           return next;
         });
         pushPop(tid, `${dmg} [${hexAddr()}]`, blocked ? 'block' : 'dmg');
-        pushLog(`  └─ ${t.kind}: -${dmg} INTEGRITY${blocked?' (firewall absorbed 50%)':''}${defending?' (defending)':''}`, 'dmg');
+        pushLog(`  └─ ${t.displayName ?? t.kind}: -${dmg} INTEGRITY${blocked?' (firewall absorbed 50%)':''}${defending?' (defending)':''}`, 'dmg');
       }
       // Release the animation lock and check for a winner.
       setTimeout(()=>{
@@ -582,23 +584,23 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           // Basic attack — uses actor.atk range, target-side damage.
           const dmg = rollDamage(actor, prev[targetId]);
           applyDamage(next, targetId, dmg.amount, dmg.crit, false, source);
-          logLine = `> ${actor.kind} :: click(${prev[targetId].kind}_${targetId.slice(1)})  → -${dmg.amount}${dmg.crit?' BUFFER_OVERFLOW':''}`;
+          logLine = `> ${actor.displayName ?? actor.kind} :: click(${prev[targetId].displayName ?? prev[targetId].kind}_${targetId.slice(1)})  → -${dmg.amount}${dmg.crit?' BUFFER_OVERFLOW':''}`;
         }
         else if(kind === 'guard'){
           // Set defending flag — next hit deals only 40% damage.
           next[source] = {...next[source], defending: true};
-          logLine = `> ${actor.kind} :: firewall_up()  → +DEF this round`;
+          logLine = `> ${actor.displayName ?? actor.kind} :: firewall_up()  → +DEF this round`;
         }
         else if(kind === 'flee'){
           // Flee is always "failed" in the current design; kept as a log stub.
-          logLine = `> ${actor.kind} :: process.exit(0)  → escape attempt failed`;
+          logLine = `> ${actor.displayName ?? actor.kind} :: process.exit(0)  → escape attempt failed`;
         }
         else if(kind === 'script' && script){
           if(script.kind === 'single' && script.dmg){
             // Single-target skill damage — uses script.dmg range.
             const dmg = rollDamage(actor, prev[targetId], script.dmg);
             applyDamage(next, targetId, dmg.amount, dmg.crit, false, source);
-            logLine = `> ${actor.kind} :: ${script.label} → ${prev[targetId].kind}_${targetId.slice(1)} -${dmg.amount}${dmg.crit?' BUFFER_OVERFLOW':''}`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label} → ${prev[targetId].displayName ?? prev[targetId].kind}_${targetId.slice(1)} -${dmg.amount}${dmg.crit?' BUFFER_OVERFLOW':''}`;
           }
           else if(script.kind === 'aoe' && script.dmg){
             // AoE damage — hits every living enemy with independently rolled damage.
@@ -607,10 +609,10 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
               if(u.side === 'enemy' && u.alive){
                 const dmg = rollDamage(actor, u, script.dmg);
                 applyDamage(next, id, dmg.amount, false, false, source);
-                parts.push(`${u.kind.split('.')[0]}:-${dmg.amount}`);
+                parts.push(`${(u.displayName ?? u.kind).split('.')[0]}:-${dmg.amount}`);
               }
             });
-            logLine = `> ${actor.kind} :: ${script.label}  →  AoE [${parts.join(' ')}]`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  →  AoE [${parts.join(' ')}]`;
           }
           else if(script.kind === 'heal'){
             // Single-target ally heal.
@@ -619,7 +621,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
             tt.hp = Math.min(tt.hpMax, tt.hp + amt);
             next[targetId] = tt;
             pushPop(targetId, `+${amt} INTG`, 'heal');
-            logLine = `> ${actor.kind} :: ${script.label} → ${prev[targetId].kind} +${amt} INTEGRITY`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label} → ${prev[targetId].displayName ?? prev[targetId].kind} +${amt} INTEGRITY`;
             logKind = 'heal';
           }
           else if(script.kind === 'aoehel'){
@@ -633,36 +635,36 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
                 pushPop(id, `+${amt}`, 'heal');
               }
             });
-            logLine = `> ${actor.kind} :: ${script.label}  → all party +${amt} INTEGRITY`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  → all party +${amt} INTEGRITY`;
             logKind = 'heal';
           }
           else if(script.kind === 'buff' && script.extra === 'shield'){
             // Apply a 2-hit firewall to the target ally.
             next[targetId] = {...next[targetId], shield: 2};
-            logLine = `> ${actor.kind} :: ${script.label}  → ${prev[targetId].kind} SHIELDED`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  → ${prev[targetId].displayName ?? prev[targetId].kind} SHIELDED`;
           }
           else if(script.kind === 'buff' && script.extra === 'taunt'){
             // Pull all enemy aggro to the caster for 3 enemy actions.
             next[source] = {...next[source], taunt: 3};
-            logLine = `> ${actor.kind} :: reroute() → aggro pulled to ${actor.kind}`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: reroute() → aggro pulled to ${actor.displayName ?? actor.kind}`;
           }
           else if(script.kind === 'debuff' && script.extra === 'silence'){
             // Silence: target skips their next 2 ATB actions.
             next[targetId] = {...next[targetId], silenced: 2};
             pushPop(targetId, 'CHMOD 000', 'status');
-            logLine = `> ${actor.kind} :: ${script.label}  → ${prev[targetId].kind} PERMISSION_DENIED`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  → ${prev[targetId].displayName ?? prev[targetId].kind} PERMISSION_DENIED`;
           }
           else if(script.kind === 'debuff' && script.extra === 'freeze'){
             // Freeze: pause target's ATB for ~28 ticks (≈ 2.2 seconds at default speed).
             next[targetId] = {...next[targetId], frozen: 28, atb: 0};
             pushPop(targetId, 'QUARANTINED', 'status');
-            logLine = `> ${actor.kind} :: ${script.label}  → ${prev[targetId].kind} QUARANTINED`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  → ${prev[targetId].displayName ?? prev[targetId].kind} QUARANTINED`;
           }
           else if(script.kind === 'debuff' && script.extra === 'expose'){
             // Expose: mark the target so the next hit against them is a guaranteed crit.
             next[targetId] = {...next[targetId], exposed: true};
             pushPop(targetId, 'EXPOSED', 'status');
-            logLine = `> ${actor.kind} :: ${script.label}  → ${prev[targetId].kind} weakness exposed`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: ${script.label}  → ${prev[targetId].displayName ?? prev[targetId].kind} weakness exposed`;
           }
         }
         else if(kind === 'item' && item){
@@ -672,7 +674,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
             tt.hp = Math.min(tt.hpMax, tt.hp + item.amt);
             next[targetId] = tt;
             pushPop(targetId, `+${item.amt} INTG`, 'heal');
-            logLine = `> ${actor.kind} :: use(${item.label}) on ${prev[targetId].kind}  → +${item.amt} INTEGRITY`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: use(${item.label}) on ${prev[targetId].displayName ?? prev[targetId].kind}  → +${item.amt} INTEGRITY`;
             logKind = 'heal';
           }
           else if(item.kind === 'mp'){
@@ -681,7 +683,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
             tt.cpu = Math.min(tt.cpuMax, tt.cpu + item.amt);
             next[targetId] = tt;
             pushPop(targetId, `+${item.amt} CPU%`, 'heal');
-            logLine = `> ${actor.kind} :: use(${item.label}) on ${prev[targetId].kind}  → +${item.amt} CPU%`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: use(${item.label}) on ${prev[targetId].displayName ?? prev[targetId].kind}  → +${item.amt} CPU%`;
             logKind = 'heal';
           }
           else if(item.kind === 'revive'){
@@ -690,13 +692,13 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
             tt.hp = item.amt; tt.alive = true; tt.atb = 0;
             next[targetId] = tt;
             pushPop(targetId, `REVIVED`, 'heal');
-            logLine = `> ${actor.kind} :: restore_point.bak(${prev[targetId].kind})  → process reanimated`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: restore_point.bak(${prev[targetId].displayName ?? prev[targetId].kind})  → process reanimated`;
             logKind = 'heal';
           }
           else if(item.kind === 'bomb'){
             // Offensive item — flat damage ignoring expose, always treated as crit popup.
             applyDamage(next, targetId, item.amt, true, false, source);
-            logLine = `> ${actor.kind} :: deploy(${item.label}) → ${prev[targetId].kind} -${item.amt}`;
+            logLine = `> ${actor.displayName ?? actor.kind} :: deploy(${item.label}) → ${prev[targetId].displayName ?? prev[targetId].kind} -${item.amt}`;
           }
           // Decrement the item's remaining quantity (cannot go below 0).
           setItems(I => I.map(x => x.id === item.id ? {...x, qty: Math.max(0, x.qty-1)} : x));
@@ -713,7 +715,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
               const [tid, tu] = enemies[rnd(0, enemies.length-1)];
               const amt = rnd(35, 55);
               applyDamage(next, tid, amt, true, false, source);
-              parts.push(`${tu.kind.split('.')[0]}_-${amt}`);
+              parts.push(`${(tu.displayName ?? tu.kind).split('.')[0]}_-${amt}`);
             }
             logLine = `>>> LIMIT :: CURSOR.EXE :: CLICKSTORM  ${parts.join(' ')}`;
           }
@@ -1056,7 +1058,7 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
                    else setStage(stage);
                  }}/>}
               {phase === 'intro'      && <IntroOverlay stage={encState.bg}/>}
-              {phase === 'boss-intro' && <BossIntroOverlay stage={encState.bg} bossKind={encState.enemies[0]}/>}
+              {phase === 'boss-intro' && <BossIntroOverlay stage={encState.bg} bossKind={Object.values(units).find(u=>u.boss)?.displayName ?? encState.enemies[0]}/>}
             </div>
           </div>
           {!encounter && <BattleTweaks stage={stage} setStage={setStage} speed={speed} setSpeed={setSpeed}/>}

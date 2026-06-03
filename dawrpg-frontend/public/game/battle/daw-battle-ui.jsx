@@ -129,7 +129,7 @@ function ArenaUnits({ units, phase, activeHero, menu, targetSel, pendingAction, 
             {u.side === 'enemy' && <EnemyHPBar u={u}/>}
             <UnitSprite u={u} scale={sc}/>
             {/* Name label: enemies get an underscore-separated suffix from their ID. */}
-            <div className="b-namelabel">{u.kind}{u.side==='enemy' ? `_${id.slice(1)}`:''}</div>
+            <div className="b-namelabel">{u.displayName ?? u.kind}{u.side==='enemy' ? `_${id.slice(1)}`:''}</div>
             {/* Status effect badges — each maps to an in-game debuff/buff. */}
             {u.silenced > 0 && <div className="b-stat b-stat-silence">CHMOD 000</div>}
             {u.frozen > 0 && <div className="b-stat b-stat-freeze">QRTN</div>}
@@ -197,7 +197,7 @@ function BattleMessage({ units, activeHero, menu, pendingAction, log, phase, sta
   else if(phase === 'victory') line = '> all hostile processes terminated.';
   else if(phase === 'defeat')  line = '> all party processes faulted.  KERNEL_PANIC.';
   else if(activeHero){
-    const h = units[activeHero].kind;
+    const h = units[activeHero].displayName ?? units[activeHero].kind;
     if(menu === 'main')   line = `> ${h} :: awaiting command...`;
     else if(menu === 'script') line = `> ${h} :: scripts/ — pick a process to run`;
     else if(menu === 'item')   line = `> ${h} :: inventory/ — pick a file`;
@@ -271,7 +271,7 @@ function CommandPanel({ units, activeHero, menu, menuSel, targetSel, pendingActi
               onMouseEnter={()=>{ /* highlight handled by targetSel */ }}
               onClick={()=>onSelectTarget && onSelectTarget(id)}>
               <span className="b-cur">▶</span>
-              <span className="b-script-label">{u.kind}{u.side==='enemy'?`_${id.slice(1)}`:''}</span>
+              <span className="b-script-label">{u.displayName ?? u.kind}{u.side==='enemy'?`_${id.slice(1)}`:''}</span>
               <span className="b-script-cost">{u.hp}/{u.hpMax}</span>
             </div>
           ))}
@@ -286,7 +286,7 @@ function CommandPanel({ units, activeHero, menu, menuSel, targetSel, pendingActi
     const opts = mainOptions(hero);
     return (
       <div className="b-cmd">
-        <div className="b-legend">▣ COMMAND — {hero.kind}</div>
+        <div className="b-legend">▣ COMMAND — {hero.displayName ?? hero.kind}</div>
         <div className="b-cmd-grid">
           {opts.map((o, i) => (
             <div key={o.label}
@@ -311,7 +311,7 @@ function CommandPanel({ units, activeHero, menu, menuSel, targetSel, pendingActi
     const sel = scripts[menuSel];
     return (
       <div className="b-cmd">
-        <div className="b-legend">▣ SCRIPT — {hero.kind}</div>
+        <div className="b-legend">▣ SCRIPT — {hero.displayName ?? hero.kind}</div>
         <div className="b-script-list">
           {scripts.map((s, i)=>{
             // A script is blocked when the hero's current CPU is below the script's cost.
@@ -340,7 +340,7 @@ function CommandPanel({ units, activeHero, menu, menuSel, targetSel, pendingActi
     if(list.length === 0){
       return (
         <div className="b-cmd">
-          <div className="b-legend">▣ INVENTORY — {hero.kind}</div>
+          <div className="b-legend">▣ INVENTORY — {hero.displayName ?? hero.kind}</div>
           <div className="b-cmd-desc">&gt; ~/ is empty.</div>
           <div className="b-cmd-foot">[ESC] back</div>
         </div>
@@ -350,7 +350,7 @@ function CommandPanel({ units, activeHero, menu, menuSel, targetSel, pendingActi
     const sel = list[menuSel] || list[0];
     return (
       <div className="b-cmd">
-        <div className="b-legend">▣ INVENTORY — {hero.kind}</div>
+        <div className="b-legend">▣ INVENTORY — {hero.displayName ?? hero.kind}</div>
         <div className="b-script-list">
           {list.map((it, i)=>(
             <div key={it.id}
@@ -392,7 +392,7 @@ function PartyHUD({ units, activeHero }){
           return (
             <div key={id} className={'b-party-row ' + (active?'sel ':'') + (!u.alive?'dead':'')}>
               <div className="b-pr-head">
-                <span className="b-pr-name">{u.kind}</span>
+                <span className="b-pr-name">{u.displayName ?? u.kind}</span>
                 {!u.alive && <span className="b-pr-down">[FAULTED]</span>}
                 {active && <span className="b-pr-tag">▶ READY</span>}
               </div>
@@ -609,7 +609,7 @@ function MobileArena({ units, menu, targetSel, pendingAction, activeAnim, onSele
         <div className="mb-sprite-wrap">
           <UnitSprite u={u} scale={sc}/>
         </div>
-        <div className="mb-namelabel">{u.kind}{!isHero ? `_${id.slice(1)}` : ''}</div>
+        <div className="mb-namelabel">{u.displayName ?? u.kind}{!isHero ? `_${id.slice(1)}` : ''}</div>
         {u.silenced > 0 && <div className="b-stat b-stat-silence">CHMOD</div>}
         {u.frozen   > 0 && <div className="b-stat b-stat-freeze">QRTN</div>}
         {u.shield   > 0 && <div className="b-stat b-stat-shield">FWALL</div>}
@@ -671,7 +671,7 @@ function MobileBattleLayout({
       {phase==='defeat' && <DefeatOverlay
         onContinue={()=>{ if(onComplete) onComplete({result:'defeat',encounter:encState}); else setStage(stage); }}/>}
       {phase==='intro' && <IntroOverlay stage={encState.bg}/>}
-      {phase==='boss-intro' && <BossIntroOverlay stage={encState.bg} bossKind={encState.enemies[0]}/>}
+      {phase==='boss-intro' && <BossIntroOverlay stage={encState.bg} bossKind={Object.values(units).find(u=>u.boss)?.displayName ?? encState.enemies[0]}/>}
     </div>
   );
 }

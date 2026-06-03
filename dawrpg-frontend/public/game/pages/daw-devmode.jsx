@@ -354,6 +354,7 @@ function injectProject(proj){
   proj.heroes.forEach(h => {
     const abilities = (h.abilities && h.abilities.length ? h.abilities : defaultHeroAbilities());
     HDEF[h.id] = {
+      name: h.name,
       sprite: h.sprite,
       body: h.palette.body, rim: h.palette.rim, dark: h.palette.dark,
       acc: h.palette.acc,  eye: h.palette.eye,
@@ -379,6 +380,7 @@ function injectProject(proj){
   proj.enemies.forEach(e => {
     const attacks = (e.attacks && e.attacks.length ? e.attacks : defaultEnemyAttacks());
     ENK[e.id] = {
+      name: e.name,
       grid: e.sprite,
       hp: e.hp, dmg: e.dmg.slice(), spd: e.spd, xp: e.xp,
       body: e.palette.body, rim: e.palette.rim, dark: e.palette.dark,
