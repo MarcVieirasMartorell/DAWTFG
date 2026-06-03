@@ -100,7 +100,7 @@ function Sun({cx, cy, color, hot, ring}){
 // Root title-screen scene component. Composes all visual layers in z-order:
 // sky gradient → stars → sun → distant antennas → hill → hero sprites → foreground strip.
 // Renders into a 880×240 viewBox (wide cinematic strip) with crispEdges for pixel art.
-function Scene({ showHeroes = true }){
+function Scene({ showHeroes = true, heroes = SCENE_HEROES }){
   // viewBox is 880x240 — plenty of room for a wide cinematic strip
   const W=880, H=240;
 
@@ -129,9 +129,9 @@ function Scene({ showHeroes = true }){
   const spriteY   = heroBaseY - SPR_H; // top-left y so sprite bottoms align at heroBaseY
 
   // Calculate x positions that centre the three sprites as a group.
-  const groupW = SCENE_HEROES.length * SPR_W + (SCENE_HEROES.length - 1) * GAP;
+  const groupW = heroes.length * SPR_W + (heroes.length - 1) * GAP;
   const startX = Math.round((W - groupW) / 2);
-  const heroXs  = SCENE_HEROES.map((_,i) => startX + i * (SPR_W + GAP));
+  const heroXs  = heroes.map((_,i) => startX + i * (SPR_W + GAP));
 
   return (
     <svg className="scene" viewBox={`0 0 ${W} ${H}`}
@@ -168,7 +168,7 @@ function Scene({ showHeroes = true }){
       <Hill y={195} color="var(--bg-2)" dark="var(--bg-1)"/>
 
       {/* Heroes — live HEROES_DEF sprites (picks up admin palette + sprite overrides) */}
-      {showHeroes && SCENE_HEROES.map((name, i) => {
+      {showHeroes && heroes.map((name, i) => {
         // Skip rendering if HEROES_DEF hasn't loaded yet or the key is missing.
         const def = window.HEROES_DEF?.[name];
         if(!def) return null;

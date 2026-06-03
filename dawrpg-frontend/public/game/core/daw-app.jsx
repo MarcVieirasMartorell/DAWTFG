@@ -452,7 +452,11 @@ function App(){
   const hydrateFromApiState = useCallback((state)=>{
     const p = state.progress || {};
     setPlayerName(p.playerName || state.account.username);
-    setParty(Array.isArray(state.party) && state.party.length ? state.party : [...DAW_DEFAULT_PARTY]);
+    // Prefer localStorage party (written synchronously on every change) over the API
+    // party, which may be stale if the tab was closed within the 3-second save window.
+    // Fall back to the API party, then to defaults if neither is valid.
+    const lsParty = (()=>{ try { const v = JSON.parse(localStorage.getItem(`daw.party.${state.account.id}`)||'null'); return Array.isArray(v)&&v.length===3?v:null; } catch(e){ return null; } })();
+    setParty(lsParty || (Array.isArray(state.party)&&state.party.length ? state.party : [...DAW_DEFAULT_PARTY]));
     setUnlockedHeroes(Array.isArray(state.unlockedHeroes) && state.unlockedHeroes.length
       ? state.unlockedHeroes : [...DAW_STARTER_HEROES]);
     setWallet(typeof p.wallet === 'number' ? p.wallet : DAW_DEFAULT_WALLET);
@@ -503,6 +507,13 @@ function App(){
     try { cached = JSON.parse(raw); } catch(e){ localStorage.removeItem('daw.session'); setSessionLoading(false); return; }
     if(!cached?.id){ localStorage.removeItem('daw.session'); setSessionLoading(false); return; }
 
+    // Restore party from localStorage immediately so the title screen shows the
+    // right heroes before the API call completes (the API will overwrite anyway).
+    try {
+      const lp = JSON.parse(localStorage.getItem(`daw.party.${cached.id}`) || 'null');
+      if(Array.isArray(lp) && lp.length === 3) setParty(lp);
+    } catch(e) {}
+
     // Block the save effect while we're still loading so we don't write
     // default state over the player's real save.
     skipSaveRef.current = true;
@@ -546,6 +557,13 @@ function App(){
       }).catch(e => console.warn('save failed', e));
     }, 3000);
   }, [account, playerName, party, unlockedHeroes, wallet, shopInv, clears, hasSave, currentWorldId, worldsUnlocked, devPlayMode, playtimeSec]);
+
+  // Mirror party to localStorage on every change so it survives tab closes that
+  // happen within the 3-second API debounce window.
+  useEffect(()=>{
+    if(!account) return;
+    localStorage.setItem(`daw.party.${account.id}`, JSON.stringify(party));
+  }, [party, account]);
 
   // Adds a hero to the unlocked roster if not already present.
   const unlockHero = useCallback((name, source)=>{
@@ -1091,7 +1109,7 @@ function App(){
 
           {/* Animated title-screen scene (sprite art) */}
           <div className="scene-wrap">
-            <Scene key={spritesVersion}/>
+            <Scene key={spritesVersion} heroes={party}/>
           </div>
 
           {/* Main menu grid — each item highlights on hover and confirms on click */}
