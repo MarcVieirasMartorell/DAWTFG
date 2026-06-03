@@ -264,11 +264,28 @@ function IntroLore({ blip, onDone, onSkip }){
     return ()=>window.removeEventListener('keydown', onKey);
   }, [blip, onSkip, confirm, skipped]);
 
-  // Auto-finish when crawl completes; suspended while confirmation is open.
+  const crawlRef = useRefI(null);
+
+  // Auto-finish when the text visually exits the top of the viewport.
+  // The CSS animation travels from translateY(+100%) to translateY(-120%) = 2.2×
+  // the element's own height. The text exits the viewport when its bottom edge
+  // crosses y=0, which happens after travelling (elHeight + vpHeight) pixels —
+  // earlier than the full 2.2× trip. We fire onDone() at that moment to avoid
+  // leaving the player staring at a blank starfield.
   useEffectI(()=>{
     if(skipped){ onDone(); return; }
     if(confirm) return; // pause the countdown while the popup is up
-    const t = setTimeout(()=>onDone(), crawlDuration);
+    let delay = crawlDuration;
+    const el = crawlRef.current;
+    if(el){
+      const elH = el.offsetHeight;
+      const vpH = window.innerHeight;
+      // exitFraction: what fraction of the total 2.2× animation corresponds to
+      // the text just clearing the top of the viewport.
+      const exitFraction = (elH + vpH) / (2.2 * elH);
+      delay = crawlDuration * Math.min(1, exitFraction);
+    }
+    const t = setTimeout(()=>onDone(), delay);
     return ()=>clearTimeout(t);
   }, [skipped, confirm, onDone, crawlDuration]);
 
@@ -291,7 +308,7 @@ function IntroLore({ blip, onDone, onSkip }){
         ))}
       </div>
       {/* Crawl pauses (animation-play-state) while the confirmation popup is open */}
-      <div className={'lore-crawl '+(skipped?'snap':'')}
+      <div ref={crawlRef} className={'lore-crawl '+(skipped?'snap':'')}
         style={skipped ? undefined : {
           animationDuration: crawlDurationCSS,
           animationPlayState: confirm ? 'paused' : 'running',

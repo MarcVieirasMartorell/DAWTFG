@@ -22,22 +22,160 @@
 
 const { useState: useStateM, useEffect: useEffectM, useRef: useRefM, useMemo: useMemoM, useCallback: useCallbackM } = React;
 
+// ── Pixel-art portrait data (mirrors daw-intro.jsx) ──────────────────────
+const PM_ORACLE = [
+  '....################....',
+  '..##................##..',
+  '.#..##############..##.#',
+  '#..##............##..##.',
+  '#.##..##########..##..##',
+  '#.##.##........##.##..##',
+  '#.##.##..####..##.##..##',
+  '#.##.##.##rr##.##.##..##',
+  '#.##.##.#r##r#.##.##..##',
+  '#.##.##.##rr##.##.##..##',
+  '#.##.##..####..##.##..##',
+  '#.##.##........##.##..##',
+  '#.##..##########..##..##',
+  '#..##............##..##.',
+  '.#..##############..##.#',
+  '..##................##..',
+  '....################....',
+  '...a.a.a.a.a.a.a.a.a....',
+  '...a...a...a...a...a....',
+  '...a...a...a...a...a....',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+];
+const PM_CURSOR = [
+  '....aaaa................',
+  '...aaaaaa...............',
+  '...aaaaaa...............',
+  '...aaaaaa...............',
+  '....aaaaaa..............',
+  '.....aaaaaa.............',
+  '......aaaa..............',
+  '.......a................',
+  '.....######.............',
+  '....##r##k#.............',
+  '....########............',
+  '....########............',
+  '...##########...........',
+  '...##########...........',
+  '...##......##...........',
+  '...##......##...........',
+  '...##......##...........',
+  '..####....####..........',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+];
+const PM_GUARD = [
+  '......######............',
+  '.....########...........',
+  '....##r####k##..........',
+  '....##########..........',
+  '....##.####.##..........',
+  '....##########..........',
+  '.....########...........',
+  '..aa##########aa........',
+  '.aaa##########aaa.......',
+  'aaaa#r######k#aaaa......',
+  'aaaa##########aaaa......',
+  '.aaa##########aaa.......',
+  '..aa##########aa........',
+  '....##########..........',
+  '....##########..........',
+  '....###....###..........',
+  '....###....###..........',
+  '....##......##..........',
+  '....##......##..........',
+  '...####....####.........',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+];
+const PM_PURGE = [
+  '......aaaaaa............',
+  '.....aa####aa...........',
+  '....aa######aa..........',
+  '....a##########.........',
+  '....a##......##.........',
+  '....a###....###.........',
+  '....a##.rr.##...........',
+  '....a##########.........',
+  '.....##########.........',
+  '.....##########a........',
+  '....######a#####........',
+  '....######a#####........',
+  '....######a#............',
+  '....######a#............',
+  '....#####a#.............',
+  '....#####a#.............',
+  '....#####a#.............',
+  '....##.#a#.##...........',
+  '...####.#####...........',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+  '........................',
+];
+
+function PortraitSpriteM({ grid, body, rim, dark, acc, scale=3 }){
+  const rows = grid.length, cols = grid[0].length;
+  const rects = [];
+  for(let r=0; r<rows; r++){
+    for(let c=0; c<cols; c++){
+      const ch = grid[r][c];
+      if(ch === '.') continue;
+      const fill = ch === '#' ? body : ch === 'r' ? rim : ch === 'k' ? dark : ch === 'a' ? acc : body;
+      rects.push(<rect key={r+'-'+c} x={c*scale} y={r*scale} width={scale} height={scale} fill={fill} />);
+    }
+  }
+  return (
+    <svg width={cols*scale} height={rows*scale}
+      viewBox={`0 0 ${cols*scale} ${rows*scale}`}
+      shapeRendering="crispEdges"
+      style={{display:'block',imageRendering:'pixelated'}}>
+      <rect x="0" y="0" width={cols*scale} height={rows*scale} fill="var(--bg-1)"/>
+      {rects}
+    </svg>
+  );
+}
+
+const CHECKPOINT_PORTRAITS = {
+  'ORACLE': { grid:PM_ORACLE, body:'var(--fg-bright)', rim:'var(--cream)', dark:'var(--fg-dim)', acc:'var(--hl)' },
+  'CURSOR': { grid:PM_CURSOR, body:'var(--bg-0)', rim:'var(--fg-bright)', dark:'#000', acc:'var(--hl)' },
+  'GUARD':  { grid:PM_GUARD,  body:'var(--bg-0)', rim:'var(--fg-bright)', dark:'#000', acc:'var(--cream)' },
+  'PURGE':  { grid:PM_PURGE,  body:'var(--bg-0)', rim:'var(--fg-bright)', dark:'#000', acc:'var(--hl)' },
+};
+
 // ── Checkpoint dialogue components ──────────────────────────────────────
 
 // Renders the speaker portrait for a checkpoint dialogue page.
 // Accepts speakerImage: { type:'image', dataUrl } | null.
-// Falls back to a box showing the first letter of the speaker name.
+// Falls back to the pixel-art portrait for known story characters, then to an initial.
 function CheckpointPortrait({ image, name, size=80 }){
-  const boxStyle = {
-    width:size, height:size, flexShrink:0,
-    display:'flex', alignItems:'center', justifyContent:'center',
-    border:'2px solid var(--fg-dim)',
-    background:'var(--bg-1)', overflow:'hidden',
-  };
   if(image?.type === 'image' && image.dataUrl){
     return (
       <div className="chkpt-portrait-box" style={{width:size,height:size}}>
         <img src={image.dataUrl} alt={name||''} />
+      </div>
+    );
+  }
+  const portrait = CHECKPOINT_PORTRAITS[name];
+  if(portrait){
+    return (
+      <div className="chkpt-portrait-box" style={{width:size,height:size}}>
+        <PortraitSpriteM grid={portrait.grid} body={portrait.body}
+          rim={portrait.rim} dark={portrait.dark} acc={portrait.acc} scale={3}/>
       </div>
     );
   }

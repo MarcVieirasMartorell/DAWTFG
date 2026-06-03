@@ -418,6 +418,12 @@ function App(){
   const [playtimeSec,    setPlaytimeSec]    = useState(0);
   const sessionStartRef = useRef(Date.now());  // timestamp of when this session began, for playtime accumulation
 
+  // Incremented once applySprites resolves so Scene re-renders with the correct sprites.
+  // Without this, Scene reads HEROES_DEF before admin overrides are applied and never
+  // gets another render (especially on first registration where hydrateFromApiState
+  // doesn't fire).
+  const [spritesVersion, setSpritesVersion] = useState(0);
+
   // Visible menu items — completion-gated + admin-gated filtering.
   // Recomputed only when the clears array or account admin flag changes.
   const menuItems = useMemo(()=>
@@ -484,8 +490,12 @@ function App(){
   // (expired token, API error), drops the cache and shows the login screen.
   // Admin status is refreshed in a parallel request to avoid a stale cached flag.
   useEffect(()=>{
-    // Load admin sprite overrides first (non-fatal if API is down)
-    DAW_API.getSprites().then(applySprites).catch(()=>{});
+    // Load admin sprite overrides first (non-fatal if API is down).
+    // Incrementing spritesVersion after apply forces Scene to re-render with the
+    // correct sprites even on first registration (where no other state update fires).
+    DAW_API.getSprites()
+      .then(ov => { applySprites(ov); setSpritesVersion(v => v + 1); })
+      .catch(()=>{});
 
     const raw = localStorage.getItem('daw.session');
     if(!raw){ setSessionLoading(false); return; }
@@ -1081,7 +1091,7 @@ function App(){
 
           {/* Animated title-screen scene (sprite art) */}
           <div className="scene-wrap">
-            <Scene/>
+            <Scene key={spritesVersion}/>
           </div>
 
           {/* Main menu grid — each item highlights on hover and confirms on click */}
