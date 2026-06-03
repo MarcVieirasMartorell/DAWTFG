@@ -566,6 +566,9 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
     const { kind, source, targetId, script, item, label } = action;
     const actor = units[source];
     if(!actor) return;
+    // Roll flee chance before async callbacks so both the log updater and the
+    // post-animation handler see the same result.
+    const fleeSuccess = kind === 'flee' && Math.random() < 0.35;
     animLock.current = true;
     setActiveAnim({ actorId: source, targetId, kind });
     setUnits(p => ({...p, [source]: {...p[source], hopAt: Date.now()}}));
@@ -592,8 +595,9 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
           logLine = `> ${actor.displayName ?? actor.kind} :: firewall_up()  → +DEF this round`;
         }
         else if(kind === 'flee'){
-          // Flee is always "failed" in the current design; kept as a log stub.
-          logLine = `> ${actor.displayName ?? actor.kind} :: process.exit(0)  → escape attempt failed`;
+          logLine = fleeSuccess
+            ? `> ${actor.displayName ?? actor.kind} :: process.exit(0)  → ESCAPED`
+            : `> ${actor.displayName ?? actor.kind} :: process.exit(0)  → escape attempt failed`;
         }
         else if(kind === 'script' && script){
           if(script.kind === 'single' && script.dmg){
@@ -769,10 +773,15 @@ function BattleScene({ stageKey='TEMP CAVES', initialTurnSpeed=1, encounter, par
         setActiveHero(null);
         setMenu('main');
         setPendingAction(null);
-        checkBattleEnd();
+        if(fleeSuccess){
+          pushPop(source, 'ESCAPED!', 'heal');
+          setTimeout(()=>{ if(onComplete) onComplete({ result:'fled', encounter: encState }); }, 700);
+        } else {
+          checkBattleEnd();
+        }
       }, 280);
     }, 320);  // 320 ms hop animation before resolving effects
-  }, [units, pushLog, pushPop, checkBattleEnd]);
+  }, [units, pushLog, pushPop, checkBattleEnd, onComplete, encState]);
 
   // damage / crit helpers ------------------------------------------------
 

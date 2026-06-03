@@ -98,6 +98,15 @@
 /* Boss enemy gets a subtle aura + breathing */
 .b-side-enemy[class*="boss"], .b-unit.b-boss{filter:drop-shadow(0 0 12px rgba(255,40,80,.45))}
 
+/* Glow ring under the active hero (SVG ellipse, painted before sprite pixels) */
+.b-turn-glow{
+  fill:var(--hl);opacity:.55;
+  transform-box:fill-box;transform-origin:50% 50%;
+  animation:turn-glow-pulse .85s ease-in-out infinite}
+@keyframes turn-glow-pulse{
+  0%,100%{transform:scaleX(1);opacity:.5}
+  50%{transform:scaleX(1.3);opacity:.85}}
+
 .b-sprite{display:block;image-rendering:pixelated}
 
 .b-namelabel{font-family:'Press Start 2P',monospace;font-size:8px;

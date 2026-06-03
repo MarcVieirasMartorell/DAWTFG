@@ -127,7 +127,7 @@ function ArenaUnits({ units, phase, activeHero, menu, targetSel, pendingAction, 
           <div key={id} className={cls} style={{ left: p.x, top: p.y }}>
             {/* Show HP bar only for enemies; heroes use the PartyHUD panel instead. */}
             {u.side === 'enemy' && <EnemyHPBar u={u}/>}
-            <UnitSprite u={u} scale={sc}/>
+            <UnitSprite u={u} scale={sc} isActive={isActive}/>
             {/* Name label: enemies get an underscore-separated suffix from their ID. */}
             <div className="b-namelabel">{u.displayName ?? u.kind}{u.side==='enemy' ? `_${id.slice(1)}`:''}</div>
             {/* Status effect badges — each maps to an in-game debuff/buff. */}
@@ -159,14 +159,17 @@ function ArenaUnits({ units, phase, activeHero, menu, targetSel, pendingAction, 
 
 // Renders a single unit's pixel-art sprite as an SVG by delegating to BSprite.
 // The SVG dimensions are derived from the sprite grid dimensions multiplied by the scale factor.
-function UnitSprite({ u, scale }){
-  // Mirror heroes face left? They already face left in design. Mirror enemies face right? They face right in design.
+function UnitSprite({ u, scale, isActive }){
+  const w = u.sprite[0].length * scale;
+  const h = u.sprite.length * scale;
   return (
     <svg className="b-sprite"
-      width={u.sprite[0].length*scale}
-      height={u.sprite.length*scale}
-      viewBox={`0 0 ${u.sprite[0].length*scale} ${u.sprite.length*scale}`}
-      shapeRendering="crispEdges">
+      width={w} height={h}
+      viewBox={`0 0 ${w} ${h}`}
+      shapeRendering="crispEdges" overflow="visible">
+      {isActive && u.side === 'hero' && (
+        <ellipse className="b-turn-glow" cx={w/2} cy={h+2} rx={w*0.58} ry={11}/>
+      )}
       <BSprite grid={u.sprite} scale={scale}
         body={u.body} rim={u.rim} dark={u.dark} acc={u.acc} eye={u.eye}/>
     </svg>
@@ -574,7 +577,7 @@ function BattleTweaks({ stage, setStage, speed, setSpeed }){
 // Renders the battle field in a vertical layout: enemies at top, heroes at
 // bottom. When menu === 'target', units in the target pool receive an onClick
 // handler and a glow border so the player can tap them directly.
-function MobileArena({ units, menu, targetSel, pendingAction, activeAnim, onSelectTarget, stage }){
+function MobileArena({ units, menu, targetSel, pendingAction, activeAnim, onSelectTarget, stage, activeHero }){
   const enemies = Object.entries(units).filter(([,u]) => u.side==='enemy');
   const heroes  = Object.entries(units).filter(([,u]) => u.side==='hero');
 
@@ -607,7 +610,7 @@ function MobileArena({ units, menu, targetSel, pendingAction, activeAnim, onSele
         onClick={isTargetable ? ()=>onSelectTarget && onSelectTarget(id) : undefined}>
         {!isHero && <EnemyHPBar u={u}/>}
         <div className="mb-sprite-wrap">
-          <UnitSprite u={u} scale={sc}/>
+          <UnitSprite u={u} scale={sc} isActive={isHero && id === activeHero}/>
         </div>
         <div className="mb-namelabel">{u.displayName ?? u.kind}{!isHero ? `_${id.slice(1)}` : ''}</div>
         {u.silenced > 0 && <div className="b-stat b-stat-silence">CHMOD</div>}
@@ -648,7 +651,8 @@ function MobileBattleLayout({
       <MobileArena
         units={units} menu={menu} targetSel={targetSel}
         pendingAction={pendingAction} activeAnim={activeAnim}
-        onSelectTarget={onSelectTarget} stage={encState.bg}/>
+        onSelectTarget={onSelectTarget} stage={encState.bg}
+        activeHero={activeHero}/>
       <BattleMessage units={units} activeHero={activeHero} menu={menu} pendingAction={pendingAction}
         log={log} phase={phase} stage={encState.bg}/>
       <div className="mb-panel">
