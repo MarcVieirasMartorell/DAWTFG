@@ -545,20 +545,115 @@ Además del sprite, cada personaje tiene un bloque de estadísticas editable:
 
 **Enemigos**: HP, velocidad, XP que otorgan, rango de daño `[min, max]`, array de ataques.
 
-### Habilidades de héroe
+### Habilidades de héroe (`HeroAbilitiesForm`)
 
-Tipos disponibles:
+Cada héroe puede tener hasta **6 habilidades**. El editor muestra una fila por habilidad con los siguientes campos:
 
-| Kind | Descripción |
-|---|---|
-| `single` | Daño a un objetivo |
-| `aoe` | Daño a todos los enemigos |
-| `heal` | Curación a un aliado |
-| `aoehel` | Curación a todo el grupo |
-| `buff` | Mejora un aliado |
-| `debuff` | Debilita un enemigo |
+| Campo | Límite | Descripción |
+|---|---|---|
+| Label | 28 chars | Nombre mostrado en el menú de batalla, p. ej. `ping(target)` |
+| Kind | — | Tipo de efecto (ver tabla) |
+| CPU Cost | 0–60 | Puntos de CPU que cuesta usar la habilidad |
+| DMG min/max | 0–300 | Rango de daño (solo en kinds que lo requieren) |
+| HEAL min/max | 0–400 | Rango de curación (solo en kinds que lo requieren) |
+| STATUS FX | — | Efecto de estado opcional que aplica al usar la habilidad |
+| Description | 80 chars | Tooltip breve visible en el menú de batalla |
+
+**Tipos de habilidad** (`kind`):
+
+| Kind | Necesita | Descripción |
+|---|---|---|
+| `single` | `dmg` | Daño a un objetivo |
+| `aoe` | `dmg` | Daño a todos los enemigos |
+| `heal` | `heal` | Curación a un aliado |
+| `aoehel` | `heal` | Curación a todo el grupo |
+| `buff` | — | Mejora un aliado (efecto de estado) |
+| `debuff` | — | Debilita un enemigo (efecto de estado) |
 
 Efectos de estado aplicables: `knockback`, `expose`, `shield`, `taunt`, `silence`, `freeze`, `haste`.
+
+Al cambiar el `kind`, el editor añade automáticamente el campo numérico requerido (`dmg` o `heal`) y elimina el que ya no aplica, para que el objeto inyectado al motor no tenga campos residuales.
+
+### Ataques de enemigo (`EnemyAttacksForm`)
+
+Cada enemigo puede tener hasta **5 movimientos**. El motor elige **uno al azar** cada turno del enemigo, por lo que el orden no importa. Si el array está vacío, el motor utiliza un ataque genérico `BITE` por defecto.
+
+| Campo | Límite | Descripción |
+|---|---|---|
+| Nombre | 18 chars, UPPERCASE | Aparece en el log de batalla |
+| Kind | — | Tipo de movimiento (ver tabla) |
+| DMG min/max | 0–300 | Solo si `kind` es `single` o `aoe` |
+| HEAL min/max | 0–300 | Solo si `kind` es `heal` |
+
+**Tipos de movimiento** (`kind`):
+
+| Kind | Necesita | Descripción |
+|---|---|---|
+| `single` | `dmg` | Daño a un único héroe |
+| `aoe` | `dmg` | Daño a todo el grupo |
+| `heal` | `heal` | El enemigo se cura a sí mismo o a un aliado |
+| `shield` | — | El enemigo aplica escudo sobre sí mismo |
+| `buff` | — | El enemigo se aplica haste |
+
+En la inyección (`injectProject`), el nombre se trunca a 18 chars y se convierte a mayúsculas. Los campos `dmg`/`heal` se normalizan a entero para evitar que cadenas vacías o `undefined` lleguen al motor de batalla.
+
+**Estructura interna de un ataque:**
+```javascript
+{ id: 'ax7k2', name: 'CORRUPT', kind: 'single', dmg: [12, 20] }
+{ id: 'ax3p9', name: 'SELF REPAIR', kind: 'heal', heal: [30, 50] }
+```
+
+### Almacenamiento de borradores y niveles
+
+Los mods se persisten íntegramente en `localStorage` como borradores por cuenta. La clave es `daw.devmode.drafts.v2.{account_id}` y el valor es un objeto JSON con un array `drafts`.
+
+**Estructura completa de un borrador:**
+```javascript
+{
+  draftId:     'dr_lp9z4abc',  // timestamp36 + random suffix
+  publishedId: null,            // id de la API una vez publicado, o null
+  updatedAt:   1717000000000,  // timestamp Unix (ms)
+  cover:       null,            // data-URL de la portada, o null
+
+  title:  'MY DAW MOD',
+  author: 'USER',
+  intro:  'WELCOME TO MY MOD.\n...',
+
+  heroes:  [ /* array de hasta 3 objetos héroe */ ],
+  enemies: [ /* array de hasta 8 objetos enemigo */ ],
+
+  map: {
+    nodes: [ /* array de hasta 12 nodos */ ],
+    edges: [ /* array de pares de ids */ ]
+  }
+}
+```
+
+**Estructura de un nodo de combate dentro del mapa:**
+```javascript
+{
+  id:    'n1',
+  x:     300,           // coordenada X en el viewBox (0–1000)
+  y:     200,           // coordenada Y en el viewBox (0–420)
+  type:  'fight',       // 'fight' | 'mini' | 'boss' | 'save' | 'shop'
+  label: '1-1  FIRST BUG',
+  sub:   'TRIVIAL ENCOUNTER',
+  encounter: {
+    enemies: ['CUSTOM.E.A', 'CUSTOM.E.A'],  // IDs de enemigos del mod
+    bg:      'POPUP MOOR',                   // nombre del escenario de batalla
+    tier:    1,                              // dificultad 1–7
+    boss:    false                           // true solo en nodos boss
+  }
+}
+```
+
+**Aristas**: array de pares `[idOrigen, idDestino]` que definen la topología del grafo. Las aristas son bidireccionales a efectos de navegación; el motor construye la lista de adyacencia en tiempo de ejecución al cargar el mundo.
+
+```javascript
+edges: [['start','n1'], ['n1','n2'], ['n2','boss']]
+```
+
+**Migración de formatos antiguos**: `migrateProject()` rellena `abilities` y `attacks` en proyectos guardados antes de que esos campos existieran. `migrateLegacyDevProject()` copia la clave de formato v1 (`daw.devmode.v1`) a la clave por uid la primera vez que un usuario hace login, garantizando que los borradores previos al soporte multi-usuario no se pierdan.
 
 ---
 
