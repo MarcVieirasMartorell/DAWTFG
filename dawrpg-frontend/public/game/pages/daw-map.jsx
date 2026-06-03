@@ -31,8 +31,8 @@ function CheckpointPortrait({ image, name, size=80 }){
   const boxStyle = {
     width:size, height:size, flexShrink:0,
     display:'flex', alignItems:'center', justifyContent:'center',
-    border:'2px solid rgba(254,250,224,.28)',
-    background:'rgba(0,0,0,.4)', overflow:'hidden',
+    border:'2px solid var(--fg-dim)',
+    background:'var(--bg-1)', overflow:'hidden',
   };
   if(image?.type === 'image' && image.dataUrl){
     return (
@@ -44,7 +44,7 @@ function CheckpointPortrait({ image, name, size=80 }){
   return (
     <div className="chkpt-portrait-box" style={{width:size,height:size}}>
       <span style={{fontFamily:"'Press Start 2P',monospace",
-        fontSize:Math.floor(size/3.5), color:'rgba(254,250,224,.45)'}}>
+        fontSize:Math.floor(size/3.5), color:'var(--fg-dim)'}}>
         {(name||'?').slice(0,1)}
       </span>
     </div>
@@ -140,9 +140,9 @@ function CheckpointDialog({ node, blip, replay=false, onClear, onCancel }){
           <span>▣ {node.label || 'CHECKPOINT'}</span>
           <span style={{display:'flex',gap:14,alignItems:'center'}}>
             {!rewardPhase && pages.length > 1 &&
-              <span style={{color:'rgba(254,250,224,.5)',fontSize:7}}>{pi+1} / {pages.length}</span>}
+              <span style={{color:'var(--fg-dim)',fontSize:7}}>{pi+1} / {pages.length}</span>}
             {replay &&
-              <span style={{color:'rgba(254,250,224,.4)',fontSize:7,
+              <span style={{color:'var(--fg-dim)',fontSize:7,
                 fontFamily:"'VT323',monospace",letterSpacing:'.04em'}}>
                 ESC — CLOSE
               </span>}
@@ -193,7 +193,7 @@ function CheckpointDialog({ node, blip, replay=false, onClear, onCancel }){
             </button>
             {replay &&
               <div style={{fontFamily:"'VT323',monospace",fontSize:14,
-                color:'rgba(254,250,224,.35)',letterSpacing:'.04em',marginTop:2}}>
+                color:'var(--fg-dim)',letterSpacing:'.04em',marginTop:2}}>
                 (replay — items already granted)
               </div>}
           </div>
@@ -540,7 +540,7 @@ function TutorialOverlay({ onDone, blip }) {
           color:'var(--cream)', letterSpacing:'.03em', lineHeight:1.5,
           whiteSpace:'pre-wrap', wordBreak:'break-word',
           background:'rgba(0,0,0,.4)', padding:'14px 16px',
-          border:'1px dashed rgba(254,250,224,.2)',
+          border:'1px dashed var(--bg-2)',
           minHeight:140,
         }}>{cur.body}</pre>
 
@@ -551,7 +551,7 @@ function TutorialOverlay({ onDone, blip }) {
               width: i === page ? 12 : 8, height: 8,
               background: i === page ? 'var(--fg-bright)'
                         : i < page  ? 'rgba(212,244,163,.4)'
-                        : 'rgba(254,250,224,.22)',
+                        : 'var(--bg-2)',
               transition:'all .15s',
             }} />
           ))}
@@ -572,7 +572,7 @@ function TutorialOverlay({ onDone, blip }) {
         {/* Keyboard hint changes on the last page to reflect the different action. */}
         <div style={{
           marginTop:10, fontFamily:"'VT323',monospace", fontSize:14,
-          color:'rgba(254,250,224,.55)', letterSpacing:'.04em', textAlign:'center',
+          color:'var(--fg-dim)', letterSpacing:'.04em', textAlign:'center',
         }}>
           {isLast ? 'press ⏎ to engage · ESC to skip' : 'press → or ⏎ to advance · ESC to skip'}
         </div>

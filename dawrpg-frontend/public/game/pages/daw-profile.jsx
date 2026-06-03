@@ -133,7 +133,7 @@ function AvatarDisplay({ avatar, size = 112 }) {
   if (!avatar) {
     const g = window.B_GUARD;
     // If the default sprite hasn't loaded yet, render a placeholder box.
-    if (!g) return <div style={{width:W,height:H,background:'rgba(0,0,0,.35)',border:'2px solid rgba(254,250,224,.2)'}} />;
+    if (!g) return <div style={{width:W,height:H,background:'rgba(0,0,0,.35)',border:'2px solid var(--bg-2)'}} />;
     return (
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} shapeRendering="crispEdges">
         <BSprite grid={g} scale={scale} x={0} y={0}
@@ -144,7 +144,7 @@ function AvatarDisplay({ avatar, size = 112 }) {
   if (avatar.type === 'image') {
     return <img src={avatar.dataUrl} alt="avatar"
       style={{width:W, height:H, imageRendering:'pixelated', objectFit:'cover',
-              display:'block', border:'2px solid rgba(254,250,224,.2)'}} />;
+              display:'block', border:'2px solid var(--bg-2)'}} />;
   }
   if (avatar.type === 'sprite') {
     const p = avatar.palette || DEFAULT_PALETTE;
@@ -285,24 +285,24 @@ function SpriteEditorMini({ initGrid, initPalette, onSave, onCancel, blip }) {
     toolBox: (active) => ({
       width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center',
       position:'relative', boxSizing:'border-box',
-      background: active ? 'rgba(254,250,224,.15)' : 'transparent',
-      border: active ? '2px solid var(--cream)' : '2px solid rgba(254,250,224,.3)',
+      background: active ? 'var(--bg-2)' : 'transparent',
+      border: active ? '2px solid var(--cream)' : '2px solid var(--fg-dim)',
       cursor:'pointer', padding:0, flexShrink:0,
     }),
     colorDot: (color) => ({
       width:16, height:16, pointerEvents:'none',
       background: color || 'transparent',
       // Dashed border indicates the erase tool (no colour fill).
-      border: color ? 'none' : '1px dashed rgba(254,250,224,.5)',
+      border: color ? 'none' : '1px dashed var(--fg-dim)',
     }),
-    palLabel: {fontFamily:"'VT323',monospace", fontSize:13, color:'rgba(254,250,224,.6)', letterSpacing:'.06em'},
+    palLabel: {fontFamily:"'VT323',monospace", fontSize:13, color:'var(--fg-dim)', letterSpacing:'.06em'},
     col: {display:'flex', flexDirection:'column', alignItems:'flex-start', gap:8},
-    preview: {background:'rgba(0,0,0,.4)', border:'2px solid rgba(254,250,224,.2)', padding:4},
+    preview: {background:'var(--bg-1)', border:'2px solid var(--bg-2)', padding:4},
     act: {display:'flex', gap:6, marginTop:4},
     btn: (primary) => ({
       appearance:'none',
       background: primary ? 'rgba(212,244,163,.15)' : 'transparent',
-      border:`2px solid ${primary ? 'var(--fg-bright)' : 'rgba(254,250,224,.4)'}`,
+      border:`2px solid ${primary ? 'var(--fg-bright)' : 'var(--fg-dim)'}`,
       color: primary ? 'var(--fg-bright)' : 'var(--cream)',
       fontFamily:"'Press Start 2P',monospace", fontSize:8, letterSpacing:'.1em',
       padding:'5px 8px', cursor:'pointer',
@@ -347,7 +347,7 @@ function SpriteEditorMini({ initGrid, initPalette, onSave, onCancel, blip }) {
       {/* Main drawing canvas — mouse events drive the paint-on-drag behaviour */}
       <canvas ref={canvasRef}
         width={16*CELL} height={18*CELL}
-        style={{cursor:'crosshair', imageRendering:'pixelated', border:'2px solid rgba(254,250,224,.3)', flexShrink:0}}
+        style={{cursor:'crosshair', imageRendering:'pixelated', border:'2px solid var(--fg-dim)', flexShrink:0}}
         onMouseDown={e => { painting.current=true; const cell=getCell(e); if(cell) paintAt(cell.r,cell.c); }}
         onMouseMove={e => { if(!painting.current) return; const cell=getCell(e); if(cell) paintAt(cell.r,cell.c); }}
         onMouseUp={()=>{ painting.current=false; setPreviewV(v=>v+1); }}
@@ -450,22 +450,22 @@ function AvatarEditorModal({ accountId, current, onSave, onClose, blip }) {
     }),
     presetGrid: {display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(100px,1fr))', gap:8},
     presetCard: (sel) => ({
-      border:`2px solid ${sel ? 'var(--fg-bright)' : 'rgba(254,250,224,.3)'}`,
+      border:`2px solid ${sel ? 'var(--fg-bright)' : 'var(--fg-dim)'}`,
       background: sel ? 'rgba(212,244,163,.1)' : 'transparent',
       cursor:'pointer', padding:8, display:'flex', flexDirection:'column', alignItems:'center', gap:6,
       transition:'border-color .12s',
     }),
-    presetName: {fontSize:8, letterSpacing:'.08em', color:'rgba(254,250,224,.8)', textAlign:'center'},
+    presetName: {fontSize:8, letterSpacing:'.08em', color:'var(--fg)', textAlign:'center'},
     closeBtn: {appearance:'none', background:'transparent', border:'none',
-               color:'rgba(254,250,224,.6)', fontSize:16, cursor:'pointer', fontFamily:"'VT323',monospace"},
+               color:'var(--fg-dim)', fontSize:16, cursor:'pointer', fontFamily:"'VT323',monospace"},
     applyBtn: {appearance:'none',marginTop:12,
                background:'rgba(212,244,163,.15)', border:'2px solid var(--fg-bright)',
                color:'var(--fg-bright)', fontFamily:"'Press Start 2P',monospace",
                fontSize:9, letterSpacing:'.1em', padding:'7px 14px', cursor:'pointer'},
-    uploadArea: {border:'2px dashed rgba(254,250,224,.4)', padding:32, textAlign:'center',
-                 fontFamily:"'VT323',monospace", fontSize:18, color:'rgba(254,250,224,.7)',
+    uploadArea: {border:'2px dashed var(--fg-dim)', padding:32, textAlign:'center',
+                 fontFamily:"'VT323',monospace", fontSize:18, color:'var(--fg)',
                  cursor:'pointer', letterSpacing:'.04em'},
-    uploadNote: {marginTop:10, fontSize:14, color:'rgba(254,250,224,.5)', lineHeight:1.4},
+    uploadNote: {marginTop:10, fontSize:14, color:'var(--fg-dim)', lineHeight:1.4},
   };
 
   return (
@@ -543,10 +543,10 @@ function AvatarEditorModal({ accountId, current, onSave, onClose, blip }) {
             {/* Show the current image avatar with a REMOVE option when applicable */}
             {current?.type === 'image' && (
               <div style={{marginTop:14, display:'flex', alignItems:'center', gap:12}}>
-                <div style={{fontFamily:"'VT323',monospace", fontSize:16, color:'rgba(254,250,224,.7)'}}>CURRENT:</div>
+                <div style={{fontFamily:"'VT323',monospace", fontSize:16, color:'var(--fg)'}}>CURRENT:</div>
                 <img src={current.dataUrl} alt="current avatar"
                   style={{width:64,height:72,imageRendering:'pixelated',objectFit:'cover',
-                          border:'2px solid rgba(254,250,224,.3)'}} />
+                          border:'2px solid var(--fg-dim)'}} />
                 <button style={{
                   appearance:'none',background:'transparent',border:'2px solid rgba(255,100,100,.5)',
                   color:'rgba(255,100,100,.8)',fontFamily:"'VT323',monospace",fontSize:15,
@@ -598,35 +598,35 @@ function ProfileTab({ account, playerName, sectorsCleared, wallet, playtimeSec, 
            fontFamily:"'Press Start 2P',monospace", color:'var(--cream)',
            ...(isMobile ? {overflow:'visible'} : {width:200, overflow:'hidden'})},
     legend: {fontFamily:"'Press Start 2P',monospace", fontSize:9, letterSpacing:'.18em',
-             color:'var(--cream)', background:'rgba(0,0,0,.4)',
+             color:'var(--cream)', background:'var(--bg-1)',
              border:'2px solid var(--cream)', padding:'3px 8px', marginBottom:4},
     avatarFrame: {border:'3px solid var(--cream)', boxShadow:'0 0 0 1px var(--bg-0), 0 0 12px rgba(212,244,163,.15)',
                   lineHeight:0, position:'relative', cursor:'pointer', alignSelf:'flex-start'},
     // 'EDIT' overlay label fades in on hover via opacity controlled in JSX.
     editHint: {position:'absolute', bottom:0, left:0, right:0, background:'rgba(0,0,0,.7)',
                fontFamily:"'VT323',monospace", fontSize:12, textAlign:'center',
-               color:'rgba(254,250,224,.8)', padding:'2px 0', letterSpacing:'.04em',
+               color:'var(--fg)', padding:'2px 0', letterSpacing:'.04em',
                opacity:0, transition:'opacity .15s'},
     handle: {fontSize:13, letterSpacing:'.1em', color:'var(--fg-bright)',
              textShadow:'0 0 8px rgba(212,244,163,.3)', marginTop:2, wordBreak:'break-all'},
     rankLine: {fontFamily:"'VT323',monospace", fontSize:15, color:'var(--hl)',
                letterSpacing:'.06em'},
     statRow: {display:'flex', justifyContent:'space-between', alignItems:'baseline',
-              padding:'4px 0', borderBottom:'1px dashed rgba(254,250,224,.15)',
+              padding:'4px 0', borderBottom:'1px dashed var(--bg-2)',
               gap:6},
-    statLbl: {fontSize:8, color:'rgba(254,250,224,.55)', letterSpacing:'.1em'},
+    statLbl: {fontSize:8, color:'var(--fg-dim)', letterSpacing:'.1em'},
     statVal: {fontFamily:"'VT323',monospace", fontSize:16, color:'var(--cream)', letterSpacing:'.04em'},
-    editBtn: {appearance:'none', background:'transparent', border:'2px solid rgba(254,250,224,.4)',
-              color:'rgba(254,250,224,.7)', fontFamily:"'Press Start 2P',monospace",
+    editBtn: {appearance:'none', background:'transparent', border:'2px solid var(--fg-dim)',
+              color:'var(--fg)', fontFamily:"'Press Start 2P',monospace",
               fontSize:8, letterSpacing:'.08em', padding:'4px 8px', cursor:'pointer', marginTop:4,
               transition:'border-color .12s, color .12s', alignSelf:'flex-start'},
     right: {display:'flex', flexDirection:'column', minHeight:0},
-    section: {background:'rgba(0,0,0,.25)', border:'2px solid rgba(254,250,224,.15)', padding:12,
+    section: {background:'var(--bg-1)', border:'2px solid var(--bg-2)', padding:12,
               flex: isMobile ? '0 0 auto' : '1 1 auto',
               display:'flex', flexDirection:'column', minHeight:0},
     sectionTitle: {fontFamily:"'Press Start 2P',monospace", fontSize:9, letterSpacing:'.18em',
                    color:'var(--cream)', marginBottom:10,
-                   borderBottom:'1px solid rgba(254,250,224,.2)', paddingBottom:6,
+                   borderBottom:'1px solid var(--bg-2)', paddingBottom:6,
                    flexShrink:0},
     // Achievements always render in a fixed 4×2 grid regardless of count.
     achvGrid: isMobile
@@ -635,7 +635,7 @@ function ProfileTab({ account, playerName, sectorsCleared, wallet, playtimeSec, 
            gap:8, flex:'1 1 auto', minHeight:0},
     achv: (unlocked) => ({
       padding:'10px 12px',
-      border:`2px solid ${unlocked ? 'rgba(212,244,163,.4)' : 'rgba(254,250,224,.12)'}`,
+      border:`2px solid ${unlocked ? 'rgba(212,244,163,.4)' : 'var(--bg-2)'}`,
       background: unlocked ? 'rgba(212,244,163,.06)' : 'rgba(0,0,0,.2)',
       opacity: unlocked ? 1 : .55,
       display:'flex', flexDirection:'column', justifyContent:'center', gap:6,
@@ -643,10 +643,10 @@ function ProfileTab({ account, playerName, sectorsCleared, wallet, playtimeSec, 
     achvIcon: {fontFamily:"'VT323',monospace", fontSize:22, color:'var(--hl)', lineHeight:1},
     achvName: {fontFamily:"'Press Start 2P',monospace", fontSize:7, color:'var(--cream)',
                letterSpacing:'.08em', marginTop:4, lineHeight:1.4},
-    achvDesc: {fontFamily:"'VT323',monospace", fontSize:13, color:'rgba(254,250,224,.6)',
+    achvDesc: {fontFamily:"'VT323',monospace", fontSize:13, color:'var(--fg-dim)',
                letterSpacing:'.02em', marginTop:3, lineHeight:1.3},
     emailRow: {display:'flex', gap:8, alignItems:'center', marginTop:2},
-    emailVal: {fontFamily:"'VT323',monospace", fontSize:15, color:'rgba(254,250,224,.7)', letterSpacing:'.02em'},
+    emailVal: {fontFamily:"'VT323',monospace", fontSize:15, color:'var(--fg)', letterSpacing:'.02em'},
     // Badge is green when email is verified, amber when unverified.
     badge: (ok) => ({
       fontFamily:"'Press Start 2P',monospace", fontSize:7, padding:'2px 6px', letterSpacing:'.1em',
@@ -675,7 +675,7 @@ function ProfileTab({ account, playerName, sectorsCleared, wallet, playtimeSec, 
         <button style={S.editBtn}
           onClick={()=>{ blip&&blip(720); setAvatarEditorOpen(true); }}
           onMouseEnter={e=>{e.target.style.borderColor='var(--cream)';e.target.style.color='var(--cream)';}}
-          onMouseLeave={e=>{e.target.style.borderColor='rgba(254,250,224,.4)';e.target.style.color='rgba(254,250,224,.7)';}}>
+          onMouseLeave={e=>{e.target.style.borderColor='var(--fg-dim)';e.target.style.color='var(--fg)';}}>
           EDIT AVATAR
         </button>
         <div style={S.handle}>{playerName}</div>
@@ -801,15 +801,15 @@ function SocialTab({ account, blip }) {
         ? {display:'flex', flexDirection:'column', gap:12, height:'100%', minHeight:0, overflowY:'auto'}
         : {display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, height:'100%', minHeight:0, overflow:'hidden'},
     col: {display:'flex', flexDirection:'column', gap:0, minHeight:0, overflow: isMobile ? 'visible' : 'hidden'},
-    panel: {background:'rgba(0,0,0,.25)', border:'2px solid rgba(254,250,224,.15)',
+    panel: {background:'var(--bg-1)', border:'2px solid var(--bg-2)',
             display:'flex', flexDirection:'column', flex: isMobile ? '0 0 auto' : '1 1 auto', overflow: isMobile ? 'visible' : 'hidden'},
-    panelHead: {padding:'8px 12px', borderBottom:'2px solid rgba(254,250,224,.15)',
+    panelHead: {padding:'8px 12px', borderBottom:'2px solid var(--bg-2)',
                 display:'flex', justifyContent:'space-between', alignItems:'center'},
     panelTitle: {fontFamily:"'Press Start 2P',monospace", fontSize:9, letterSpacing:'.18em', color:'var(--cream)'},
     count: {fontFamily:"'VT323',monospace", fontSize:18, color:'var(--hl)'},
     list: {overflowY:'auto', flex: isMobile ? '0 0 auto' : '1 1 auto', maxHeight: isMobile ? 280 : undefined},
     row: {display:'flex', alignItems:'center', gap:10, padding:'8px 12px',
-          borderBottom:'1px dashed rgba(254,250,224,.1)'},
+          borderBottom:'1px dashed var(--bg-2)'},
     chip: (color) => ({
       width:28, height:28, background:color,
       display:'flex', alignItems:'center', justifyContent:'center',
@@ -827,9 +827,9 @@ function SocialTab({ account, blip }) {
       padding:'3px 7px', cursor:'pointer', flexShrink:0,
     }),
     empty: {padding:24, textAlign:'center', fontFamily:"'VT323',monospace", fontSize:18,
-            color:'rgba(254,250,224,.4)', letterSpacing:'.04em', lineHeight:1.5},
+            color:'var(--fg-dim)', letterSpacing:'.04em', lineHeight:1.5},
     hint: {padding:'8px 12px', fontFamily:"'VT323',monospace", fontSize:14,
-           color:'rgba(254,250,224,.4)', letterSpacing:'.04em', borderTop:'1px dashed rgba(254,250,224,.1)'},
+           color:'var(--fg-dim)', letterSpacing:'.04em', borderTop:'1px dashed var(--bg-2)'},
   };
 
   // Deterministically maps a username string to a muted hue so each user chip
@@ -1108,7 +1108,7 @@ function PartyDetail({ name, equipped, unlocked = true, slotSel, focus = 'roster
           <div className="pt-detail-bio">{unlocked ? d.bio || '—' : 'This hero has not been unlocked yet.'}</div>
           <div className="pt-detail-limit">
             LIMIT &nbsp; <b>{unlocked ? d.limitName : '???'}</b>
-            <div style={{ fontFamily:"'VT323',monospace", fontSize:14, color:'rgba(254,250,224,.7)', marginTop:4 }}>
+            <div style={{ fontFamily:"'VT323',monospace", fontSize:14, color:'var(--fg)', marginTop:4 }}>
               {unlocked ? d.limitDesc : 'Limit break details available after unlock.'}
             </div>
           </div>
@@ -1213,7 +1213,7 @@ function BestiaryTab({ blip, clears = [] }) {
                             y={Math.max(0, Math.round(( 92 - kk.grid.length    * 3) / 2))}
                             body={kk.body} rim={kk.rim} dark={kk.dark} acc={kk.acc} eye={kk.eye} />
                         </svg>
-                      : <span style={{ fontFamily:"'Press Start 2P',monospace", fontSize:32, color:'rgba(254,250,224,.35)' }}>?</span>
+                      : <span style={{ fontFamily:"'Press Start 2P',monospace", fontSize:32, color:'var(--fg-dim)' }}>?</span>
                     }
                   </div>
                   <div className="bs-card-name">{disc ? b.id : 'UNKNOWN'}</div>
@@ -1317,7 +1317,7 @@ function BestiaryTab({ blip, clears = [] }) {
                           y={Math.max(0, Math.round(( 92 - kk.grid.length    * 3) / 2))}
                           body={kk.body} rim={kk.rim} dark={kk.dark} acc={kk.acc} eye={kk.eye} />
                       </svg>
-                    : <span style={{ fontFamily:"'Press Start 2P',monospace", fontSize:32, color:'rgba(254,250,224,.35)' }}>?</span>
+                    : <span style={{ fontFamily:"'Press Start 2P',monospace", fontSize:32, color:'var(--fg-dim)' }}>?</span>
                   }
                 </div>
                 <div className="bs-card-name">{disc ? b.id : 'UNKNOWN'}</div>

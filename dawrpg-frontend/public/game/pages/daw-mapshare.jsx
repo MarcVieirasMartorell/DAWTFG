@@ -205,12 +205,12 @@ function AuthorFollowOverlay({ author, authorId, account, followingIds, onFollow
           boxShadow:'0 0 0 2px var(--bg-0),0 0 0 6px var(--cream)',
           padding:24, textAlign:'center', fontFamily:"'Press Start 2P',monospace", color:'var(--cream)',
           minWidth:280},
-    title: {fontSize:9, letterSpacing:'.18em', color:'rgba(254,250,224,.6)', marginBottom:8},
+    title: {fontSize:9, letterSpacing:'.18em', color:'var(--fg-dim)', marginBottom:8},
     name: {fontSize:13, letterSpacing:'.1em', color:'var(--fg-bright)', marginBottom:20},
     // Helper that returns button styles; primary variant gets a highlighted border and bg tint.
     btn: (primary) => ({
       appearance:'none', background: primary ? 'rgba(212,244,163,.15)' : 'transparent',
-      border:`2px solid ${primary ? 'var(--fg-bright)' : 'rgba(254,250,224,.4)'}`,
+      border:`2px solid ${primary ? 'var(--fg-bright)' : 'var(--fg-dim)'}`,
       color: primary ? 'var(--fg-bright)' : 'var(--cream)',
       fontFamily:"'Press Start 2P',monospace", fontSize:9, letterSpacing:'.1em',
       padding:'8px 14px', cursor:'pointer', margin:'0 4px',
@@ -224,8 +224,8 @@ function AuthorFollowOverlay({ author, authorId, account, followingIds, onFollow
       <div style={S.box}>
         <div style={S.title}>▣ AUTHOR</div>
         <div style={S.name}>{author}</div>
-        {isMe && <div style={{fontFamily:"'VT323',monospace",fontSize:18,color:'rgba(254,250,224,.5)'}}>THIS IS YOU</div>}
-        {!isMe && !account && <div style={{fontFamily:"'VT323',monospace",fontSize:18,color:'rgba(254,250,224,.5)'}}>LOG IN TO FOLLOW</div>}
+        {isMe && <div style={{fontFamily:"'VT323',monospace",fontSize:18,color:'var(--fg-dim)'}}>THIS IS YOU</div>}
+        {!isMe && !account && <div style={{fontFamily:"'VT323',monospace",fontSize:18,color:'var(--fg-dim)'}}>LOG IN TO FOLLOW</div>}
         {!isMe && account && (
           <div style={S.row}>
             <button style={S.btn(!isFollowing)} onClick={toggle} disabled={busy}>
@@ -438,7 +438,7 @@ function CustomMapsPage({ blip, onExit, onPlay, account }){
               <div className="cm-empty">
                 <div style={{ fontSize:13, marginBottom:8 }}>NO MODS FOUND</div>
                 <div style={{ fontFamily:"'VT323',monospace", fontSize:15,
-                  color:'rgba(254,250,224,.55)' }}>
+                  color:'var(--fg-dim)' }}>
                   Be the first — build one in DEV MODE then click PUBLISH.
                 </div>
               </div>
@@ -503,7 +503,7 @@ function CustomMapsPage({ blip, onExit, onPlay, account }){
                     by{' '}
                     {/* Clicking the author name opens the follow/unfollow overlay */}
                     <span
-                      style={{cursor:'pointer', borderBottom:'1px solid rgba(254,250,224,.4)',
+                      style={{cursor:'pointer', borderBottom:'1px solid var(--fg-dim)',
                               color: followingIds.has(selected.authorId) ? 'var(--fg-bright)' : 'inherit'}}
                       title={`Click to follow/unfollow ${selected.author}`}
                       onClick={()=>{ blip&&blip(540); setAuthorOverlay({author:selected.author, authorId:selected.authorId}); }}>

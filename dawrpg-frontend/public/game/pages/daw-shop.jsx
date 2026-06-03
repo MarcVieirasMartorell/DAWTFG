@@ -314,7 +314,7 @@ function ShopScreen({ blip, playerName='USER', wallet=412, inventory,
             {visible.length === 0 && (
               <div style={{margin:'auto',padding:24,textAlign:'center',
                 fontFamily:"'VT323',monospace",fontSize:18,
-                color:'rgba(254,250,224,.55)'}}>
+                color:'var(--fg-dim)'}}>
                 You don't have anything to sell.
               </div>
             )}
@@ -402,7 +402,7 @@ function ShopScreen({ blip, playerName='USER', wallet=412, inventory,
           ) : (
             <div style={{margin:'auto',padding:24,textAlign:'center',
               fontFamily:"'VT323',monospace",fontSize:18,
-              color:'rgba(254,250,224,.55)'}}>
+              color:'var(--fg-dim)'}}>
               No item selected.
             </div>
           )}
@@ -494,9 +494,9 @@ function HeroesPanel({ blip, wallet, unlockedHeroes, heroSel, setHeroSel, onPurc
   const heroListContent = (
     <>
       <div style={{
-        fontFamily:"'VT323',monospace",fontSize:16,color:'rgba(254,250,224,.7)',
+        fontFamily:"'VT323',monospace",fontSize:16,color:'var(--fg)',
         padding:'6px 10px 10px',letterSpacing:'.02em',
-        borderBottom:'1px dashed rgba(254,250,224,.2)'
+        borderBottom:'1px dashed var(--bg-2)'
       }}>
         Signed-driver heroes for sale. Permanent unlock — assign via{' '}
         <b style={{color:'var(--cream)'}}>PARTY / HEROES</b>.{' '}
@@ -530,13 +530,13 @@ function HeroesPanel({ blip, wallet, unlockedHeroes, heroSel, setHeroSel, onPurc
           );
         })}
         <div className="sh-hero-card locked">
-          <div className="sh-hero-spr"><span style={{fontSize:34,color:'rgba(254,250,224,.35)'}}>?</span></div>
+          <div className="sh-hero-spr"><span style={{fontSize:34,color:'var(--fg-dim)'}}>?</span></div>
           <div className="sh-hero-name">??? </div>
           <div className="sh-hero-role">CLEAR THE MINI-BOSS</div>
           <div className="sh-hero-price"><span className="locked-tag">LOCKED</span></div>
         </div>
         <div className="sh-hero-card locked">
-          <div className="sh-hero-spr"><span style={{fontSize:34,color:'rgba(254,250,224,.35)'}}>?</span></div>
+          <div className="sh-hero-spr"><span style={{fontSize:34,color:'var(--fg-dim)'}}>?</span></div>
           <div className="sh-hero-name">??? </div>
           <div className="sh-hero-role">CLEAR THE FINAL BOSS</div>
           <div className="sh-hero-price"><span className="locked-tag">LOCKED</span></div>
@@ -575,10 +575,10 @@ function HeroesPanel({ blip, wallet, unlockedHeroes, heroSel, setHeroSel, onPurc
           </div>
           <div style={{
             fontFamily:"'VT323',monospace",fontSize:15,
-            color:'rgba(254,250,224,.65)',
+            color:'var(--fg-dim)',
             padding:'8px 10px',
-            background:'rgba(0,0,0,.3)',
-            border:'1px dashed rgba(254,250,224,.2)',
+            background:'var(--bg-1)',
+            border:'1px dashed var(--bg-2)',
             letterSpacing:'.02em',lineHeight:1.35
           }}>
             <b style={{color:'var(--hl)',fontFamily:"'Press Start 2P',monospace",fontSize:9,letterSpacing:'.12em'}}>KEEPER &middot;</b>{' '}
@@ -597,7 +597,7 @@ function HeroesPanel({ blip, wallet, unlockedHeroes, heroSel, setHeroSel, onPurc
       ) : (
         <div style={{margin:'auto',padding:24,textAlign:'center',
           fontFamily:"'VT323',monospace",fontSize:18,
-          color:'rgba(254,250,224,.55)'}}>
+          color:'var(--fg-dim)'}}>
           No hero selected.
         </div>
       )}

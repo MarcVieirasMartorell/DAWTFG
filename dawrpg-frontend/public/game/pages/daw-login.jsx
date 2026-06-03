@@ -313,7 +313,7 @@ function LoginScreen({ blip, onAuthed }){
               {/* Optional email field — only shown during registration */}
               {isRegister && (
                 <div className="lg-field">
-                  <div className="lg-field-label">EMAIL <span style={{color:'rgba(254,250,224,.45)',fontSize:'0.85em'}}>(OPTIONAL)</span></div>
+                  <div className="lg-field-label">EMAIL <span style={{color:'var(--fg-dim)',fontSize:'0.85em'}}>(OPTIONAL)</span></div>
                   <div className={'lg-field-wrap ' + (focus==='email'?'focus':'')}
                     onClick={()=>{ setFocus('email'); emailRef.current && emailRef.current.focus(); }}>
                     <span className="lg-chev">&gt;</span>

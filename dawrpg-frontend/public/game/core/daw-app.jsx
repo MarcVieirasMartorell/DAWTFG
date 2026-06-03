@@ -213,7 +213,7 @@ function UnlockToast({ title, primary, body, kind='hero', blip, onDismiss }){
         </div>
         <div style={{
           marginTop:14, fontFamily:"'VT323',monospace", fontSize:14,
-          color:'rgba(254,250,224,.55)', letterSpacing:'.04em'
+          color:'var(--fg-dim)', letterSpacing:'.04em'
         }}>
           press ⏎ or ESC to dismiss
         </div>
@@ -257,8 +257,8 @@ function DevIntroOverlay({ text, blip, onDismiss }){
           margin:0, fontFamily:"'VT323',monospace", fontSize:20,
           color:'var(--cream)', letterSpacing:'.02em', lineHeight:1.45,
           whiteSpace:'pre-wrap', wordBreak:'break-word',
-          background:'rgba(0,0,0,.35)', padding:'16px 18px',
-          border:'1px dashed rgba(254,250,224,.25)'
+          background:'var(--bg-1)', padding:'16px 18px',
+          border:'1px dashed var(--bg-2)'
         }}>{safeText}</pre>
         <div className="row" style={{justifyContent:'center', marginTop:16}}>
           <button className="sel" autoFocus
@@ -268,7 +268,7 @@ function DevIntroOverlay({ text, blip, onDismiss }){
         </div>
         <div style={{
           marginTop:10, fontFamily:"'VT323',monospace", fontSize:14,
-          color:'rgba(254,250,224,.55)', letterSpacing:'.04em', textAlign:'center'
+          color:'var(--fg-dim)', letterSpacing:'.04em', textAlign:'center'
         }}>
           press ⏎ to begin · ESC to skip
         </div>

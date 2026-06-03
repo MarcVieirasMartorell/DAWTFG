@@ -543,7 +543,7 @@ function SpriteEditor({ sprite, palette, onSprite, onPalette, cols=SPR_W, rows=S
         </button>
         <span style={{ flex:1 }}></span>
         <span style={{ fontFamily:"'VT323',monospace", fontSize:13,
-          color:'rgba(254,250,224,.55)', letterSpacing:'.04em', alignSelf:'center' }}>
+          color:'var(--fg-dim)', letterSpacing:'.04em', alignSelf:'center' }}>
           drag to paint · click color button to change hue
         </span>
       </div>
@@ -592,14 +592,14 @@ function HeroAbilitiesForm({ abilities, onChange }){
   return (
     <div className="dv-stat-block">
       <div className="head" style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-        <span>ABILITIES &nbsp;<span style={{ color:'rgba(254,250,224,.5)' }}>{abilities.length}/6</span></span>
+        <span>ABILITIES &nbsp;<span style={{ color:'var(--fg-dim)' }}>{abilities.length}/6</span></span>
         <button className="dv-btn ghost"
           disabled={abilities.length >= 6}
           onClick={add}>+ ADD ABILITY</button>
       </div>
       {abilities.length === 0 && (
         <div style={{ fontFamily:"'VT323',monospace", fontSize:14,
-          color:'rgba(254,250,224,.55)', padding:'6px 0' }}>
+          color:'var(--fg-dim)', padding:'6px 0' }}>
           no abilities — click + ADD ABILITY. battle UI needs at least one.
         </div>
       )}
@@ -708,18 +708,18 @@ function EnemyAttacksForm({ attacks, onChange }){
   return (
     <div className="dv-stat-block">
       <div className="head" style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-        <span>MOVES &nbsp;<span style={{ color:'rgba(254,250,224,.5)' }}>{attacks.length}/5</span></span>
+        <span>MOVES &nbsp;<span style={{ color:'var(--fg-dim)' }}>{attacks.length}/5</span></span>
         <button className="dv-btn ghost"
           disabled={attacks.length >= 5}
           onClick={()=>onChange([...attacks, newEnemyAttack()])}>+ ADD MOVE</button>
       </div>
       <div style={{ fontFamily:"'VT323',monospace", fontSize:13,
-        color:'rgba(254,250,224,.5)', padding:'2px 0 6px', letterSpacing:'.02em' }}>
+        color:'var(--fg-dim)', padding:'2px 0 6px', letterSpacing:'.02em' }}>
           One is picked at random each enemy turn. Names appear in the battle log.
       </div>
       {attacks.length === 0 && (
         <div style={{ fontFamily:"'VT323',monospace", fontSize:14,
-          color:'rgba(254,250,224,.55)', padding:'6px 0' }}>
+          color:'var(--fg-dim)', padding:'6px 0' }}>
           no moves — defaults to a generic BITE.
         </div>
       )}
@@ -780,7 +780,7 @@ function EnemyAttacksForm({ attacks, onChange }){
               {meta.needs === 'none' && (
                 // Fixed-behaviour moves show a static description instead of numeric fields.
                 <div style={{ fontFamily:"'VT323',monospace", fontSize:13,
-                  color:'rgba(254,250,224,.5)', alignSelf:'center', flex:'1 1 auto' }}>
+                  color:'var(--fg-dim)', alignSelf:'center', flex:'1 1 auto' }}>
                   {a.kind === 'shield' ? 'Raises a 2-hit firewall around self.' :
                    a.kind === 'buff'   ? 'Priority boost — next action lands sooner.' : ''}
                 </div>
@@ -1241,7 +1241,7 @@ function MapEditor({ map, enemies, onMap, onToast }){
             </button>
           ))}
           <span style={{ flex:1 }}></span>
-          <span style={{ fontFamily:"'VT323',monospace", fontSize:14, color:'rgba(254,250,224,.65)',
+          <span style={{ fontFamily:"'VT323',monospace", fontSize:14, color:'var(--fg-dim)',
             letterSpacing:'.04em', alignSelf:'center' }}>
             {mode === 'move'  && '> CLICK NODE TO SELECT · DRAG TO MOVE'}
             {mode === 'add'   && '> CLICK EMPTY SPACE TO ADD A NODE'}
@@ -1334,7 +1334,7 @@ function MapEditor({ map, enemies, onMap, onToast }){
                   <div className="dv-enc-chips">
                     {(selNode.encounter?.enemies || []).length === 0 &&
                       <span style={{ fontFamily:"'VT323',monospace", fontSize:13,
-                        color:'rgba(254,250,224,.5)' }}>(no enemies — add below)</span>}
+                        color:'var(--fg-dim)' }}>(no enemies — add below)</span>}
                     {(selNode.encounter?.enemies || []).map((eid, i) => {
                       const en = enemies.find(x => x.id === eid);
                       const name = en ? en.name : eid;
@@ -1355,7 +1355,7 @@ function MapEditor({ map, enemies, onMap, onToast }){
                   <div className="dv-enc-add">
                     {enemies.length === 0 &&
                       <span style={{ fontFamily:"'VT323',monospace", fontSize:13,
-                        color:'rgba(254,250,224,.5)' }}>create enemies first in the ENEMIES tab</span>}
+                        color:'var(--fg-dim)' }}>create enemies first in the ENEMIES tab</span>}
                     {enemies.map(en => (
                       // Each button appends that enemy to this node's encounter list (max 5 slots).
                       <button key={en.id} className="dv-btn ghost"
@@ -1411,9 +1411,9 @@ function ListEditor({ kind, items, sel, setSel, onAdd, onDelete, onChange, rende
       <div style={{flex:1, display:'flex', flexDirection:'column', minHeight:0, overflowY:'auto'}}>
         <div style={{
           padding:'10px 14px', display:'flex', justifyContent:'space-between', alignItems:'center',
-          borderBottom:'1px solid rgba(254,250,224,.1)', flexShrink:0, background:'rgba(0,0,0,.2)',
+          borderBottom:'1px solid var(--bg-2)', flexShrink:0, background:'var(--bg-1)',
         }}>
-          <div style={{fontFamily:"'VT323',monospace", fontSize:15, color:'rgba(254,250,224,.7)'}}>
+          <div style={{fontFamily:"'VT323',monospace", fontSize:15, color:'var(--fg)'}}>
             {items.length} / {max}
           </div>
           <button className="dv-btn primary" disabled={items.length >= max} onClick={onAdd}>+ NEW</button>
@@ -1446,7 +1446,7 @@ function ListEditor({ kind, items, sel, setSel, onAdd, onDelete, onChange, rende
       <div style={{flex:1, display:'flex', flexDirection:'column', minHeight:0}}>
         <div style={{
           display:'flex', alignItems:'center', gap:10, padding:'8px 14px',
-          borderBottom:'2px solid var(--bg-2)', flexShrink:0, background:'rgba(0,0,0,.2)',
+          borderBottom:'2px solid var(--bg-2)', flexShrink:0, background:'var(--bg-1)',
         }}>
           <button className="dv-btn" onClick={()=>{ setMobileStage('list'); setSel(null); }}>← LIST</button>
           {item && (
@@ -1474,7 +1474,7 @@ function ListEditor({ kind, items, sel, setSel, onAdd, onDelete, onChange, rende
         <div className="dv-leg">▣ {kind.toUpperCase()}</div>
         <div className="dv-row" style={{ justifyContent:'space-between', alignItems:'center' }}>
           <div style={{ fontFamily:"'VT323',monospace", fontSize:15,
-            color:'rgba(254,250,224,.7)' }}>
+            color:'var(--fg)' }}>
             {items.length} / {max}
           </div>
           <button className="dv-btn primary"
@@ -1533,9 +1533,9 @@ function InfoTab({ project, setProject, stats, blip }){
           <label className="dv-label">COVER IMAGE</label>
           <div style={{ display:'flex', alignItems:'center', gap:12 }}>
             {/* Cover preview — shows the first character of the title when no cover is set */}
-            <div style={{ cursor:'pointer', border:'2px solid rgba(254,250,224,.3)',
+            <div style={{ cursor:'pointer', border:'2px solid var(--fg-dim)',
                           width:64, height:72, display:'flex', alignItems:'center',
-                          justifyContent:'center', background:'rgba(0,0,0,.2)', flexShrink:0 }}
+                          justifyContent:'center', background:'var(--bg-1)', flexShrink:0 }}
                  onClick={()=>setCoverOpen(true)}>
               {project.cover
                 ? <AvatarDisplay avatar={project.cover} size={64} />
@@ -1912,7 +1912,7 @@ function MyModsList({ blip, onExit, drafts, onNewDraft, onEditDraft, onDeleteDra
         <div style={{ flex:1 }}></div>
         {!isMobile && (
           <span style={{ fontFamily:"'VT323',monospace", fontSize:14,
-            color:'rgba(254,250,224,.65)', letterSpacing:'.04em' }}>
+            color:'var(--fg-dim)', letterSpacing:'.04em' }}>
             ↑↓ select · ⏎ open · N new · ESC back
           </span>
         )}

@@ -280,7 +280,7 @@
   .sh-row-m{grid-template-columns:36px minmax(0,1fr) 76px}
   /* Quantity picker: wrap total onto its own row on narrow screens */
   .sh-qty{flex-wrap:wrap}
-  .sh-qty-total{flex:1 0 100%;text-align:left;border-top:1px dashed rgba(254,250,224,.18);
+  .sh-qty-total{flex:1 0 100%;text-align:left;border-top:1px dashed var(--bg-2);
     padding-top:8px;margin-top:4px}
   /* Hero grid: 2 columns on mobile */
   .sh-hero-grid{grid-template-columns:repeat(2,1fr);padding:10px 6px}
