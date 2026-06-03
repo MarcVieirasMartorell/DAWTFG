@@ -66,12 +66,12 @@ const HEROES_DEF = {
   },
   'PURGE.BAT': {
     sprite: B_PURGE,
-    body:'#1a0a2a', rim:'#d4a373', dark:'#020806', acc:'#a5b985',
-    eye:'#ff6ec7',
+    body:'#1a0a2a', rim:'#4d2376', dark:'#000000', acc:'#8a6438',
+    eye:'#ffd270',
     hpMax: 175, cpuMax: 100, spd: 1.1,
     atk: [26, 40],
     limitName: 'rm -rf /malware/*',
-    limitDesc: '100 dmg AoE — purge all',
+    limitDesc: '999 dmg AoE — purge all',
     role: 'PURIFIER',
     bio: 'Antimalware shell. Heavy damage and brutal debuffs at high CPU cost.',
     scripts: [
@@ -83,7 +83,7 @@ const HEROES_DEF = {
   },
   'PING.DLL': {
     sprite: B_PING,
-    body:'#1a3a55', rim:'#9bc4ff', dark:'#020816', acc:'#ffdc4a',
+    body:'#1a3a55', rim:'#88abdd', dark:'#020816', acc:'#2b41b1',
     eye:'#ffdc4a',
     hpMax: 160, cpuMax: 70, spd: 1.5,
     atk: [18, 28],
@@ -117,7 +117,7 @@ const HEROES_DEF = {
   },
   'INDEX.LOG': {
     sprite: B_INDEX,
-    body:'#3a2a18', rim:'#fefae0', dark:'#020806', acc:'#a5e58a',
+    body:'#3a2a18', rim:'#ffffff', dark:'#020806', acc:'#7d2212',
     eye:'#a5e58a',
     hpMax: 200, cpuMax: 85, spd: 0.85,
     atk: [20, 30],
